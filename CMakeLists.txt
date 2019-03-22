@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.9)
+project(wasm_sd)
+set(CMAKE_CXX_STANDARD 14)
+set(BUILD_TESTING OFF)
+
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/opencensus-cmake)
+include(OpenCensusExampleDeps)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(/usr/local/include)
+include_directories(api)
+add_subdirectory(opencensus-cpp-src)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s LEGALIZE_JS_FFI=0 -s EMIT_EMSCRIPTEN_METADATA=1 -O3 -g3")
+add_library(wasm_sd MODULE envoy_filter_http_wasm_example.cc proxy_wasm_intrinsics.cc proxy_wasm_intrinsics.h)
+target_link_libraries(wasm_sd opencensus-cpp::stats opencensus-cpp::tags opencensus-cpp::context
+        opencensus-cpp::trace opencensus-cpp::exporters_stats_stdout opencensus-cpp::exporters_trace_stdout)
