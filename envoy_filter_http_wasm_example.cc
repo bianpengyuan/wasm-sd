@@ -4,26 +4,25 @@
 #include <unordered_map>
 
 #include "proxy_wasm_intrinsics.h"
-// #include "opencensus/exporters/stats/stackdriver/stackdriver_exporter.h"
-// #include "opencensus/stats/view_descriptor.h"
-// #include "opencensus/stats/stats.h"
+#include "opencensus/stats/view_descriptor.h"
+#include "opencensus/stats/stats.h"
 
-// ABSL_CONST_INIT const char kLettersMeasureName[] = "example.org/measure/letters";
+ABSL_CONST_INIT const char kLettersMeasureName[] = "example.org/measure/letters";
 
 class ExampleContext : public Context {
 public:
     explicit ExampleContext(uint32_t id) : Context(id) {
-        // LettersMeasure();
-        // const opencensus::stats::ViewDescriptor letters_view =
-        //         opencensus::stats::ViewDescriptor()
-        //                 .set_name("example.org/view/letters_view")
-        //                 .set_description("number of letters in names greeted over time")
-        //                 .set_measure(kLettersMeasureName)
-        //                 .set_aggregation(opencensus::stats::Aggregation::Sum())
-        //                 .add_column(CaseKey());
-        // opencensus::stats::View view(letters_view);
-        // assert(view.IsValid());
-        // letters_view.RegisterForExport();
+         LettersMeasure();
+         const opencensus::stats::ViewDescriptor letters_view =
+                 opencensus::stats::ViewDescriptor()
+                         .set_name("example.org/view/letters_view")
+                         .set_description("number of letters in names greeted over time")
+                         .set_measure(kLettersMeasureName)
+                         .set_aggregation(opencensus::stats::Aggregation::Sum())
+                         .add_column(CaseKey());
+         opencensus::stats::View view(letters_view);
+         assert(view.IsValid());
+         letters_view.RegisterForExport();
     }
 
     void onStart() override;
@@ -36,18 +35,18 @@ public:
     void onLog() override;
     void onDelete() override;
 private:
-    // opencensus::stats::MeasureInt64 LettersMeasure() {
-    //     static const opencensus::stats::MeasureInt64 measure =
-    //             opencensus::stats::MeasureInt64::Register(
-    //                     kLettersMeasureName, "Number of letters in processed names.", "By");
-    //     return measure;
-    // }
+     opencensus::stats::MeasureInt64 LettersMeasure() {
+         static const opencensus::stats::MeasureInt64 measure =
+                 opencensus::stats::MeasureInt64::Register(
+                         kLettersMeasureName, "Number of letters in processed names.", "By");
+         return measure;
+     }
 
-    // opencensus::tags::TagKey CaseKey() {
-    //     static const opencensus::tags::TagKey key =
-    //             opencensus::tags::TagKey::Register("example_uppercased");
-    //     return key;
-    // }
+     opencensus::tags::TagKey CaseKey() {
+         static const opencensus::tags::TagKey key =
+                 opencensus::tags::TagKey::Register("example_uppercased");
+         return key;
+     }
 };
 
 std::unique_ptr<Context> Context::New(uint32_t id) {
