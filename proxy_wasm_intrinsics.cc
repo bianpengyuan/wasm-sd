@@ -81,10 +81,10 @@ proxy_onHttpCallResponse(uint32_t context_id, uint32_t token, uint32_t header_pa
     if (!c)
         return;
     c->onHttpCallResponse(
-            token,
-            std::make_unique<WasmData>(reinterpret_cast<char*>(header_pairs_ptr), header_pairs_size),
-            std::make_unique<WasmData>(reinterpret_cast<char*>(body_ptr), body_size),
-            std::make_unique<WasmData>(reinterpret_cast<char*>(trailer_pairs_ptr), trailer_pairs_size));
+        token,
+        std::make_unique<WasmData>(reinterpret_cast<char*>(header_pairs_ptr), header_pairs_size),
+        std::make_unique<WasmData>(reinterpret_cast<char*>(body_ptr), body_size),
+        std::make_unique<WasmData>(reinterpret_cast<char*>(trailer_pairs_ptr), trailer_pairs_size));
 }
 
 extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onDone(uint32_t context_id) {

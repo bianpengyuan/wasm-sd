@@ -12,31 +12,33 @@
 #define EMSCRIPTEN_KEEPALIVE __attribute__((used)) __attribute__((visibility("default")))
 #endif
 
-// API Calls into the VM.
+/*
+   API Calls into the VM.
 
-//extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onConfigure(char* configuration, int size);
-//extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onStart();
-//extern "C" EMSCRIPTEN_KEEPALIVE int main();  // only called if proxy_onStart() is not available.
-//extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onTick();
-//extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onCreate(uint32_t context_id);
-//extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onRequestHeaders(uint32_t context_id);
-//extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onRequestBody(uint32_t context_id,  uint32_t
-//body_buffer_length, uint32_t end_of_stream size); extern "C" ENSCRIPTEN_KEEPALIVE void
-//proxy_onRequestTrailers(uint32_t context_id); extern "C" ENSCRIPTEN_KEEPALIVE void
-//proxy_onRequestMetadata(uint32_t context_id); extern "C" ENSCRIPTEN_KEEPALIVE void
-//proxy_onResponseHeaders(uint32_t context_id); extern "C" ENSCRIPTEN_KEEPALIVE void
-//proxy_onResponseBody(uint32_t context_id,  uint32_t body_buffer_length, uint32_t end_of_stream
-//size); extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onResponseTrailers(uint32_t context_id); extern
-//"C" ENSCRIPTEN_KEEPALIVE void proxy_onResponseMetadata(uint32_t context_id); extern "C"
-//ENSCRIPTEN_KEEPALIVE void proxy_onHttpCallResponse(uint32_t context_id uint32_t token, uint32_t
-//header_pairs_ptr, uint32_t header_pairs_size, uint32_t body_ptr, uint32_t body_size, uint32_t
-//trailer_pairs_ptr, uint32_t trailer_pairs_size):
-//// The stream has completed.
-//extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onDone(uint32_t context_id);
-//// onLog occurs after onDone.
-//extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onLog(uint32_t context_id);
-//// The Context in the proxy has been destroyed and no further calls will be coming.
-//extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onDelete(uint32_t context_id);
+   extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onConfigure(char* configuration, int size);
+   extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onStart();
+   extern "C" EMSCRIPTEN_KEEPALIVE int main();  // only called if proxy_onStart() is not available.
+   extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onTick();
+   extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onCreate(uint32_t context_id);
+   extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onRequestHeaders(uint32_t context_id);
+   extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onRequestBody(uint32_t context_id,  uint32_t
+   body_buffer_length, uint32_t end_of_stream size); extern "C" ENSCRIPTEN_KEEPALIVE void
+   proxy_onRequestTrailers(uint32_t context_id); extern "C" ENSCRIPTEN_KEEPALIVE void
+   proxy_onRequestMetadata(uint32_t context_id); extern "C" ENSCRIPTEN_KEEPALIVE void
+   proxy_onResponseHeaders(uint32_t context_id); extern "C" ENSCRIPTEN_KEEPALIVE void
+   proxy_onResponseBody(uint32_t context_id,  uint32_t body_buffer_length, uint32_t end_of_stream
+   size); extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onResponseTrailers(uint32_t context_id); extern
+   "C" ENSCRIPTEN_KEEPALIVE void proxy_onResponseMetadata(uint32_t context_id); extern "C"
+   ENSCRIPTEN_KEEPALIVE void proxy_onHttpCallResponse(uint32_t context_id uint32_t token, uint32_t
+   header_pairs_ptr, uint32_t header_pairs_size, uint32_t body_ptr, uint32_t body_size, uint32_t
+   trailer_pairs_ptr, uint32_t trailer_pairs_size):
+   // The stream has completed.
+   extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onDone(uint32_t context_id);
+   // onLog occurs after onDone.
+   extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onLog(uint32_t context_id);
+   // The Context in the proxy has been destroyed and no further calls will be coming.
+   extern "C" ENSCRIPTEN_KEEPALIVE void proxy_onDelete(uint32_t context_id);
+*/
 
 enum class LogLevel : int { trace, debug, info, warn, error, critical };
 extern "C" void proxy_log(LogLevel level, const char* logMessage, size_t messageSize);
@@ -49,10 +51,10 @@ extern "C" void proxy_setTickPeriodMilliseconds(uint32_t millisecond);
 enum class FilterHeadersStatus : int { Continue = 0, StopIteration = 1 };
 enum class FilterTrailersStatus : int { Continue = 0, StopIteration = 1 };
 enum class FilterDataStatus : int {
-    Continue = 0,
-    StopIterationAndBuffer = 1,
-    StopIterationAndWatermark = 2,
-    StopIterationNoBuffer = 3
+  Continue = 0,
+  StopIterationAndBuffer = 1,
+  StopIterationAndWatermark = 2,
+  StopIterationNoBuffer = 3
 };
 
 // StreamInfo
@@ -157,19 +159,19 @@ inline void logCritical(const std::string& logMessage) {
 
 // Buffers coming into the WASM filter.
 class WasmData {
-public:
-    WasmData(const char* data, size_t size) : data_(data), size_(size) {}
-    ~WasmData() { ::free((void*)data_); }
-    const char* data() { return data_; }
-    std::string_view view() { return {data_, size_}; }
-    std::vector<std::pair<std::string_view, std::string_view>> pairs();
+ public:
+  WasmData(const char* data, size_t size) : data_(data), size_(size) {}
+  ~WasmData() { ::free((void*)data_); }
+  const char* data() { return data_; }
+  std::string_view view() { return {data_, size_}; }
+  std::vector<std::pair<std::string_view, std::string_view>> pairs();
 
-    WasmData& operator=(const WasmData&) = delete;
-    WasmData(const WasmData&) = delete;
+  WasmData& operator=(const WasmData&) = delete;
+  WasmData(const WasmData&) = delete;
 
-private:
-    const char* data_;
-    size_t size_;
+ private:
+  const char* data_;
+  size_t size_;
 };
 typedef std::unique_ptr<WasmData> WasmDataPtr;
 
@@ -197,41 +199,41 @@ inline std::vector<std::pair<std::string_view, std::string_view>> WasmData::pair
 
 // Calls coming into the WASM filter. Implement N
 class Context {
-public:
-    explicit Context(uint32_t id) : id_(id) {}
-    virtual ~Context() {}
+ public:
+  explicit Context(uint32_t id) : id_(id) {}
+  virtual ~Context() {}
 
-    uint32_t id() { return id_; }
+  uint32_t id() { return id_; }
 
-    static std::unique_ptr<Context> New(uint32_t id); // For subclassing.
+  static std::unique_ptr<Context> New(uint32_t id); // For subclassing.
 
-    // Called once when the filter loads and on configuration changes.
-    virtual void onConfigure(std::unique_ptr<WasmData> configuration) {}
-    // Called once when the filter loads.
-    virtual void onStart() {}
+  // Called once when the filter loads and on configuration changes.
+  virtual void onConfigure(std::unique_ptr<WasmData> configuration) {}
+  // Called once when the filter loads.
+  virtual void onStart() {}
 
-    // Called on individual requests/response streams.
-    virtual void onCreate() {}
-    virtual FilterHeadersStatus onRequestHeaders() { return FilterHeadersStatus::Continue; }
-    virtual FilterDataStatus onRequestBody(size_t body_buffer_length, bool end_of_stream) {
-        return FilterDataStatus::Continue;
-    }
-    virtual FilterTrailersStatus onRequestTrailers() { return FilterTrailersStatus::Continue; }
-    virtual FilterHeadersStatus onResponseHeaders() { return FilterHeadersStatus::Continue; }
-    virtual FilterDataStatus onResponseBody(size_t body_buffer_length, bool end_of_stream) {
-        return FilterDataStatus::Continue;
-    }
-    virtual FilterTrailersStatus onResponseTrailers() { return FilterTrailersStatus::Continue; }
-    virtual void onDone() {}
-    virtual void onLog() {}
-    virtual void onDelete() {}
+  // Called on individual requests/response streams.
+  virtual void onCreate() {}
+  virtual FilterHeadersStatus onRequestHeaders() { return FilterHeadersStatus::Continue; }
+  virtual FilterDataStatus onRequestBody(size_t body_buffer_length, bool end_of_stream) {
+      return FilterDataStatus::Continue;
+  }
+  virtual FilterTrailersStatus onRequestTrailers() { return FilterTrailersStatus::Continue; }
+  virtual FilterHeadersStatus onResponseHeaders() { return FilterHeadersStatus::Continue; }
+  virtual FilterDataStatus onResponseBody(size_t body_buffer_length, bool end_of_stream) {
+      return FilterDataStatus::Continue;
+  }
+  virtual FilterTrailersStatus onResponseTrailers() { return FilterTrailersStatus::Continue; }
+  virtual void onDone() {}
+  virtual void onLog() {}
+  virtual void onDelete() {}
 
-    virtual void onHttpCallResponse(uint32_t token, std::unique_ptr<WasmData> header_pairs,
-                                    std::unique_ptr<WasmData> body,
-                                    std::unique_ptr<WasmData> trailer_pairs) {}
+  virtual void onHttpCallResponse(uint32_t token, std::unique_ptr<WasmData> header_pairs,
+                                  std::unique_ptr<WasmData> body,
+                                  std::unique_ptr<WasmData> trailer_pairs) {}
 
-private:
-    uint32_t id_;
+ private:
+  uint32_t id_;
 };
 
 // StreamInfo
@@ -471,8 +473,8 @@ inline uint32_t httpCall(std::string_view uri, const HeaderStringPairs& request_
     MakeHeaderStringPairsBuffer(request_headers, &headers_ptr, &headers_size);
     MakeHeaderStringPairsBuffer(request_trailers, &trailers_ptr, &trailers_size);
     uint32_t result =
-            proxy_httpCall(uri.data(), uri.size(), headers_ptr, headers_size, request_body.data(),
-                           request_body.size(), trailers_ptr, trailers_size, timeout_milliseconds);
+        proxy_httpCall(uri.data(), uri.size(), headers_ptr, headers_size, request_body.data(),
+                       request_body.size(), trailers_ptr, trailers_size, timeout_milliseconds);
     ::free(headers_ptr);
     ::free(trailers_ptr);
     return result;
