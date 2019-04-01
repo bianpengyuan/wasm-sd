@@ -6,16 +6,15 @@
 #include "api/proxy_wasm_intrinsics.h"
 #include "stats/measure.h"
 
-const absl::string_view kVideoSizeMeasureName = "my.org/measure/video_size";
+const absl::string_view kIstioRequestMeasureName = "istio.io/service/server/request_count_measure";
 
 class ExampleContext : public Context {
 public:
     explicit ExampleContext(uint32_t id) : Context(id) {
-      absl::string_view descriptor = "size of processed videos";
-      absl::string_view units = "By";
-      static const wasmsd::stats::MeasureInt64 video_size =
-          wasmsd::stats::MeasureInt64::Register(
-              kVideoSizeMeasureName, descriptor, units);
+      absl::string_view descriptor = "number of request received by server";
+      absl::string_view units = "1";
+      static const wasmsd::stats::MeasureInt64 server_request_count =
+          wasmsd::stats::MeasureInt64::Register(kIstioRequestMeasureName, descriptor, units);
     }
 
     void onStart() override;

@@ -14,6 +14,7 @@ class Measure {
                                     absl::string_view units);
 
  private:
+  friend class Measurement;
   friend class MeasureRegistryImpl;
   const uint64_t id_;
   explicit Measure(uint64_t id);
@@ -21,6 +22,27 @@ class Measure {
 
 typedef Measure<double> MeasureDouble;
 typedef Measure<int64_t> MeasureInt64;
+
+
+class Measurement final {
+ public:
+    template <typename T, typename std::enable_if<
+            std::is_floating_point<T>::value>::type* = nullptr>
+    Measurement(MeasureDouble measure, T value)
+            : id_(measure.id_), value_double_(value) {}
+
+    template <typename T, typename std::enable_if<
+            std::is_integral<T>::value>::type* = nullptr>
+    Measurement(MeasureInt64 measure, T value)
+            : id_(measure.id_), value_int_(value) {}
+
+private:
+    const uint64_t id_;
+    union {
+        const double value_double_;
+        const int64_t value_int_;
+    };
+};
 
 }  // namespace stats
 }  // namespace wasmsd

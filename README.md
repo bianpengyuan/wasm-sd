@@ -1,6 +1,6 @@
 ```
-emconfigure cmake -DCMAKE_CXX_COMPILER=/usr/local/google/home/bianpengyuan/emsdk/emscripten/1.38.25/em++ \
--DCMAKE_CC_COMPILER=/usr/local/google/home/bianpengyuan/emsdk/emscripten/1.38.25/emcc -DBUILD_TESTING=OFF
+emconfigure cmake -DCMAKE_CXX_COMPILER=/Users/bianpengyuan/emsdk/emscripten/1.38.25/em++ \
+-DCMAKE_CC_COMPILER=/Users/bianpengyuan/emsdk/emscripten/1.38.25/emcc -DBUILD_TESTING=OFF
 
 emmake make
 em++ -s WASM=1 -g3 -s WASM=1 -s LEGALIZE_JS_FFI=0 \
