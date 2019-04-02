@@ -52,7 +52,6 @@ class Distribution final {
  private:
   friend class ViewDataImpl;  // ViewDataImpl populates data directly.
   friend class MeasureData;
-  friend class testing::TestUtils;
 
   // buckets must outlive the Distribution.
   explicit Distribution(const BucketBoundaries* buckets);

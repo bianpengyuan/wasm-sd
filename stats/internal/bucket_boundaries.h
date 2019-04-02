@@ -82,6 +82,6 @@ class BucketBoundaries final {
 
 }  // namespace internal
 }  // namespace stats
-}  // namespace opencensus
+}  // namespace wasmsd
 
 #endif  // WASMSD_STATS_INTERNAL_BUCKET_BOUNDARIES_H_
