@@ -5,14 +5,15 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1 -s LEGALIZE_JS_FFI=0 -s EMIT_E
 
 file(GLOB stats_SRC
         "stats/*.cc"
+        "stats/tags/*.cc"
+        "stats/internal/*.cc"
         )
 file(GLOB api_SRC
         "api/*.cc"
         )
 
-message(${stats_SRC})
 add_subdirectory(abseil-cpp)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/stats)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/api)
-add_library(wasm-sd MODULE stackdriver-wasm.cc ${api_SRC} stats/measure.cc stats/measure_registry.cc stats/measure_registry_impl.cc)
+add_library(wasm-sd MODULE stackdriver-wasm.cc ${api_SRC} ${stats_SRC})
 target_link_libraries(wasm-sd absl::base absl::strings absl::numeric)

@@ -5,14 +5,13 @@
 
 #include "absl/strings/str_cat.h"
 #include "with_context.h"
-#include "tag_map.h"
 
 namespace wasmsd {
 namespace stats {
 namespace tags {
 
 Context::Context()
-    : tags_(opencensus::tags::TagMap({})) {}
+    : tags_(TagMap({})) {}
 
 // static
 const Context& Context::Current() { return *InternalMutableCurrent(); }

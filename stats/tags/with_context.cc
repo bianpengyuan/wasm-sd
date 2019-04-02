@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opencensus/context/with_context.h"
+#include "with_context.h"
 
-#include <cassert>
+//#include <cassert>
 #include <utility>
 
-#include "opencensus/context/context.h"
+#include "context.h"
 
-namespace opencensus {
-namespace context {
+namespace wasmsd {
+namespace stats {
+namespace tags {
 
 WithContext::WithContext(const Context& ctx, bool cond)
     : swapped_context_(cond ? ctx : Context())
@@ -45,11 +46,11 @@ WithContext::WithContext(Context&& ctx, bool cond)
 }
 
 WithContext::~WithContext() {
-#ifndef NDEBUG
-  assert(original_context_ == Context::InternalMutableCurrent() &&
-         "WithContext must be destructed on the same thread as it was "
-         "constructed.");
-#endif
+//#ifndef NDEBUG
+//  assert(original_context_ == Context::InternalMutableCurrent() &&
+//         "WithContext must be destructed on the same thread as it was "
+//         "constructed.");
+//#endif
   ConditionalSwap();
 }
 
@@ -60,5 +61,6 @@ void WithContext::ConditionalSwap() {
   }
 }
 
-}  // namespace context
-}  // namespace opencensus
+}  // namespace tags
+}  // namespace stats
+}  // namespace wasmsd

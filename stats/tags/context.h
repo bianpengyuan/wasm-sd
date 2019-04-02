@@ -41,6 +41,12 @@ public:
 private:
     // Creates a default Context.
     Context();
+    static Context* InternalMutableCurrent();
+
+    friend void swap(Context& a, Context& b);
+    friend class WithContext;
+    friend class WithTagMap;
+    friend class ContextPeer;
 
     TagMap tags_;
 };

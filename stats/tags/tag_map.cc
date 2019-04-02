@@ -15,7 +15,6 @@
 #include "tag_map.h"
 
 #include <algorithm>
-#include <cassert>
 #include <initializer_list>
 #include <string>
 #include <utility>
@@ -53,9 +52,9 @@ void TagMap::Initialize() {
                          const std::pair<TagKey, std::string>& b) {
     return a.first == b.first;
   };
-  assert(std::adjacent_find(tags_.begin(), tags_.end(), compare_keys) ==
-             tags_.end() &&
-         "Duplicate keys are not allowed in TagMap.");
+//  assert(std::adjacent_find(tags_.begin(), tags_.end(), compare_keys) ==
+//             tags_.end() &&
+//         "Duplicate keys are not allowed in TagMap.");
 #endif
 
   std::hash<std::string> hasher;

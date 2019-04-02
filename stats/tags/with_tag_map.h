@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENCENSUS_TAGS_WITH_TAG_MAP_H_
-#define OPENCENSUS_TAGS_WITH_TAG_MAP_H_
+#ifndef WASMSD_STATS_TAGS_WITH_TAG_MAP_H_
+#define WASMSD_STATS_TAGS_WITH_TAG_MAP_H_
 
-#include "opencensus/context/context.h"
-#include "opencensus/tags/tag_map.h"
+#include "context.h"
+#include "tag_map.h"
 
-namespace opencensus {
+namespace wasmsd {
+namespace stats {
 namespace tags {
 
 // WithTagMap is a scoped object that sets the current TagMap to the given one,
@@ -51,12 +52,13 @@ class WithTagMap {
 
   TagMap swapped_tags_;
 #ifndef NDEBUG
-  const ::opencensus::context::Context* original_context_;
+  const Context* original_context_;
 #endif
   const bool cond_;
 };
 
 }  // namespace tags
-}  // namespace opencensus
+}  // namespace stats
+}  // namespace wasmsd
 
-#endif  // OPENCENSUS_TAGS_WITH_TAG_MAP_H_
+#endif  // WASMSD_STATS_TAGS_WITH_TAG_MAP_H_

@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opencensus/tags/with_tag_map.h"
+#include "with_tag_map.h"
 
-#include <cassert>
+//#include <cassert>
 #include <utility>
 
-#include "opencensus/context/context.h"
+#include "context.h"
 #include "tag_map.h"
 
-using ::opencensus::context::Context;
-using ::opencensus::tags::TagMap;
-
-namespace opencensus {
+namespace wasmsd {
+namespace stats {
 namespace tags {
 
 WithTagMap::WithTagMap(const TagMap& tags, bool cond)
@@ -49,11 +47,11 @@ WithTagMap::WithTagMap(TagMap&& tags, bool cond)
 }
 
 WithTagMap::~WithTagMap() {
-#ifndef NDEBUG
-  assert(original_context_ == Context::InternalMutableCurrent() &&
-         "WithTagMap must be destructed on the same thread as it was "
-         "constructed.");
-#endif
+//#ifndef NDEBUG
+//  assert(original_context_ == Context::InternalMutableCurrent() &&
+//         "WithTagMap must be destructed on the same thread as it was "
+//         "constructed.");
+//#endif
   ConditionalSwap();
 }
 
@@ -65,4 +63,5 @@ void WithTagMap::ConditionalSwap() {
 }
 
 }  // namespace tags
-}  // namespace opencensus
+}  // namespace stats
+}  // namespace wasmsd

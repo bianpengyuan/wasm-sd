@@ -15,19 +15,21 @@
 #ifndef OPENCENSUS_TAGS_CONTEXT_UTIL_H_
 #define OPENCENSUS_TAGS_CONTEXT_UTIL_H_
 
-#include "opencensus/context/context.h"
-#include "opencensus/tags/tag_map.h"
+#include "context.h"
+#include "tag_map.h"
 
-namespace opencensus {
+namespace wasmsd {
+namespace stats {
 namespace tags {
 
 // Returns the TagMap from the current Context.
 const TagMap& GetCurrentTagMap();
 
 // Returns the TagMap from the given Context.
-const TagMap& GetTagMapFromContext(const opencensus::context::Context& ctx);
+const TagMap& GetTagMapFromContext(const Context& ctx);
 
 }  // namespace tags
-}  // namespace opencensus
+}  // namespace stats
+}  // namespace wasmsd
 
 #endif  // OPENCENSUS_TAGS_CONTEXT_UTIL_H_

@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opencensus/tags/context_util.h"
+#include "context_util.h"
 
-#include "opencensus/context/context.h"
-#include "opencensus/tags/tag_map.h"
+#include "context.h"
+#include "tag_map.h"
 
-using ::opencensus::context::Context;
-
-namespace opencensus {
+namespace wasmsd {
+namespace stats {
 namespace tags {
 
 class ContextPeer {
@@ -38,4 +37,5 @@ const TagMap& GetTagMapFromContext(const Context& ctx) {
 }
 
 }  // namespace tags
-}  // namespace opencensus
+}  // namespace stats
+}  // namespace wasmsd

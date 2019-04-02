@@ -5,6 +5,7 @@
 
 #include "api/proxy_wasm_intrinsics.h"
 #include "stats/measure.h"
+#include "stats/stats.h"
 
 const absl::string_view kIstioRequestMeasureName = "istio.io/service/server/request_count_measure";
 

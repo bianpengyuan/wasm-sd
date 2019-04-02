@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENCENSUS_CONTEXT_WITH_CONTEXT_H_
-#define OPENCENSUS_CONTEXT_WITH_CONTEXT_H_
+#ifndef WASMSD_STATS_TAGS_WITH_CONTEXT_H_
+#define WASMSD_STATS_TAGS_WITH_CONTEXT_H_
 
-#include "opencensus/context/context.h"
+#include "context.h"
 
-namespace opencensus {
-namespace context {
+namespace wasmsd {
+namespace stats {
+namespace tags {
 
 // WithContext is a scoped object that sets the current Context to the given
 // one, until the WithContext object is destroyed. If the condition is false, it
@@ -55,7 +56,8 @@ class WithContext {
   const bool cond_;
 };
 
-}  // namespace context
-}  // namespace opencensus
+}  // namespace tags
+}  // namespace stats
+}  // namespace wasmsd
 
-#endif  // OPENCENSUS_CONTEXT_WITH_CONTEXT_H_
+#endif  // WASMSD_STATS_TAGS_WITH_CONTEXT_H_
