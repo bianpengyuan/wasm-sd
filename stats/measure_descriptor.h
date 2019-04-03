@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENCENSUS_STATS_MEASURE_DESCRIPTOR_H_
-#define OPENCENSUS_STATS_MEASURE_DESCRIPTOR_H_
+#ifndef STATS_MEASURE_DESCRIPTOR_H_
+#define STATS_MEASURE_DESCRIPTOR_H_
 
 #include <string>
 
 #include "absl/strings/string_view.h"
 
-namespace wasmsd {
 namespace stats {
 
 // MeasureDescriptor is system-stable metadata (or a subset of it) for a
@@ -65,6 +64,5 @@ class MeasureDescriptor {
 };
 
 }  // namespace stats
-}  // namespace opencensus
 
-#endif  // OPENCENSUS_STATS_MEASURE_DESCRIPTOR_H_
+#endif  // STATS_MEASURE_DESCRIPTOR_H_

@@ -14,10 +14,9 @@
 
 #include "context_util.h"
 
-#include "context.h"
-#include "tag_map.h"
+#include "stats/tags/context.h"
+#include "stats/tags/tag_map.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -38,4 +37,3 @@ const TagMap& GetTagMapFromContext(const Context& ctx) {
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd

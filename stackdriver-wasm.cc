@@ -14,8 +14,8 @@ public:
     explicit ExampleContext(uint32_t id) : Context(id) {
       absl::string_view descriptor = "number of request received by server";
       absl::string_view units = "1";
-      static const wasmsd::stats::MeasureInt64 server_request_count =
-          wasmsd::stats::MeasureInt64::Register(kIstioRequestMeasureName, descriptor, units);
+      static const stats::MeasureInt64 server_request_count =
+          stats::MeasureInt64::Register(kIstioRequestMeasureName, descriptor, units);
     }
 
     void onStart() override;
@@ -39,6 +39,7 @@ void ExampleContext::onStart() { logTrace("onStart"); }
 void ExampleContext::onCreate() { logWarn(std::string("onCreate " + std::to_string(id()))); }
 
 FilterHeadersStatus ExampleContext::onRequestHeaders() {
+
     logDebug(std::string("onRequestHeaders ") + std::to_string(id()));
     auto result = getRequestHeaderPairs();
     auto pairs = result->pairs();

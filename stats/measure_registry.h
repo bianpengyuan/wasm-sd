@@ -1,11 +1,10 @@
-#ifndef WASMSD_STATS_MEASURE_REGISTRY_H_
-#define WASMSD_STATS_MEASURE_REGISTRY_H_
+#ifndef STATS_MEASURE_REGISTRY_H_
+#define STATS_MEASURE_REGISTRY_H_
 
 #include "absl/strings/string_view.h"
-#include "measure.h"
-#include "measure_descriptor.h"
+#include "stats/measure.h"
+#include "stats/measure_descriptor.h"
 
-namespace wasmsd {
 namespace stats {
 
 // The MeasureRegistry keeps a record of all MeasureDescriptors registered,
@@ -25,6 +24,5 @@ class MeasureRegistry final {
 };
 
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_MEASURE_REGISTRY_H_
+#endif  // STATS_MEASURE_REGISTRY_H_

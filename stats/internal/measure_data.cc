@@ -12,20 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opencensus/stats/internal/measure_data.h"
+#include "measure_data.h"
 
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
-#include <iostream>
+//#include <iostream>
 #include <vector>
 
 #include "absl/base/macros.h"
 #include "absl/types/span.h"
-#include "opencensus/stats/bucket_boundaries.h"
-#include "opencensus/stats/distribution.h"
+#include "stats/internal/bucket_boundaries.h"
+#include "stats/internal/distribution.h"
 
-namespace opencensus {
 namespace stats {
 
 MeasureData::MeasureData(absl::Span<const BucketBoundaries> boundaries)
@@ -40,7 +39,7 @@ void MeasureData::Add(double value) {
   last_value_ = value;
   // Update using the method of provisional means.
   ++count_;
-  ABSL_ASSERT(count_ > 0 && "Histogram count overflow.");
+//  ABSL_ASSERT(count_ > 0 && "Histogram count overflow.");
   const double old_mean = mean_;
   mean_ += (value - mean_) / count_;
   sum_of_squared_deviation_ =
@@ -91,8 +90,8 @@ void MeasureData::AddToDistribution(const BucketBoundaries& boundaries,
       std::find(boundaries_.begin(), boundaries_.end(), boundaries) -
       boundaries_.begin();
   if (histogram_index >= histograms_.size()) {
-    std::cerr << "No matching BucketBoundaries in AddToDistribution\n";
-    ABSL_ASSERT(false);
+//    std::cerr << "No matching BucketBoundaries in AddToDistribution\n";
+//    ABSL_ASSERT(false);
     // Add to the underflow bucket, to avoid downstream errors from the sum of
     // bucket counts not matching the total count.
     histogram_buckets[0] += count_;
@@ -108,4 +107,3 @@ template void MeasureData::AddToDistribution(const BucketBoundaries&, double*,
                                              absl::Span<double>) const;
 
 }  // namespace stats
-}  // namespace opencensus

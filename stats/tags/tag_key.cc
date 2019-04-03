@@ -8,7 +8,6 @@
 
 #include "absl/strings/string_view.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -55,4 +54,3 @@ const std::string &TagKey::name() const {
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd

@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "with_tag_map.h"
+#include "stats/tags/with_tag_map.h"
 
 //#include <cassert>
 #include <utility>
 
-#include "context.h"
-#include "tag_map.h"
+#include "stats/tags/context.h"
+#include "stats/tags/tag_map.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -64,4 +63,3 @@ void WithTagMap::ConditionalSwap() {
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd

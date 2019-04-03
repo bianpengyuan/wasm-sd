@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "distribution.h"
+#include "stats/internal/distribution.h"
 
 #include <algorithm>
 
 #include "absl/strings/str_cat.h"
 #include "absl/strings/str_join.h"
 
-namespace wasmsd {
 namespace stats {
-namespace internal {
-
 Distribution::Distribution(const BucketBoundaries* buckets)
     : buckets_(buckets), bucket_counts_(buckets->num_buckets()) {}
 
@@ -48,6 +45,4 @@ std::string Distribution::DebugString() const {
                       absl::StrJoin(bucket_counts_, ", "));
 }
 
-}  // namespace internal
 }  // namespace stats
-}  // namespace wasmsd

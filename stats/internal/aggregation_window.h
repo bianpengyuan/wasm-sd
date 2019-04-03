@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_INTERNAL_AGGREGATION_WINDOW_H_
-#define WASMSD_STATS_INTERNAL_AGGREGATION_WINDOW_H_
+#ifndef STATS_INTERNAL_AGGREGATION_WINDOW_H_
+#define STATS_INTERNAL_AGGREGATION_WINDOW_H_
 
 #include <string>
 
 #include "absl/time/time.h"
 
-namespace wasmsd {
 namespace stats {
-namespace internal {
 
 // AggregationWindow defines the time range over which recorded data is
 // aggregated for each view.
@@ -73,8 +71,6 @@ class AggregationWindow final {
   absl::Duration duration_;
 };
 
-}  // namespace internal
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_INTERNAL_AGGREGATION_WINDOW_H_
+#endif  // STATS_INTERNAL_AGGREGATION_WINDOW_H_

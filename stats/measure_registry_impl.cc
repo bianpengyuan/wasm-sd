@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "measure_registry_impl.h"
+#include "stats/measure_registry_impl.h"
 
-namespace wasmsd {
 namespace stats {
 
 namespace {
@@ -135,4 +134,3 @@ uint64_t MeasureRegistryImpl::CreateMeasureId(uint64_t index, bool is_valid,
 }
 
 }  // namespace stats
-}  // namespace wasmsd

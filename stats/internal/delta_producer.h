@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENCENSUS_STATS_INTERNAL_DELTA_PRODUCER_H_
-#define OPENCENSUS_STATS_INTERNAL_DELTA_PRODUCER_H_
+#ifndef STATS_INTERNAL_DELTA_PRODUCER_H_
+#define STATS_INTERNAL_DELTA_PRODUCER_H_
 
 #include <cstdint>
 #include <memory>
@@ -21,22 +21,20 @@
 #include <unordered_map>
 #include <vector>
 
-#include "absl/synchronization/mutex.h"
 #include "absl/time/time.h"
-#include "opencensus/stats/bucket_boundaries.h"
-#include "opencensus/stats/distribution.h"
-#include "opencensus/stats/internal/measure_data.h"
-#include "opencensus/stats/measure.h"
-#include "opencensus/tags/tag_map.h"
+#include "stats/internal/bucket_boundaries.h"
+#include "stats/internal/distribution.h"
+#include "stats/internal/measure_data.h"
+#include "stats/measure.h"
+#include "tags/tag_map.h"
 
-namespace opencensus {
 namespace stats {
 
 // Delta is thread-compatible.
 class Delta final {
  public:
   void Record(std::initializer_list<Measurement> measurements,
-              opencensus::tags::TagMap tags);
+              stats::tags::TagMap tags);
 
   // Swaps registered_boundaries_ and delta_ with *other, clears delta_, and
   // updates registered_boundaries_.
@@ -47,8 +45,8 @@ class Delta final {
   // Clears registered_boundaries_ and delta_.
   void clear();
 
-  const std::unordered_map<opencensus::tags::TagMap, std::vector<MeasureData>,
-                           opencensus::tags::TagMap::Hash>&
+  const std::unordered_map<stats::tags::TagMap, std::vector<MeasureData>,
+                           stats::tags::TagMap::Hash>&
   delta() const {
     return delta_;
   }
@@ -60,8 +58,8 @@ class Delta final {
 
   // The actual data. Each MeasureData[] contains one element for each
   // registered measure.
-  std::unordered_map<opencensus::tags::TagMap, std::vector<MeasureData>,
-                     opencensus::tags::TagMap::Hash>
+  std::unordered_map<stats::tags::TagMap, std::vector<MeasureData>,
+                     stats::tags::TagMap::Hash>
       delta_;
 };
 
@@ -79,10 +77,10 @@ class DeltaProducer final {
   void AddBoundaries(uint64_t index, const BucketBoundaries& boundaries);
 
   void Record(std::initializer_list<Measurement> measurements,
-              opencensus::tags::TagMap tags) LOCKS_EXCLUDED(delta_mu_);
+              stats::tags::TagMap tags);
 
   // Flushes the active delta and blocks until it is harvested.
-  void Flush() LOCKS_EXCLUDED(delta_mu_, harvester_mu_);
+  void Flush();
 
  private:
   DeltaProducer();
@@ -92,39 +90,25 @@ class DeltaProducer final {
   // ConsumeLastDelta so that Record() is blocked for as little time as
   // possible. SwapDeltas should never be called without then calling
   // ConsumeLastDelta--otherwise the delta will be lost.
-  void SwapDeltas() EXCLUSIVE_LOCKS_REQUIRED(delta_mu_, harvester_mu_);
-  void ConsumeLastDelta() EXCLUSIVE_LOCKS_REQUIRED(harvester_mu_)
-      LOCKS_EXCLUDED(delta_mu_);
+  void SwapDeltas();
+  void ConsumeLastDelta();
 
   // Loops flushing the active delta (calling SwapDeltas and ConsumeLastDelta())
   // every harvest_interval_.
-  void RunHarvesterLoop();
+//  void RunHarvesterLoop();
 
-  const absl::Duration harvest_interval_ = absl::Seconds(5);
-
-  // Guards the active delta and its configuration. Anything that changes the
-  // delta configuration (e.g. adding a measure or BucketBoundaries) must
-  // acquire delta_mu_, update configuration, and call SwapDeltas() before
-  // releasing delta_mu_ to prevent Record() from accessing the delta with
-  // mismatched configuration.
-  mutable absl::Mutex delta_mu_;
+//  const absl::Duration harvest_interval_ = absl::Seconds(5);
 
   // The BucketBoundaries of each registered view with Distribution aggregation,
   // by measure. Array indices in the outer array correspond to measure indices.
-  std::vector<std::vector<BucketBoundaries>> registered_boundaries_
-      GUARDED_BY(delta_mu_);
-  Delta active_delta_ GUARDED_BY(delta_mu_);
+  std::vector<std::vector<BucketBoundaries>> registered_boundaries_;
+  Delta active_delta_;
 
-  // Guards the last_delta_; acquired by the main thread when triggering a
-  // flush.
-  mutable absl::Mutex harvester_mu_ ACQUIRED_AFTER(delta_mu_);
   // TODO: consider making this a lockless queue to avoid blocking the main
   // thread when calling a flush during harvesting.
-  Delta last_delta_ GUARDED_BY(harvester_mu_);
-  std::thread harvester_thread_ GUARDED_BY(harvester_mu_);
+  Delta last_delta_;
 };
 
 }  // namespace stats
-}  // namespace opencensus
 
 #endif  // OPENCENSUS_STATS_INTERNAL_DELTA_PRODUCER_H_

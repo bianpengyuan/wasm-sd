@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "bucket_boundaries.h"
+#include "stats/internal/bucket_boundaries.h"
 
 #include <algorithm>
 #include <iostream>
@@ -22,9 +22,7 @@
 #include "absl/strings/str_cat.h"
 #include "absl/strings/str_join.h"
 
-namespace wasmsd {
 namespace stats {
-namespace internal {
 
 // Class-level todos:
 // TODO: Consider lazy generation of storage buckets, to save memory
@@ -76,6 +74,4 @@ std::string BucketBoundaries::DebugString() const {
   return absl::StrCat("Buckets: ", absl::StrJoin(lower_boundaries_, ","));
 }
 
-}  // namespace internal
 }  // namespace stats
-}  // namespace opencensus

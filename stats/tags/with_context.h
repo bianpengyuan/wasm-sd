@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_TAGS_WITH_CONTEXT_H_
-#define WASMSD_STATS_TAGS_WITH_CONTEXT_H_
+#ifndef STATS_TAGS_WITH_CONTEXT_H_
+#define STATS_TAGS_WITH_CONTEXT_H_
 
-#include "context.h"
+#include "stats/tags/context.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -58,6 +57,5 @@ class WithContext {
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_TAGS_WITH_CONTEXT_H_
+#endif  // STATS_TAGS_WITH_CONTEXT_H_

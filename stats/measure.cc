@@ -1,11 +1,10 @@
-#include "measure.h"
-#include "measure_descriptor.h"
-#include "measure_registry_impl.h"
-#include "measure_registry.h"
+#include "stats/measure.h"
+#include "stats/measure_descriptor.h"
+#include "stats/measure_registry_impl.h"
+#include "stats/measure_registry.h"
 
 #include "absl/strings/string_view.h"
 
-namespace wasmsd {
 namespace stats {
 
 // static
@@ -26,4 +25,3 @@ template class Measure<double>;
 template class Measure<int64_t>;
 
 }  // namespace stats
-}  // namespace wasmsd

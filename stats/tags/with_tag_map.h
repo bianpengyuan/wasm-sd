@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_TAGS_WITH_TAG_MAP_H_
-#define WASMSD_STATS_TAGS_WITH_TAG_MAP_H_
+#ifndef STATS_TAGS_WITH_TAG_MAP_H_
+#define STATS_TAGS_WITH_TAG_MAP_H_
 
-#include "context.h"
-#include "tag_map.h"
+#include "stats/tags/context.h"
+#include "stats/tags/tag_map.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -59,6 +58,5 @@ class WithTagMap {
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_TAGS_WITH_TAG_MAP_H_
+#endif  // STATS_TAGS_WITH_TAG_MAP_H_

@@ -8,9 +8,8 @@
 #include <vector>
 
 #include "absl/strings/string_view.h"
-#include "tag_key.h"
+#include "stats/tags/tag_key.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -56,6 +55,5 @@ private:
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_TAGS_TAGS_MAP_H_
+#endif  // STATS_TAGS_TAGS_MAP_H_

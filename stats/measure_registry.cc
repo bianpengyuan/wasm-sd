@@ -1,7 +1,6 @@
-#include "measure_registry.h"
-#include "measure_registry_impl.h"
+#include "stats/measure_registry.h"
+#include "stats/measure_registry_impl.h"
 
-namespace wasmsd {
 namespace stats {
 
 // static
@@ -21,4 +20,3 @@ MeasureInt64 MeasureRegistry::GetMeasureInt64ByName(absl::string_view name) {
 }
 
 }  // namespace stats
-}  // namespace wasmsd

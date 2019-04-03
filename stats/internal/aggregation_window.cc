@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opencensus/stats/internal/aggregation_window.h"
+#include "aggregation_window.h"
 
 //#include <cassert>
 
 #include "absl/strings/str_cat.h"
 
-namespace wasmsd {
 namespace stats {
-namespace internal {
 
 std::string AggregationWindow::DebugString() const {
   switch (type_) {
@@ -36,6 +34,4 @@ std::string AggregationWindow::DebugString() const {
   return "BAD TYPE";
 }
 
-}  // namespace internal
 }  // namespace stats
-}  // namespace wasmsd

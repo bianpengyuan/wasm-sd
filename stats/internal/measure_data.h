@@ -12,20 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_INTERNAL_MEASURE_DATA_H_
-#define WASMSD_STATS_INTERNAL_MEASURE_DATA_H_
+#ifndef STATS_INTERNAL_MEASURE_DATA_H_
+#define STATS_INTERNAL_MEASURE_DATA_H_
 
 #include <cstdint>
 #include <limits>
 #include <vector>
 
 #include "absl/types/span.h"
-#include "opencensus/stats/bucket_boundaries.h"
-#include "opencensus/stats/distribution.h"
+#include "stats/internal/bucket_boundaries.h"
+#include "stats/internal/distribution.h"
 
-namespace wasmsd {
 namespace stats {
-namespace internal {
 
 // MeasureData tracks all aggregations for a single measure, including
 // histograms for a number of different BucketBoundaries.
@@ -70,8 +68,6 @@ extern template void MeasureData::AddToDistribution(const BucketBoundaries&,
                                                     double*, double*,
                                                     absl::Span<double>) const;
 
-}  // namespace internal
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_INTERNAL_MEASURE_DATA_H_
+#endif  // STATS_INTERNAL_MEASURE_DATA_H_

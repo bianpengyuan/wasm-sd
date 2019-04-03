@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_TAGS_HASH_MIX_H_
-#define WASMSD_STATS_TAGS_HASH_MIX_H_
+#ifndef STATS_TAGS_HASH_MIX_H_
+#define STATS_TAGS_HASH_MIX_H_
 
 #include <cstddef>
 #include <limits>
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -46,6 +45,5 @@ class HashMix final {
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_TAGS_HASH_MIX_H_
+#endif  // STATS_TAGS_HASH_MIX_H_

@@ -4,9 +4,8 @@
 #include <utility>
 
 #include "absl/strings/str_cat.h"
-#include "with_context.h"
+#include "stats/tags/with_context.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -43,4 +42,3 @@ void swap(Context& a, Context& b) {
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd

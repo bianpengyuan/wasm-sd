@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENCENSUS_TAGS_CONTEXT_UTIL_H_
-#define OPENCENSUS_TAGS_CONTEXT_UTIL_H_
+#ifndef TAGS_CONTEXT_UTIL_H_
+#define TAGS_CONTEXT_UTIL_H_
 
-#include "context.h"
-#include "tag_map.h"
+#include "stats/tags/context.h"
+#include "stats/tags/tag_map.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -30,6 +29,5 @@ const TagMap& GetTagMapFromContext(const Context& ctx);
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // OPENCENSUS_TAGS_CONTEXT_UTIL_H_
+#endif  // TAGS_CONTEXT_UTIL_H_

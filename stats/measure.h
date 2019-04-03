@@ -1,9 +1,8 @@
-#include "measure_descriptor.h"
+#include "stats/measure_descriptor.h"
 
-#ifndef WASMSD_STATS_MEASURE_H_
-#define WASMSD_STATS_MEASURE_H_
+#ifndef STATS_MEASURE_H_
+#define STATS_MEASURE_H_
 
-namespace wasmsd {
 namespace stats {
 
 template <typename MeasureT>
@@ -37,6 +36,7 @@ class Measurement final {
             : id_(measure.id_), value_int_(value) {}
 
 private:
+    friend class Delta;
     const uint64_t id_;
     union {
         const double value_double_;
@@ -45,6 +45,5 @@ private:
 };
 
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_MEASURE_H_
+#endif  // STATS_MEASURE_H_

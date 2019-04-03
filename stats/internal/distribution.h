@@ -12,19 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_INTERNAL_DISTRIBUTION_H_
-#define WASMSD_STATS_INTERNAL_DISTRIBUTION_H_
+#ifndef STATS_INTERNAL_DISTRIBUTION_H_
+#define STATS_INTERNAL_DISTRIBUTION_H_
 
 #include <cstdint>
 #include <limits>
 #include <string>
 #include <vector>
 
-#include "bucket_boundaries.h"
+#include "stats/internal/bucket_boundaries.h"
 
-namespace wasmsd {
 namespace stats {
-namespace internal {
 
 // A Distribution object holds a summary of a stream of double values (e.g. all
 // values for one measure and set of tags). It stores both a statistical summary
@@ -73,8 +71,6 @@ class Distribution final {
   std::vector<uint64_t> bucket_counts_;
 };
 
-}  // namespace internal
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_INTERNAL_DISTRIBUTION_H_
+#endif  // STATS_INTERNAL_DISTRIBUTION_H_

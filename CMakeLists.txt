@@ -13,6 +13,7 @@ file(GLOB api_SRC
         )
 
 add_subdirectory(abseil-cpp)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/stats)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/api)
 add_library(wasm-sd MODULE stackdriver-wasm.cc ${api_SRC} ${stats_SRC})

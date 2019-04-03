@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_INTERNAL_MEASURE_REGISTRY_IMPL_H_
-#define WASMSD_STATS_INTERNAL_MEASURE_REGISTRY_IMPL_H_
+#ifndef STATS_INTERNAL_MEASURE_REGISTRY_IMPL_H_
+#define STATS_INTERNAL_MEASURE_REGISTRY_IMPL_H_
 
 #include <cstdint>
 #include <string>
@@ -21,10 +21,9 @@
 #include <vector>
 
 #include "absl/strings/string_view.h"
-#include "measure.h"
-#include "measure_descriptor.h"
+#include "stats/measure.h"
+#include "stats/measure_descriptor.h"
 
-namespace wasmsd {
 namespace stats {
 
 // MeasureRegistryImpl implements MeasureRegistry and holds internal-only
@@ -103,6 +102,5 @@ uint64_t MeasureRegistryImpl::MeasureToIndex(Measure<MeasureT> measure) {
 }
 
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_INTERNAL_MEASURE_REGISTRY_IMPL_H_
+#endif  // STATS_INTERNAL_MEASURE_REGISTRY_IMPL_H_

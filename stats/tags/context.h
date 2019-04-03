@@ -4,9 +4,8 @@
 #include <functional>
 #include <string>
 
-#include "tag_map.h"
+#include "stats/tags/tag_map.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 // Context holds information specific to an operation, such as a TagMap and
@@ -53,6 +52,5 @@ private:
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd
 
 #endif  // WASMSD_STATS_TAGS_CONTEXT_H_

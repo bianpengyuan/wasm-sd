@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_INTERNAL_AGGREGATION_H_
-#define WASMSD_STATS_INTERNAL_AGGREGATION_H_
+#ifndef STATS_INTERNAL_AGGREGATION_H_
+#define STATS_INTERNAL_AGGREGATION_H_
 
 #include <string>
 #include <utility>
 
-#include "bucket_boundaries.h"
+#include "stats/internal/bucket_boundaries.h"
 
-namespace wasmsd {
 namespace stats {
-namespace internal {
 
 // Aggregation defines how to aggregate data for each view. See the static
 // constructors for details of the various options.
@@ -82,8 +80,6 @@ class Aggregation final {
   BucketBoundaries bucket_boundaries_;
 };
 
-}  // namespace internal
 }  // namespace stats
-}  // namespace opencensus
 
-#endif  // WASMSD_STATS_INTERNAL_AGGREGATION_H_
+#endif  // STATS_INTERNAL_AGGREGATION_H_

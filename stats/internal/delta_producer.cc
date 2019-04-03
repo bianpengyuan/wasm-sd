@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opencensus/stats/internal/delta_producer.h"
+#include "stats/internal/delta_producer.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -22,16 +22,15 @@
 #include "absl/synchronization/mutex.h"
 #include "absl/time/clock.h"
 #include "absl/time/time.h"
-#include "opencensus/stats/bucket_boundaries.h"
-#include "opencensus/stats/internal/measure_data.h"
-#include "opencensus/stats/internal/measure_registry_impl.h"
-#include "opencensus/stats/internal/stats_manager.h"
+#include "stats/internal/bucket_boundaries.h"
+#include "stats/internal/measure_data.h"
+#include "stats/internal/stats_manager.h"
+#include "stats/measure_registry_impl.h"
 
-namespace opencensus {
 namespace stats {
 
 void Delta::Record(std::initializer_list<Measurement> measurements,
-                   opencensus::tags::TagMap tags) {
+                   stats::tags::TagMap tags) {
   auto it = delta_.find(tags);
   if (it == delta_.end()) {
     it = delta_.emplace_hint(it, std::piecewise_construct,
@@ -44,7 +43,7 @@ void Delta::Record(std::initializer_list<Measurement> measurements,
   }
   for (const auto& measurement : measurements) {
     const uint64_t index = MeasureRegistryImpl::IdToIndex(measurement.id_);
-    ABSL_ASSERT(index < registered_boundaries_.size());
+//    ABSL_ASSERT(index < registered_boundaries_.size());
     switch (MeasureRegistryImpl::IdToType(measurement.id_)) {
       case MeasureDescriptor::Type::kDouble:
         it->second[index].Add(measurement.value_double_);
@@ -76,49 +75,37 @@ DeltaProducer* DeltaProducer::Get() {
 }
 
 void DeltaProducer::AddMeasure() {
-  delta_mu_.Lock();
-  absl::MutexLock harvester_lock(&harvester_mu_);
   registered_boundaries_.push_back({});
   SwapDeltas();
-  delta_mu_.Unlock();
   ConsumeLastDelta();
 }
 
 void DeltaProducer::AddBoundaries(uint64_t index,
                                   const BucketBoundaries& boundaries) {
-  delta_mu_.Lock();
   auto& measure_boundaries = registered_boundaries_[index];
   if (std::find(measure_boundaries.begin(), measure_boundaries.end(),
                 boundaries) == measure_boundaries.end()) {
-    absl::MutexLock harvester_lock(&harvester_mu_);
     measure_boundaries.push_back(boundaries);
     SwapDeltas();
-    delta_mu_.Unlock();
     ConsumeLastDelta();
-  } else {
-    delta_mu_.Unlock();
   }
 }
 
 void DeltaProducer::Record(std::initializer_list<Measurement> measurements,
-                           opencensus::tags::TagMap tags) {
-  absl::MutexLock l(&delta_mu_);
+                           stats::tags::TagMap tags) {
   active_delta_.Record(measurements, std::move(tags));
 }
 
 void DeltaProducer::Flush() {
-  delta_mu_.Lock();
-  absl::MutexLock harvester_lock(&harvester_mu_);
   SwapDeltas();
-  delta_mu_.Unlock();
   ConsumeLastDelta();
 }
 
-DeltaProducer::DeltaProducer()
-    : harvester_thread_(&DeltaProducer::RunHarvesterLoop, this) {}
+DeltaProducer::DeltaProducer() {}
+//    : harvester_thread_(&DeltaProducer::RunHarvesterLoop, this) {}
 
 void DeltaProducer::SwapDeltas() {
-  ABSL_ASSERT(last_delta_.delta().empty() && "Last delta was not consumed.");
+//  ABSL_ASSERT(last_delta_.delta().empty() && "Last delta was not consumed.");
   active_delta_.SwapAndReset(registered_boundaries_, &last_delta_);
 }
 
@@ -127,17 +114,16 @@ void DeltaProducer::ConsumeLastDelta() {
   last_delta_.clear();
 }
 
-void DeltaProducer::RunHarvesterLoop() {
-  absl::Time next_harvest_time = absl::Now() + harvest_interval_;
-  while (true) {
-    const absl::Time now = absl::Now();
-    absl::SleepFor(next_harvest_time - now);
-    // Account for the possibility that the last harvest took longer than
-    // harvest_interval_ and we are already past next_harvest_time.
-    next_harvest_time = std::max(next_harvest_time, now) + harvest_interval_;
-    Flush();
-  }
-}
+//void DeltaProducer::RunHarvesterLoop() {
+//  absl::Time next_harvest_time = absl::Now() + harvest_interval_;
+//  while (true) {
+//    const absl::Time now = absl::Now();
+//    absl::SleepFor(next_harvest_time - now);
+//    // Account for the possibility that the last harvest took longer than
+//    // harvest_interval_ and we are already past next_harvest_time.
+//    next_harvest_time = std::max(next_harvest_time, now) + harvest_interval_;
+//    Flush();
+//  }
+//}
 
 }  // namespace stats
-}  // namespace opencensus

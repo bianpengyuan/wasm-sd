@@ -23,10 +23,9 @@
 #include "absl/strings/str_cat.h"
 #include "absl/strings/str_join.h"
 #include "absl/strings/string_view.h"
-#include "hash_mix.h"
-#include "tag_key.h"
+#include "stats/tags/hash_mix.h"
+#include "stats/tags/tag_key.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -88,4 +87,3 @@ std::string TagMap::DebugString() const {
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd

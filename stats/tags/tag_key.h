@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_TAGS_TAG_KEY_H_
-#define WASMSD_STATS_TAGS_TAG_KEY_H_
+#ifndef STATS_TAGS_TAG_KEY_H_
+#define STATS_TAGS_TAG_KEY_H_
 
 #include <cstddef>
 #include <cstdint>
@@ -21,7 +21,6 @@
 
 #include "absl/strings/string_view.h"
 
-namespace wasmsd {
 namespace stats {
 namespace tags {
 
@@ -52,6 +51,5 @@ class TagKey final {
 
 }  // namespace tags
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_TAGS_TAG_KEY_H_
+#endif  // STATS_TAGS_TAG_KEY_H_

@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WASMSD_STATS_INTERNAL_BUCKET_BOUNDARIES_H_
-#define WASMSD_STATS_INTERNAL_BUCKET_BOUNDARIES_H_
+#ifndef STATS_INTERNAL_BUCKET_BOUNDARIES_H_
+#define STATS_INTERNAL_BUCKET_BOUNDARIES_H_
 
 #include <string>
 #include <utility>
 #include <vector>
 
-namespace wasmsd {
 namespace stats {
-namespace internal {
 
 // BucketBoundaries defines the bucket boundaries for distribution
 // aggregations.
@@ -80,8 +78,6 @@ class BucketBoundaries final {
   std::vector<double> lower_boundaries_;
 };
 
-}  // namespace internal
 }  // namespace stats
-}  // namespace wasmsd
 
-#endif  // WASMSD_STATS_INTERNAL_BUCKET_BOUNDARIES_H_
+#endif  // STATS_INTERNAL_BUCKET_BOUNDARIES_H_
