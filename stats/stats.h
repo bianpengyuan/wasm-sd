@@ -12,6 +12,10 @@ void Record(std::initializer_list<Measurement> measurements,
     DeltaProducer::Get()->Record(measurements, std::move(tags));
 }
 
+void Flush() {
+  DeltaProducer::Get()->Flush();
+}
+
 }  // namespace stats
 
 #endif  // STATS_STATS_H_

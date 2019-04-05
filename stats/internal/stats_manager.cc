@@ -21,6 +21,7 @@
 #include "absl/memory/memory.h"
 #include "absl/time/clock.h"
 #include "absl/time/time.h"
+#include "api/proxy_wasm_intrinsics.h"
 #include "stats/internal/aggregation.h"
 #include "stats/internal/bucket_boundaries.h"
 #include "stats/internal/delta_producer.h"
@@ -142,13 +143,14 @@ StatsManager* StatsManager::Get() {
 }
 
 void StatsManager::MergeDelta(const Delta& delta) {
-  absl::Time now = absl::Now();
+//  absl::Time now = absl::Now();
   // Measures are added to the StatsManager before the DeltaProducer, so there
   // should never be measures in the delta missing from measures_.
   for (const auto& data_for_tagset : delta.delta()) {
     for (int i = 0; i < data_for_tagset.second.size(); ++i) {
       // Only add data if there is data for this tagset/measure combination, to
       // avoid creating spurious empty rows.
+      logInfo("the value is " + std::to_string(data_for_tagset.second[i].sum()));
       if (data_for_tagset.second[i].count() != 0) {
 //        measures_[i].MergeMeasureData(data_for_tagset.first,
 //                                      data_for_tagset.second[i], now);

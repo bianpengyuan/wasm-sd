@@ -11,7 +11,7 @@ class Measure {
   static Measure<MeasureT> Register(absl::string_view name,
                                     absl::string_view description,
                                     absl::string_view units);
-
+  bool IsValid() const;
  private:
   friend class Measurement;
   friend class MeasureRegistryImpl;
@@ -43,6 +43,11 @@ private:
         const int64_t value_int_;
     };
 };
+
+template <>
+bool MeasureDouble::IsValid() const;
+template <>
+bool MeasureInt64::IsValid() const;
 
 }  // namespace stats
 

@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "api/proxy_wasm_intrinsics.h"
 #include "stats/measure_registry_impl.h"
+#include "stats/internal/stats_manager.h"
 
 namespace stats {
 
@@ -41,6 +43,10 @@ MeasureDouble MeasureRegistryImpl::Register(absl::string_view name,
                                             absl::string_view units) {
   MeasureDouble measure(RegisterImpl(MeasureDescriptor(
       name, description, units, MeasureDescriptor::Type::kDouble)));
+  if (measure.IsValid()) {
+    StatsManager::Get()->AddMeasure(measure);
+    DeltaProducer::Get()->AddMeasure();
+  }
   return measure;
 }
 
@@ -50,6 +56,10 @@ MeasureInt64 MeasureRegistryImpl::Register(absl::string_view name,
                                            absl::string_view units) {
   MeasureInt64 measure(RegisterImpl(MeasureDescriptor(
       name, description, units, MeasureDescriptor::Type::kInt64)));
+  if (measure.IsValid()) {
+    StatsManager::Get()->AddMeasure(measure);
+    DeltaProducer::Get()->AddMeasure();
+  }
   return measure;
 }
 

@@ -16,6 +16,17 @@ Measure<MeasureT> Measure<MeasureT>::Register(absl::string_view name,
                                                         units);
 }
 
+template <>
+bool MeasureDouble::IsValid() const {
+  return MeasureRegistryImpl::IdValid(id_) &&
+      MeasureRegistryImpl::IdToType(id_) == MeasureDescriptor::Type::kDouble;
+}
+
+template <>
+bool MeasureInt64::IsValid() const {
+  return MeasureRegistryImpl::IdValid(id_) &&
+      MeasureRegistryImpl::IdToType(id_) == MeasureDescriptor::Type::kInt64;
+}
 
 template <typename MeasureT>
 Measure<MeasureT>::Measure(uint64_t id) : id_(id) {}

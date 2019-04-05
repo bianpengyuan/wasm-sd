@@ -227,7 +227,7 @@ class Context {
   virtual void onDone() {}
   virtual void onLog() {}
   virtual void onDelete() {}
-
+  virtual void onTick() {}
   virtual void onHttpCallResponse(uint32_t token, std::unique_ptr<WasmData> header_pairs,
                                   std::unique_ptr<WasmData> body,
                                   std::unique_ptr<WasmData> trailer_pairs) {}

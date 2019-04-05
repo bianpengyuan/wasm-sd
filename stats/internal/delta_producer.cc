@@ -40,7 +40,7 @@ void Delta::Record(std::initializer_list<Measurement> measurements,
     for (const auto& boundaries_for_measure : registered_boundaries_) {
       it->second.emplace_back(boundaries_for_measure);
     }
-  }
+  } 
   for (const auto& measurement : measurements) {
     const uint64_t index = MeasureRegistryImpl::IdToIndex(measurement.id_);
 //    ABSL_ASSERT(index < registered_boundaries_.size());
@@ -51,6 +51,17 @@ void Delta::Record(std::initializer_list<Measurement> measurements,
       case MeasureDescriptor::Type::kInt64:
         it->second[index].Add(measurement.value_int_);
         break;
+    }
+  }
+
+  for (const auto& data_for_tagset : delta_) {
+    for (int i = 0; i < data_for_tagset.second.size(); ++i) {
+      // Only add data if there is data for this tagset/measure combination, to
+      // avoid creating spurious empty rows.
+      if (data_for_tagset.second[i].count() != 0) {
+//        measures_[i].MergeMeasureData(data_for_tagset.first,
+//                                      data_for_tagset.second[i], now);
+      }
     }
   }
 }
