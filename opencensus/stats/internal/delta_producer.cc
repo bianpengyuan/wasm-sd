@@ -19,7 +19,6 @@
 #include <memory>
 #include <vector>
 
-#include "absl/synchronization/mutex.h"
 #include "absl/time/clock.h"
 #include "absl/time/time.h"
 #include "opencensus/stats/bucket_boundaries.h"
@@ -44,7 +43,7 @@ void Delta::Record(std::initializer_list<Measurement> measurements,
   }
   for (const auto& measurement : measurements) {
     const uint64_t index = MeasureRegistryImpl::IdToIndex(measurement.id_);
-    ABSL_ASSERT(index < registered_boundaries_.size());
+//    ABSL_ASSERT(index < registered_boundaries_.size());
     switch (MeasureRegistryImpl::IdToType(measurement.id_)) {
       case MeasureDescriptor::Type::kDouble:
         it->second[index].Add(measurement.value_double_);
@@ -76,49 +75,37 @@ DeltaProducer* DeltaProducer::Get() {
 }
 
 void DeltaProducer::AddMeasure() {
-  delta_mu_.Lock();
-  absl::MutexLock harvester_lock(&harvester_mu_);
   registered_boundaries_.push_back({});
   SwapDeltas();
-  delta_mu_.Unlock();
   ConsumeLastDelta();
 }
 
 void DeltaProducer::AddBoundaries(uint64_t index,
                                   const BucketBoundaries& boundaries) {
-  delta_mu_.Lock();
   auto& measure_boundaries = registered_boundaries_[index];
   if (std::find(measure_boundaries.begin(), measure_boundaries.end(),
                 boundaries) == measure_boundaries.end()) {
-    absl::MutexLock harvester_lock(&harvester_mu_);
     measure_boundaries.push_back(boundaries);
     SwapDeltas();
-    delta_mu_.Unlock();
     ConsumeLastDelta();
   } else {
-    delta_mu_.Unlock();
   }
 }
 
 void DeltaProducer::Record(std::initializer_list<Measurement> measurements,
                            opencensus::tags::TagMap tags) {
-  absl::MutexLock l(&delta_mu_);
   active_delta_.Record(measurements, std::move(tags));
 }
 
 void DeltaProducer::Flush() {
-  delta_mu_.Lock();
-  absl::MutexLock harvester_lock(&harvester_mu_);
   SwapDeltas();
-  delta_mu_.Unlock();
   ConsumeLastDelta();
 }
 
-DeltaProducer::DeltaProducer()
-    : harvester_thread_(&DeltaProducer::RunHarvesterLoop, this) {}
+DeltaProducer::DeltaProducer() {}
 
 void DeltaProducer::SwapDeltas() {
-  ABSL_ASSERT(last_delta_.delta().empty() && "Last delta was not consumed.");
+//  ABSL_ASSERT(last_delta_.delta().empty() && "Last delta was not consumed.");
   active_delta_.SwapAndReset(registered_boundaries_, &last_delta_);
 }
 

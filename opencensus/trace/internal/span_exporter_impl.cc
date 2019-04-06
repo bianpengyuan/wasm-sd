@@ -16,7 +16,7 @@
 
 #include <utility>
 
-#include "absl/synchronization/mutex.h"
+#include "absl/time/clock.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/exporter/span_exporter.h"
 
@@ -38,7 +38,6 @@ SpanExporterImpl::SpanExporterImpl(uint32_t buffer_size,
 
 void SpanExporterImpl::RegisterHandler(
     std::unique_ptr<SpanExporter::Handler> handler) {
-  absl::MutexLock l(&handler_mu_);
   handlers_.emplace_back(std::move(handler));
   if (!thread_started_) {
     StartExportThread();
@@ -47,20 +46,16 @@ void SpanExporterImpl::RegisterHandler(
 
 void SpanExporterImpl::AddSpan(
     const std::shared_ptr<opencensus::trace::SpanImpl>& span_impl) {
-  absl::MutexLock l(&span_mu_);
   if (!collect_spans_) return;
   spans_.emplace_back(span_impl);
 }
 
 void SpanExporterImpl::StartExportThread() {
-  t_ = std::thread(&SpanExporterImpl::RunWorkerLoop, this);
   thread_started_ = true;
-  absl::MutexLock l(&span_mu_);
   collect_spans_ = true;
 }
 
 bool SpanExporterImpl::IsBufferFull() const {
-  span_mu_.AssertHeld();
   return spans_.size() >= buffer_size_;
 }
 
@@ -72,11 +67,10 @@ void SpanExporterImpl::RunWorkerLoop() {
   absl::Time next_forced_export_time = absl::Now() + interval_;
   while (true) {
     {
-      absl::MutexLock l(&span_mu_);
       // Wait until batch is full or interval time has been exceeded.
-      span_mu_.AwaitWithDeadline(
-          absl::Condition(this, &SpanExporterImpl::IsBufferFull),
-          next_forced_export_time);
+//      span_mu_.AwaitWithDeadline(
+//          absl::Condition(this, &SpanExporterImpl::IsBufferFull),
+//          next_forced_export_time);
       next_forced_export_time = absl::Now() + interval_;
       if (spans_.empty()) {
         continue;
@@ -94,7 +88,6 @@ void SpanExporterImpl::RunWorkerLoop() {
 
 void SpanExporterImpl::Export(const std::vector<SpanData>& span_data) {
   // Call each registered handler.
-  absl::MutexLock lock(&handler_mu_);
   for (const auto& handler : handlers_) {
     handler->Export(span_data);
   }
@@ -104,7 +97,6 @@ void SpanExporterImpl::ExportForTesting() {
   std::vector<opencensus::trace::exporter::SpanData> span_data_;
   std::vector<std::shared_ptr<opencensus::trace::SpanImpl>> batch_;
   {
-    absl::MutexLock l(&span_mu_);
     std::swap(batch_, spans_);
   }
   span_data_.reserve(batch_.size());

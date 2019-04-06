@@ -39,7 +39,7 @@ class Status final {
   Status& operator=(Status&& x) = default;
 
   // Returns true if the Status is OK.
-  ABSL_MUST_USE_RESULT bool ok() const { return code_ == StatusCode::OK; }
+  bool ok() const { return code_ == StatusCode::OK; }
 
   // Returns the canonical code for this Status value.
   StatusCode CanonicalCode() const { return code_; }

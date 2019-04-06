@@ -21,7 +21,6 @@
 #include <vector>
 
 #include "absl/strings/string_view.h"
-#include "absl/synchronization/mutex.h"
 #include "opencensus/stats/measure.h"
 #include "opencensus/stats/measure_descriptor.h"
 
@@ -38,23 +37,19 @@ class MeasureRegistryImpl {
   template <typename MeasureT>
   Measure<MeasureT> Register(absl::string_view name,
                              absl::string_view description,
-                             absl::string_view units) LOCKS_EXCLUDED(mu_);
+                             absl::string_view units);
 
-  const MeasureDescriptor& GetDescriptorByName(absl::string_view name) const
-      LOCKS_EXCLUDED(mu_);
+  const MeasureDescriptor& GetDescriptorByName(absl::string_view name) const;
 
-  MeasureDouble GetMeasureDoubleByName(absl::string_view name) const
-      LOCKS_EXCLUDED(mu_);
-  MeasureInt64 GetMeasureInt64ByName(absl::string_view name) const
-      LOCKS_EXCLUDED(mu_);
+  MeasureDouble GetMeasureDoubleByName(absl::string_view name) const;
+  MeasureInt64 GetMeasureInt64ByName(absl::string_view name) const;
 
   // The following methods are for internal use by the library, and not exposed
   // in the public MeasureRegistry.
-  uint64_t GetIdByName(absl::string_view name) const LOCKS_EXCLUDED(mu_);
+  uint64_t GetIdByName(absl::string_view name) const;
 
   template <typename MeasureT>
-  const MeasureDescriptor& GetDescriptor(Measure<MeasureT> measure) const
-      LOCKS_EXCLUDED(mu_);
+  const MeasureDescriptor& GetDescriptor(Measure<MeasureT> measure) const;
 
   // Measure ids contain a sequential index, a validity bit, and a
   // type bit; these functions access the individual parts.
@@ -68,17 +63,16 @@ class MeasureRegistryImpl {
  private:
   MeasureRegistryImpl() = default;
 
-  uint64_t RegisterImpl(MeasureDescriptor descriptor) LOCKS_EXCLUDED(mu_);
+  uint64_t RegisterImpl(MeasureDescriptor descriptor);
 
   static uint64_t CreateMeasureId(uint64_t index, bool is_valid,
                                   MeasureDescriptor::Type type);
 
-  mutable absl::Mutex mu_;
   // The registered MeasureDescriptors. Measure id are indexes into this
   // vector plus some flags in the high bits.
-  std::vector<MeasureDescriptor> registered_descriptors_ GUARDED_BY(mu_);
+  std::vector<MeasureDescriptor> registered_descriptors_;
   // A map from measure names to IDs.
-  std::unordered_map<std::string, uint64_t> id_map_ GUARDED_BY(mu_);
+  std::unordered_map<std::string, uint64_t> id_map_;
 };
 
 template <>
@@ -94,7 +88,6 @@ MeasureInt64 MeasureRegistryImpl::Register(absl::string_view name,
 template <typename MeasureT>
 const MeasureDescriptor& MeasureRegistryImpl::GetDescriptor(
     Measure<MeasureT> measure) const {
-  absl::ReaderMutexLock l(&mu_);
   if (!measure.IsValid()) {
     static const MeasureDescriptor default_descriptor =
         MeasureDescriptor("", "", "", MeasureDescriptor::Type::kDouble);

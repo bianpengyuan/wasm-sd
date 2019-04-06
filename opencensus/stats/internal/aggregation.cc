@@ -13,9 +13,6 @@
 // limitations under the License.
 
 #include "opencensus/stats/aggregation.h"
-
-#include <cassert>
-
 #include "absl/strings/str_cat.h"
 
 namespace opencensus {
@@ -33,7 +30,6 @@ std::string Aggregation::DebugString() const {
     case Type::kLastValue:
       return "Last Value";
   }
-//  assert(false && "Invalid Aggregation type.");
   return "BAD TYPE";
 }
 

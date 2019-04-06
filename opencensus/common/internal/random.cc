@@ -16,13 +16,10 @@
 
 #include <cstring>
 
-#include "absl/synchronization/mutex.h"
-
 namespace opencensus {
 namespace common {
 
 uint64_t Generator::Random64() {
-  absl::MutexLock l(&mu_);
   return rng_();
 }
 
@@ -44,7 +41,6 @@ double Random::GenerateRandomDouble() {
 }
 
 void Random::GenerateRandomBuffer(uint8_t* buf, size_t buf_size) {
-  absl::MutexLock l(&gen_.mu_);
   for (size_t i = 0; i < buf_size; i += sizeof(uint64_t)) {
     uint64_t value = gen_.rng_();
     if (i + sizeof(uint64_t) <= buf_size) {

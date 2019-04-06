@@ -14,7 +14,6 @@
 
 #include "opencensus/tags/with_tag_map.h"
 
-#include <cassert>
 #include <utility>
 
 #include "opencensus/context/context.h"
@@ -50,9 +49,9 @@ WithTagMap::WithTagMap(TagMap&& tags, bool cond)
 
 WithTagMap::~WithTagMap() {
 #ifndef NDEBUG
-  assert(original_context_ == Context::InternalMutableCurrent() &&
-         "WithTagMap must be destructed on the same thread as it was "
-         "constructed.");
+//  assert(original_context_ == Context::InternalMutableCurrent() &&
+//         "WithTagMap must be destructed on the same thread as it was "
+//         "constructed.");
 #endif
   ConditionalSwap();
 }

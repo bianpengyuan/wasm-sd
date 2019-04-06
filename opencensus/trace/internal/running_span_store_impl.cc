@@ -22,9 +22,7 @@
 #include <vector>
 
 #include "absl/base/internal/endian.h"
-#include "absl/base/thread_annotations.h"
 #include "absl/strings/string_view.h"
-#include "absl/synchronization/mutex.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/internal/span_impl.h"
 #include "opencensus/trace/span_context.h"
@@ -49,12 +47,10 @@ RunningSpanStoreImpl* RunningSpanStoreImpl::Get() {
 }
 
 void RunningSpanStoreImpl::AddSpan(const std::shared_ptr<SpanImpl>& span) {
-  absl::MutexLock l(&mu_);
   spans_.insert({GetKey(span.get()), span});
 }
 
 bool RunningSpanStoreImpl::RemoveSpan(const std::shared_ptr<SpanImpl>& span) {
-  absl::MutexLock l(&mu_);
   auto iter = spans_.find(GetKey(span.get()));
   if (iter == spans_.end()) {
     return false;  // Not tracked.
@@ -65,7 +61,6 @@ bool RunningSpanStoreImpl::RemoveSpan(const std::shared_ptr<SpanImpl>& span) {
 
 RunningSpanStore::Summary RunningSpanStoreImpl::GetSummary() const {
   RunningSpanStore::Summary summary;
-  absl::MutexLock l(&mu_);
   for (const auto& addr_span : spans_) {
     const std::string& name = addr_span.second->name_constref();
     auto it = summary.per_span_name_summary.find(name);
@@ -81,7 +76,6 @@ RunningSpanStore::Summary RunningSpanStoreImpl::GetSummary() const {
 std::vector<SpanData> RunningSpanStoreImpl::GetRunningSpans(
     const RunningSpanStore::Filter& filter) const {
   std::vector<SpanData> running_spans;
-  absl::MutexLock l(&mu_);
   for (const auto& it : spans_) {
     if (running_spans.size() >= filter.max_spans_to_return) break;
     if (filter.span_name.empty() || (it.second->name() == filter.span_name)) {
@@ -92,7 +86,6 @@ std::vector<SpanData> RunningSpanStoreImpl::GetRunningSpans(
 }
 
 void RunningSpanStoreImpl::ClearForTesting() {
-  absl::MutexLock l(&mu_);
   spans_.clear();
 }
 

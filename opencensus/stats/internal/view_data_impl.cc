@@ -15,7 +15,6 @@
 #include "opencensus/stats/internal/view_data_impl.h"
 
 #include <cstdint>
-#include <iostream>
 #include <memory>
 
 #include "absl/base/macros.h"
@@ -49,7 +48,7 @@ ViewDataImpl::Type ViewDataImpl::TypeForDescriptor(
     case AggregationWindow::Type::kInterval:
       return ViewDataImpl::Type::kStatsObject;
   }
-  ABSL_ASSERT(false && "Bad ViewDataImpl type.");
+//  ABSL_ASSERT(false && "Bad ViewDataImpl type.");
   return ViewDataImpl::Type::kDouble;
 }
 
@@ -88,7 +87,7 @@ ViewDataImpl::ViewDataImpl(const ViewDataImpl& other, absl::Time now)
       start_time_(std::max(other.start_time(),
                            now - other.aggregation_window().duration())),
       end_time_(now) {
-  ABSL_ASSERT(aggregation_window_.type() == AggregationWindow::Type::kInterval);
+//  ABSL_ASSERT(aggregation_window_.type() == AggregationWindow::Type::kInterval);
   switch (aggregation_.type()) {
     case Aggregation::Type::kSum:
     case Aggregation::Type::kCount: {
@@ -115,8 +114,8 @@ ViewDataImpl::ViewDataImpl(const ViewDataImpl& other, absl::Time now)
       break;
     }
     case Aggregation::Type::kLastValue:
-      std::cerr << "Interval/LastValue is not supported.\n";
-      ABSL_ASSERT(0 && "Interval/LastValue is not supported.\n");
+//      std::cerr << "Interval/LastValue is not supported.\n";
+//      ABSL_ASSERT(0 && "Interval/LastValue is not supported.\n");
       break;
   }
 }
@@ -167,10 +166,10 @@ ViewDataImpl::ViewDataImpl(const ViewDataImpl& other)
       break;
     }
     case Type::kStatsObject: {
-      std::cerr
-          << "StatsObject ViewDataImpl cannot (and should not) be copied. "
-             "(Possibly failed to convert to export data type?)";
-      ABSL_ASSERT(0);
+//      std::cerr
+//          << "StatsObject ViewDataImpl cannot (and should not) be copied. "
+//             "(Possibly failed to convert to export data type?)";
+//      ABSL_ASSERT(0);
       break;
     }
   }
@@ -184,7 +183,7 @@ void ViewDataImpl::Merge(const std::vector<std::string>& tag_values,
       if (aggregation_.type() == Aggregation::Type::kSum) {
         double_data_[tag_values] += data.sum();
       } else {
-        ABSL_ASSERT(aggregation_.type() == Aggregation::Type::kLastValue);
+//        ABSL_ASSERT(aggregation_.type() == Aggregation::Type::kLastValue);
         double_data_[tag_values] = data.last_value();
       }
       break;
@@ -204,7 +203,8 @@ void ViewDataImpl::Merge(const std::vector<std::string>& tag_values,
           break;
         }
         default:
-          ABSL_ASSERT(false && "Invalid aggregation for type.");
+          break;
+//          ABSL_ASSERT(false && "Invalid aggregation for type.");
       }
       break;
     }
@@ -272,9 +272,9 @@ ViewDataImpl::ViewDataImpl(ViewDataImpl* source, absl::Time now)
       break;
     }
     case Type::kStatsObject: {
-      std::cerr << "GetDeltaAndReset should not be called on ViewDataImpl for "
-                   "interval stats.";
-      ABSL_ASSERT(0);
+//      std::cerr << "GetDeltaAndReset should not be called on ViewDataImpl for "
+//                   "interval stats.";
+//      ABSL_ASSERT(0);
       break;
     }
   }

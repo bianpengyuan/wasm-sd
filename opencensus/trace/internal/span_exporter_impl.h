@@ -18,11 +18,8 @@
 #include <functional>
 #include <memory>
 #include <string>
-#include <thread>
 #include <vector>
 
-#include "absl/base/thread_annotations.h"
-#include "absl/synchronization/mutex.h"
 #include "absl/time/time.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/exporter/span_exporter.h"
@@ -65,7 +62,7 @@ class SpanExporterImpl {
   friend class Span;
   friend class SpanExporter;  // For ExportForTesting() only.
 
-  void StartExportThread() EXCLUSIVE_LOCKS_REQUIRED(handler_mu_);
+  void StartExportThread();
   void RunWorkerLoop();
 
   // Calls all registered handlers and exports the spans contained in span_data.
@@ -81,16 +78,11 @@ class SpanExporterImpl {
   static SpanExporterImpl* span_exporter_;
   const uint32_t buffer_size_;
   const absl::Duration interval_;
-  mutable absl::Mutex span_mu_;
-  mutable absl::Mutex handler_mu_;
-  std::vector<std::shared_ptr<opencensus::trace::SpanImpl>> spans_
-      GUARDED_BY(span_mu_);
-  std::vector<std::unique_ptr<SpanExporter::Handler>> handlers_
-      GUARDED_BY(handler_mu_);
-  bool thread_started_ GUARDED_BY(handler_mu_) = false;
+  std::vector<std::shared_ptr<opencensus::trace::SpanImpl>> spans_;
+  std::vector<std::unique_ptr<SpanExporter::Handler>> handlers_;
+  bool thread_started_ = false;
   // Don't collect spans until an exporter has been registered.
-  bool collect_spans_ GUARDED_BY(span_mu_) = false;
-  std::thread t_ GUARDED_BY(handler_mu_);
+  bool collect_spans_ = false;
 };
 
 }  // namespace exporter

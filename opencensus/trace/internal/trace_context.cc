@@ -66,8 +66,8 @@ SpanContext FromTraceParentHeader(absl::string_view header) {
   constexpr int kTraceIdOfs = kVersionOfs + kVersionLenHex + kDelimiterLen;
   constexpr int kSpanIdOfs = kTraceIdOfs + kTraceIdLenHex + kDelimiterLen;
   constexpr int kOptionsOfs = kSpanIdOfs + kSpanIdLenHex + kDelimiterLen;
-  static_assert(kOptionsOfs + kTraceOptionsLenHex == kTotalLenInHexDigits,
-                "bad offsets");
+//  static_assert(kOptionsOfs + kTraceOptionsLenHex == kTotalLenInHexDigits,
+//                "bad offsets");
   static SpanContext invalid;
   if (header.size() != kTotalLenInHexDigits || header[kVersionOfs] != '0' ||
       header[kVersionOfs + 1] != '0' ||

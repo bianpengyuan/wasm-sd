@@ -14,8 +14,6 @@
 
 #include "opencensus/stats/view_data.h"
 
-#include <iostream>
-
 #include "absl/base/macros.h"
 #include "absl/memory/memory.h"
 #include "opencensus/stats/internal/view_data_impl.h"
@@ -41,7 +39,7 @@ ViewData::Type ViewData::type() const {
       // map.
       return Type::kDouble;
   }
-  ABSL_ASSERT(false && "Bad ViewData type.");
+//  ABSL_ASSERT(false && "Bad ViewData type.");
   return Type::kDouble;
 }
 
@@ -49,8 +47,8 @@ const ViewData::DataMap<double>& ViewData::double_data() const {
   if (impl_->type() == ViewDataImpl::Type::kDouble) {
     return impl_->double_data();
   } else {
-    std::cerr << "Accessing double_data from a non-double ViewData.\n";
-    ABSL_ASSERT(0);
+//    std::cerr << "Accessing double_data from a non-double ViewData.\n";
+//    ABSL_ASSERT(0);
     static DataMap<double> empty_map;
     return empty_map;
   }
@@ -60,8 +58,8 @@ const ViewData::DataMap<int64_t>& ViewData::int_data() const {
   if (impl_->type() == ViewDataImpl::Type::kInt64) {
     return impl_->int_data();
   } else {
-    std::cerr << "Accessing int_data from a non-int ViewData.\n";
-    ABSL_ASSERT(0);
+//    std::cerr << "Accessing int_data from a non-int ViewData.\n";
+//    ABSL_ASSERT(0);
     static DataMap<int64_t> empty_map;
     return empty_map;
   }
@@ -71,9 +69,9 @@ const ViewData::DataMap<Distribution>& ViewData::distribution_data() const {
   if (impl_->type() == ViewDataImpl::Type::kDistribution) {
     return impl_->distribution_data();
   } else {
-    std::cerr
-        << "Accessing distribution_data from a non-distribution ViewData.\n";
-    ABSL_ASSERT(0);
+//    std::cerr
+//        << "Accessing distribution_data from a non-distribution ViewData.\n";
+//    ABSL_ASSERT(0);
     static DataMap<Distribution> empty_map;
     return empty_map;
   }
@@ -87,7 +85,7 @@ ViewData::ViewData(const ViewData& other)
 
 ViewData::ViewData(std::unique_ptr<ViewDataImpl> data)
     : impl_(std::move(data)) {
-  ABSL_ASSERT(impl_->type() != ViewDataImpl::Type::kStatsObject);
+//  ABSL_ASSERT(impl_->type() != ViewDataImpl::Type::kStatsObject);
 }
 
 }  // namespace stats

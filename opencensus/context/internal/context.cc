@@ -48,7 +48,7 @@ std::string Context::DebugString() const {
 
 // static
 Context* Context::InternalMutableCurrent() {
-  static thread_local Context* thread_ctx = nullptr;
+  static Context* thread_ctx = nullptr;
   if (thread_ctx == nullptr) thread_ctx = new Context;
   return thread_ctx;
 }

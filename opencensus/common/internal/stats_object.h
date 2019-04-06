@@ -19,7 +19,6 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
-#include <iostream>
 #include <limits>
 #include <string>
 #include <vector>
@@ -145,7 +144,7 @@ class StatsObject {
   std::string DebugString() const;
 
  private:
-  static_assert(N > 0, "Number of buckets must be greater than 0.");
+//  static_assert(N > 0, "Number of buckets must be greater than 0.");
 
   constexpr uint16_t NumBuckets() const { return N + 1; }
   absl::Time CurBucketStartTime() const {
@@ -175,7 +174,7 @@ class StatsObject {
     // This will fail if now is so large that
     //   (now / bucket_interval_) + 1 == (now / bucket_interval_),
     // but this whole class is liable to fall apart in that case.
-    ABSL_ASSERT(next_bucket_start_time_ + bucket_interval_ * v > now);
+//    ABSL_ASSERT(next_bucket_start_time_ + bucket_interval_ * v > now);
     return v <= std::numeric_limits<uint32_t>::max()
                ? static_cast<uint32_t>(v)
                : std::numeric_limits<uint32_t>::max();
@@ -229,8 +228,8 @@ StatsObject<N>::StatsObject(uint16_t num_stats, absl::Duration interval,
       num_stats_(num_stats),
       cur_bucket_(0),
       data_(num_stats * (N + 1)) {
-  ABSL_ASSERT(interval >= absl::Seconds(1) &&
-              "Too small stats object interval");
+//  ABSL_ASSERT(interval >= absl::Seconds(1) &&
+//              "Too small stats object interval");
   absl::Time cur_bucket_start_time =
       absl::UnixEpoch() +
       absl::Floor(now - absl::UnixEpoch(), bucket_interval_);
@@ -245,7 +244,7 @@ uint32_t StatsObject<N>::NthBucketIndex(uint32_t n) const {
   if (bucket < 0) {
     bucket += NumBuckets();
   }
-  ABSL_ASSERT(bucket == (cur_bucket_ + NumBuckets() - n) % NumBuckets());
+//  ABSL_ASSERT(bucket == (cur_bucket_ + NumBuckets() - n) % NumBuckets());
   return bucket;
 }
 
@@ -264,8 +263,8 @@ absl::Span<const double> StatsObject<N>::NthBucket(uint32_t n) const {
 template <uint16_t N>
 void StatsObject<N>::Add(absl::Span<const double> values, absl::Time now) {
   if (values.length() != num_stats_) {
-    std::cerr << "values has the wrong number of elements; expected "
-              << num_stats_ << ", but was " << values.length() << "\n";
+//    std::cerr << "values has the wrong number of elements; expected "
+//              << num_stats_ << ", but was " << values.length() << "\n";
     return;
   }
   absl::Span<double> bucket = MutableCurrentBucket(now);
@@ -277,7 +276,7 @@ void StatsObject<N>::Add(absl::Span<const double> values, absl::Time now) {
 template <uint16_t N>
 void StatsObject<N>::AddToDistribution(double value, int histogram_bucket,
                                        absl::Time now) {
-  ABSL_ASSERT(num_stats_ >= histogram_bucket + 5);
+//  ABSL_ASSERT(num_stats_ >= histogram_bucket + 5);
   absl::Span<double> bucket = MutableCurrentBucket(now);
   const double old_count = bucket[0];
   const double count = ++bucket[0];
@@ -300,11 +299,11 @@ template <uint16_t N>
 absl::Span<double> StatsObject<N>::MutableCurrentBucket(absl::Time now) {
   Shift(now);
   if (now < CurBucketStartTime()) {
-    std::cerr
-        << "now=" << now << " < CurBucketStartTime()=" << CurBucketStartTime()
-        << "; returning current bucket anyway.  If the difference is small it "
-           "might be due to an inconsequential clock perturbation, but if you "
-           "see this warning often, it is likely a bug.\n";
+//    std::cerr
+//        << "now=" << now << " < CurBucketStartTime()=" << CurBucketStartTime()
+//        << "; returning current bucket anyway.  If the difference is small it "
+//           "might be due to an inconsequential clock perturbation, but if you "
+//           "see this warning often, it is likely a bug.\n";
   }
   return absl::Span<double>(data_.data() + cur_bucket_ * num_stats_,
                             num_stats_);
@@ -346,7 +345,7 @@ double StatsObject<N>::LastBucketPortion(absl::Time now) const {
 
 template <uint16_t N>
 void StatsObject<N>::SumInto(absl::Span<double> val, absl::Time now) const {
-  ABSL_ASSERT(val.size() >= num_stats_);
+//  ABSL_ASSERT(val.size() >= num_stats_);
   if (val.size() < num_stats_) {
     std::fill(val.begin(), val.end(), 0);
     return;
@@ -395,7 +394,7 @@ void StatsObject<N>::DistributionInto(uint64_t* count, double* mean,
                                       double* min, double* max,
                                       absl::Span<uint64_t> histogram_buckets,
                                       absl::Time now) const {
-  ABSL_ASSERT(histogram_buckets.size() + 5 == num_stats_);
+//  ABSL_ASSERT(histogram_buckets.size() + 5 == num_stats_);
   const uint32_t buckets_ahead = BucketsAhead(now);
   *count = 0;
   *mean = 0;
@@ -487,23 +486,23 @@ void StatsObject<N>::Shift(absl::Time now) {
   next_bucket_start_time_ =
       absl::UnixEpoch() +
       absl::Floor(now - absl::UnixEpoch(), bucket_interval_) + bucket_interval_;
-  ABSL_ASSERT(now < next_bucket_start_time_);
+//  ABSL_ASSERT(now < next_bucket_start_time_);
 }
 
 template <uint16_t N>
 void StatsObject<N>::Merge(const StatsObject<N>& other) {
   if (num_stats_ != other.num_stats_) {
-    std::cerr << "num_stats_ mismatch: Expected " << num_stats_ << ", but was "
-              << other.num_stats_ << "\n";
+//    std::cerr << "num_stats_ mismatch: Expected " << num_stats_ << ", but was "
+//              << other.num_stats_ << "\n";
     return;
   }
   if (bucket_interval_ != other.bucket_interval_) {
-    std::cerr << "bucket_interval_ mismatch: Expected " << bucket_interval_
-              << ", but was " << other.bucket_interval_ << "\n";
+//    std::cerr << "bucket_interval_ mismatch: Expected " << bucket_interval_
+//              << ", but was " << other.bucket_interval_ << "\n";
     return;
   }
   Shift(other.CurBucketStartTime());
-  ABSL_ASSERT(next_bucket_start_time_ >= other.next_bucket_start_time_);
+//  ABSL_ASSERT(next_bucket_start_time_ >= other.next_bucket_start_time_);
   // We guaranteed that our data isn't behind other's by calling Shift() above,
   // but our data may still be ahead of other's.
   uint32_t intervals_ahead = other.BucketsAhead(CurBucketStartTime());

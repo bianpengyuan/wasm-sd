@@ -35,8 +35,8 @@ bool SpanId::operator==(const SpanId &that) const {
 }
 
 bool SpanId::IsValid() const {
-  static_assert(kSize == 8,
-                "IsValid assumes the internal representation is 8 bytes.");
+//  static_assert(kSize == 8,
+//                "IsValid assumes the internal representation is 8 bytes.");
   uint64_t tmp;
   memcpy(&tmp, rep_, kSize);
   return tmp != 0;

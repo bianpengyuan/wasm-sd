@@ -18,9 +18,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "absl/base/thread_annotations.h"
 #include "absl/strings/string_view.h"
-#include "absl/synchronization/mutex.h"
 #include "absl/time/time.h"
 #include "opencensus/trace/exporter/annotation.h"
 #include "opencensus/trace/exporter/attribute_value.h"
@@ -71,26 +69,26 @@ class SpanImpl final {
            absl::string_view name, const SpanId& parent_span_id,
            bool remote_parent);
 
-  void AddAttributes(AttributesRef attributes) LOCKS_EXCLUDED(mu_);
+  void AddAttributes(AttributesRef attributes);
 
   void AddAnnotation(absl::string_view description, AttributesRef attributes)
-      LOCKS_EXCLUDED(mu_);
+     ;
 
   void AddMessageEvent(exporter::MessageEvent::Type type, uint32_t message_id,
                        uint32_t compressed_message_size,
                        uint32_t uncompressed_message_size);
 
   void AddLink(const SpanContext& context, exporter::Link::Type type,
-               AttributesRef attributes) LOCKS_EXCLUDED(mu_);
+               AttributesRef attributes);
 
-  void SetStatus(exporter::Status&& status) LOCKS_EXCLUDED(mu_);
+  void SetStatus(exporter::Status&& status);
 
   // Returns true on success (if this is the first time the Span has ended) and
   // also marks the end of the Span and sets its end_time_.
-  bool End() LOCKS_EXCLUDED(mu_);
+  bool End();
 
   // Returns true if the span has ended.
-  bool HasEnded() const LOCKS_EXCLUDED(mu_);
+  bool HasEnded() const;
 
   absl::string_view name() const { return name_; }
 
@@ -109,15 +107,14 @@ class SpanImpl final {
   friend class ::opencensus::trace::SpanTestPeer;
 
   // Makes a deep copy of span contents and returns copied data in SpanData.
-  exporter::SpanData ToSpanData() const LOCKS_EXCLUDED(mu_);
+  exporter::SpanData ToSpanData() const;
 
-  mutable absl::Mutex mu_;
   // The start time of the span.
   const absl::Time start_time_;
   // The end time of the span. Set when End() is called.
-  absl::Time end_time_ GUARDED_BY(mu_);
+  absl::Time end_time_;
   // The status of the span. Only set if start_options_.record_events is true.
-  exporter::Status status_ GUARDED_BY(mu_);
+  exporter::Status status_;
   // The displayed name of the span.
   const std::string name_;
   // The parent SpanId of this span. Parent SpanId will be not valid if this is
@@ -126,16 +123,15 @@ class SpanImpl final {
   // TraceId, SpanId, and TraceOptions for the current span.
   const SpanContext context_;
   // Queue of recorded annotations.
-  TraceEvents<EventWithTime<exporter::Annotation>> annotations_ GUARDED_BY(mu_);
+  TraceEvents<EventWithTime<exporter::Annotation>> annotations_;
   // Queue of recorded network events.
-  TraceEvents<EventWithTime<exporter::MessageEvent>> message_events_
-      GUARDED_BY(mu_);
+  TraceEvents<EventWithTime<exporter::MessageEvent>> message_events_;
   // Queue of recorded links to parent and child spans.
-  TraceEvents<exporter::Link> links_ GUARDED_BY(mu_);
+  TraceEvents<exporter::Link> links_;
   // Set of recorded attributes.
-  AttributeList attributes_ GUARDED_BY(mu_);
+  AttributeList attributes_;
   // Marks if the span has ended.
-  bool has_ended_ GUARDED_BY(mu_);
+  bool has_ended_;
   // True if the parent Span is in a different process.
   const bool remote_parent_;
 };

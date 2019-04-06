@@ -15,7 +15,6 @@
 #include "opencensus/stats/bucket_boundaries.h"
 
 #include <algorithm>
-#include <iostream>
 #include <vector>
 
 #include "absl/base/macros.h"
@@ -59,9 +58,9 @@ BucketBoundaries BucketBoundaries::Exponential(int num_finite_buckets,
 // static
 BucketBoundaries BucketBoundaries::Explicit(std::vector<double> boundaries) {
   if (!std::is_sorted(boundaries.begin(), boundaries.end())) {
-    std::cerr << "BucketBoundaries::Explicit called with non-monotonic "
-                 "boundary list.\n";
-    ABSL_ASSERT(0);
+//    std::cerr << "BucketBoundaries::Explicit called with non-monotonic "
+//                 "boundary list.\n";
+//    ABSL_ASSERT(0);
     return BucketBoundaries({});
   }
   return BucketBoundaries(std::move(boundaries));

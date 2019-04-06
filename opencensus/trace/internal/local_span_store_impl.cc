@@ -23,9 +23,7 @@
 #include <vector>
 
 #include "absl/base/internal/endian.h"
-#include "absl/base/thread_annotations.h"
 #include "absl/strings/string_view.h"
-#include "absl/synchronization/mutex.h"
 #include "absl/time/time.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/exporter/status.h"
@@ -94,7 +92,6 @@ LocalSpanStoreImpl* LocalSpanStoreImpl::Get() {
 }
 
 void LocalSpanStoreImpl::AddSpan(const std::shared_ptr<SpanImpl>& span) {
-  absl::MutexLock l(&mu_);
   if (spans_.size() >= kMaxSpans) {
     spans_.pop_back();  // Make room.
   }
@@ -103,7 +100,6 @@ void LocalSpanStoreImpl::AddSpan(const std::shared_ptr<SpanImpl>& span) {
 
 Summary LocalSpanStoreImpl::GetSummary() const {
   Summary summary;
-  absl::MutexLock l(&mu_);
   for (const auto& span : spans_) {
     PerSpanNameSummary& curr = GetPerSpanNameSummary(span.name(), &summary);
     const absl::Duration latency = span.end_time() - span.start_time();
@@ -118,7 +114,6 @@ Summary LocalSpanStoreImpl::GetSummary() const {
 std::vector<SpanData> LocalSpanStoreImpl::GetLatencySampledSpans(
     const LatencyFilter& filter) const {
   std::vector<SpanData> out;
-  absl::MutexLock l(&mu_);
   for (const auto& span : spans_) {
     uint64_t latency_ns =
         (span.end_time() - span.start_time()) / absl::Nanoseconds(1);
@@ -135,7 +130,6 @@ std::vector<SpanData> LocalSpanStoreImpl::GetLatencySampledSpans(
 std::vector<SpanData> LocalSpanStoreImpl::GetErrorSampledSpans(
     const ErrorFilter& filter) const {
   std::vector<SpanData> out;
-  absl::MutexLock l(&mu_);
   for (const auto& span : spans_) {
     if ((filter.span_name.empty() || (span.name() == filter.span_name)) &&
         filter.canonical_code == span.status().CanonicalCode()) {
@@ -147,13 +141,11 @@ std::vector<SpanData> LocalSpanStoreImpl::GetErrorSampledSpans(
 }
 
 std::vector<SpanData> LocalSpanStoreImpl::GetSpans() const {
-  absl::MutexLock l(&mu_);
   std::vector<SpanData> out(spans_.begin(), spans_.end());
   return out;
 }
 
 void LocalSpanStoreImpl::ClearForTesting() {
-  absl::MutexLock l(&mu_);
   spans_.clear();
 }
 

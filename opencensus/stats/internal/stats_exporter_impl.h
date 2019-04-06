@@ -15,11 +15,9 @@
 #ifndef OPENCENSUS_STATS_INTERNAL_STATS_EXPORTER_IMPL_H_
 #define OPENCENSUS_STATS_INTERNAL_STATS_EXPORTER_IMPL_H_
 
-#include <thread>
 #include <utility>
 #include <vector>
 
-#include "absl/synchronization/mutex.h"
 #include "absl/time/clock.h"
 #include "absl/time/time.h"
 #include "opencensus/stats/internal/aggregation_window.h"
@@ -52,21 +50,15 @@ class StatsExporterImpl {
  private:
   StatsExporterImpl() {}
 
-  void StartExportThread() EXCLUSIVE_LOCKS_REQUIRED(mu_);
+  void StartExportThread();
 
   // Loops forever, calling Export() every export_interval_.
   void RunWorkerLoop();
 
   const absl::Duration export_interval_ = absl::Seconds(10);
 
-  mutable absl::Mutex mu_;
-
-  std::vector<std::unique_ptr<StatsExporter::Handler>> handlers_
-      GUARDED_BY(mu_);
-  std::unordered_map<std::string, std::unique_ptr<View>> views_ GUARDED_BY(mu_);
-
-  bool thread_started_ GUARDED_BY(mu_) = false;
-  std::thread t_ GUARDED_BY(mu_);
+  std::vector<std::unique_ptr<StatsExporter::Handler>> handlers_;
+  std::unordered_map<std::string, std::unique_ptr<View>> views_;
 };
 
 }  // namespace stats

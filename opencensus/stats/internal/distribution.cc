@@ -28,7 +28,7 @@ Distribution::Distribution(const BucketBoundaries* buckets)
 void Distribution::Add(double value) {
   // Update using the method of provisional means.
   ++count_;
-  ABSL_ASSERT(count_ > 0 && "Histogram count overflow.");
+//  ABSL_ASSERT(count_ > 0 && "Histogram count overflow.");
   const double new_mean = mean_ + (value - mean_) / count_;
   sum_of_squared_deviation_ =
       sum_of_squared_deviation_ + (value - mean_) * (value - new_mean);

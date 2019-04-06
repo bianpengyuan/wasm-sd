@@ -14,7 +14,6 @@
 
 #include "opencensus/trace/attribute_value_ref.h"
 
-#include <cassert>
 #include <string>
 #include <utility>
 
@@ -25,17 +24,17 @@ namespace opencensus {
 namespace trace {
 
 absl::string_view AttributeValueRef::string_value() const {
-  assert(type() == Type::kString);
+//  assert(type() == Type::kString);
   return string_value_;
 }
 
 bool AttributeValueRef::bool_value() const {
-  assert(type() == Type::kBool);
+//  assert(type() == Type::kBool);
   return bool_value_;
 }
 
 int64_t AttributeValueRef::int_value() const {
-  assert(type() == Type::kInt);
+//  assert(type() == Type::kInt);
   return int_value_;
 }
 

@@ -87,19 +87,19 @@ class ViewDataImpl {
   // Only one of these is valid for any ViewDataImpl (which is indicated by
   // type());
   const DataMap<double>& double_data() const {
-    ABSL_ASSERT(type_ == Type::kDouble);
+//    ABSL_ASSERT(type_ == Type::kDouble);
     return double_data_;
   }
   const DataMap<int64_t>& int_data() const {
-    ABSL_ASSERT(type_ == Type::kInt64);
+//    ABSL_ASSERT(type_ == Type::kInt64);
     return int_data_;
   }
   const DataMap<Distribution>& distribution_data() const {
-    ABSL_ASSERT(type_ == Type::kDistribution);
+//    ABSL_ASSERT(type_ == Type::kDistribution);
     return distribution_data_;
   }
   const DataMap<IntervalStatsObject>& interval_data() const {
-    ABSL_ASSERT(type_ == Type::kStatsObject);
+//    ABSL_ASSERT(type_ == Type::kStatsObject);
     return interval_data_;
   }
 

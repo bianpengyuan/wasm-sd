@@ -14,11 +14,9 @@
 
 #include "opencensus/stats/view_descriptor.h"
 
-#include <iostream>
 #include <string>
 #include <vector>
 
-#include "absl/memory/memory.h"
 #include "absl/strings/str_cat.h"
 #include "absl/strings/str_join.h"
 #include "absl/strings/string_view.h"
@@ -78,7 +76,7 @@ void ViewDescriptor::RegisterForExport() const {
   if (aggregation_window_.type() == AggregationWindow::Type::kCumulative) {
     StatsExporterImpl::Get()->AddView(*this);
   } else {
-    std::cerr << "Only cumulative views may be registered for export.\n";
+//    std::cerr << "Only cumulative views may be registered for export.\n";
   }
 }
 

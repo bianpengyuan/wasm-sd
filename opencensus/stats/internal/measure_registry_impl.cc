@@ -14,8 +14,6 @@
 
 #include "opencensus/stats/internal/measure_registry_impl.h"
 
-#include <iostream>
-
 #include "opencensus/stats/internal/delta_producer.h"
 #include "opencensus/stats/internal/stats_manager.h"
 #include "opencensus/stats/measure_descriptor.h"
@@ -69,15 +67,14 @@ MeasureInt64 MeasureRegistryImpl::Register(absl::string_view name,
 }
 
 uint64_t MeasureRegistryImpl::RegisterImpl(MeasureDescriptor descriptor) {
-  absl::MutexLock l(&mu_);
   if (descriptor.name().empty()) {
-    std::cerr << "Attempt to register measure with empty name\n";
+//    std::cerr << "Attempt to register measure with empty name\n";
     return CreateMeasureId(0, false, descriptor.type());
   }
   const auto it = id_map_.find(descriptor.name());
   if (it != id_map_.end()) {
-    std::cerr << "Attempt to register measure with already-registered name: "
-              << descriptor.DebugString() << "\n";
+//    std::cerr << "Attempt to register measure with already-registered name: "
+//              << descriptor.DebugString() << "\n";
     return CreateMeasureId(0, false, descriptor.type());
   }
   const uint64_t id =
@@ -89,7 +86,6 @@ uint64_t MeasureRegistryImpl::RegisterImpl(MeasureDescriptor descriptor) {
 
 const MeasureDescriptor& MeasureRegistryImpl::GetDescriptorByName(
     absl::string_view name) const {
-  absl::ReaderMutexLock l(&mu_);
   const auto it = id_map_.find(std::string(name));
   if (it == id_map_.end()) {
     static const MeasureDescriptor default_descriptor =
@@ -102,7 +98,6 @@ const MeasureDescriptor& MeasureRegistryImpl::GetDescriptorByName(
 
 MeasureDouble MeasureRegistryImpl::GetMeasureDoubleByName(
     absl::string_view name) const {
-  absl::ReaderMutexLock l(&mu_);
   const auto it = id_map_.find(std::string(name));
   if (it == id_map_.end()) {
     return MeasureDouble(
@@ -114,7 +109,6 @@ MeasureDouble MeasureRegistryImpl::GetMeasureDoubleByName(
 
 MeasureInt64 MeasureRegistryImpl::GetMeasureInt64ByName(
     absl::string_view name) const {
-  absl::ReaderMutexLock l(&mu_);
   const auto it = id_map_.find(std::string(name));
   if (it == id_map_.end()) {
     return MeasureInt64(
@@ -125,7 +119,6 @@ MeasureInt64 MeasureRegistryImpl::GetMeasureInt64ByName(
 }
 
 uint64_t MeasureRegistryImpl::GetIdByName(absl::string_view name) const {
-  absl::ReaderMutexLock l(&mu_);
   const auto it = id_map_.find(std::string(name));
   if (it == id_map_.end()) {
     return CreateMeasureId(0, false, MeasureDescriptor::Type::kDouble);

@@ -20,9 +20,7 @@
 #include <utility>
 #include <vector>
 
-#include "absl/base/thread_annotations.h"
 #include "absl/strings/string_view.h"
-#include "absl/synchronization/mutex.h"
 
 namespace opencensus {
 namespace tags {
@@ -34,24 +32,21 @@ class TagKeyRegistry {
     return global_tag_key_registry;
   }
 
-  TagKey Register(absl::string_view name) LOCKS_EXCLUDED(mu_);
+  TagKey Register(absl::string_view name);
 
-  const std::string& TagKeyName(TagKey key) const LOCKS_EXCLUDED(mu_) {
-    absl::ReaderMutexLock l(&mu_);
+  const std::string& TagKeyName(TagKey key) const {
     return registered_tag_keys_[key.id_];
   }
 
  private:
-  mutable absl::Mutex mu_;
   // The registered tag keys. Tag key ids are indices into this vector.
-  std::vector<std::string> registered_tag_keys_ GUARDED_BY(mu_);
+  std::vector<std::string> registered_tag_keys_;
   // A map from names to IDs.
   // TODO: change to string_view when a suitable hash is available.
-  std::unordered_map<std::string, uint64_t> id_map_ GUARDED_BY(mu_);
+  std::unordered_map<std::string, uint64_t> id_map_;
 };
 
 TagKey TagKeyRegistry::Register(absl::string_view name) {
-  absl::MutexLock l(&mu_);
   const std::string string_name(name);
   const auto it = id_map_.find(string_name);
   if (it == id_map_.end()) {

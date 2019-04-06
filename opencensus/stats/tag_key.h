@@ -21,9 +21,6 @@
 namespace opencensus {
 namespace stats {
 
-ABSL_DEPRECATED(
-    "TagKey has moved to opencensus::tags. This is a compatibility "
-    "shim and will be removed on or after 2019-03-20")
 typedef opencensus::tags::TagKey TagKey;
 
 }  // namespace stats

@@ -21,9 +21,6 @@
 namespace opencensus {
 namespace stats {
 
-ABSL_DEPRECATED(
-    "TagSet has moved to opencensus::tags::TagMap. This is a "
-    "compatibility shim and will be removed on or after 2019-03-20")
 typedef opencensus::tags::TagMap TagSet;
 
 }  // namespace stats

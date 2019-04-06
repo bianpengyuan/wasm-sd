@@ -15,12 +15,10 @@
 #include "opencensus/stats/stats_exporter.h"
 #include "opencensus/stats/internal/stats_exporter_impl.h"
 
-#include <thread>
 #include <utility>
 #include <vector>
 
 #include "absl/memory/memory.h"
-#include "absl/synchronization/mutex.h"
 #include "absl/time/clock.h"
 #include "absl/time/time.h"
 #include "opencensus/stats/internal/aggregation_window.h"
@@ -38,27 +36,23 @@ StatsExporterImpl* StatsExporterImpl::Get() {
 }
 
 void StatsExporterImpl::AddView(const ViewDescriptor& view) {
-  absl::MutexLock l(&mu_);
   views_[view.name()] = absl::make_unique<opencensus::stats::View>(view);
 }
 
 void StatsExporterImpl::RemoveView(absl::string_view name) {
-  absl::MutexLock l(&mu_);
   views_.erase(std::string(name));
 }
 
 void StatsExporterImpl::RegisterPushHandler(
     std::unique_ptr<StatsExporter::Handler> handler) {
-  absl::MutexLock l(&mu_);
   handlers_.push_back(std::move(handler));
-  if (!thread_started_) {
-    StartExportThread();
-  }
+//  if (!thread_started_) {
+//    StartExportThread();
+//  }
 }
 
 std::vector<std::pair<ViewDescriptor, ViewData>>
 StatsExporterImpl::GetViewData() {
-  absl::ReaderMutexLock l(&mu_);
   std::vector<std::pair<ViewDescriptor, ViewData>> data;
   data.reserve(views_.size());
   for (const auto& view : views_) {
@@ -68,7 +62,6 @@ StatsExporterImpl::GetViewData() {
 }
 
 void StatsExporterImpl::Export() {
-  absl::ReaderMutexLock l(&mu_);
   std::vector<std::pair<ViewDescriptor, ViewData>> data;
   data.reserve(views_.size());
   for (const auto& view : views_) {
@@ -80,13 +73,12 @@ void StatsExporterImpl::Export() {
 }
 
 void StatsExporterImpl::ClearHandlersForTesting() {
-  absl::MutexLock l(&mu_);
   handlers_.clear();
 }
 
-void StatsExporterImpl::StartExportThread() EXCLUSIVE_LOCKS_REQUIRED(mu_) {
-  t_ = std::thread(&StatsExporterImpl::RunWorkerLoop, this);
-  thread_started_ = true;
+void StatsExporterImpl::StartExportThread() {
+//  t_ = std::thread(&StatsExporterImpl::RunWorkerLoop, this);
+//  thread_started_ = true;
 }
 
 void StatsExporterImpl::RunWorkerLoop() {
@@ -111,12 +103,6 @@ void StatsExporter::RegisterPushHandler(std::unique_ptr<Handler> handler) {
 
 std::vector<std::pair<ViewDescriptor, ViewData>> StatsExporter::GetViewData() {
   return StatsExporterImpl::Get()->GetViewData();
-}
-
-void StatsExporter::ExportForTesting() { StatsExporterImpl::Get()->Export(); }
-
-void StatsExporter::ClearHandlersForTesting() {
-  StatsExporterImpl::Get()->ClearHandlersForTesting();
 }
 
 }  // namespace stats

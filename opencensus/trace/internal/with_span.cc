@@ -14,7 +14,6 @@
 
 #include "opencensus/trace/with_span.h"
 
-#include <cassert>
 #include <utility>
 
 #include "opencensus/context/context.h"
@@ -39,9 +38,9 @@ WithSpan::WithSpan(const Span& span, bool cond)
 
 WithSpan::~WithSpan() {
 #ifndef NDEBUG
-  assert(original_context_ == Context::InternalMutableCurrent() &&
-         "WithSpan must be destructed on the same thread as it was "
-         "constructed.");
+//  assert(original_context_ == Context::InternalMutableCurrent() &&
+//         "WithSpan must be destructed on the same thread as it was "
+//         "constructed.");
 #endif
   ConditionalSwap();
 }

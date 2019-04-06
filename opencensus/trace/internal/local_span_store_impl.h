@@ -26,9 +26,7 @@
 #include <vector>
 
 #include "absl/base/internal/endian.h"
-#include "absl/base/thread_annotations.h"
 #include "absl/strings/string_view.h"
-#include "absl/synchronization/mutex.h"
 #include "absl/time/time.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/exporter/status.h"
@@ -50,19 +48,19 @@ class LocalSpanStoreImpl {
   static LocalSpanStoreImpl* Get();
 
   // Adds a new running Span. Only Span::End should call this.
-  void AddSpan(const std::shared_ptr<SpanImpl>& span) LOCKS_EXCLUDED(mu_);
+  void AddSpan(const std::shared_ptr<SpanImpl>& span);
 
   // Returns a summary of the data available in the LocalSpanStore.
-  LocalSpanStore::Summary GetSummary() const LOCKS_EXCLUDED(mu_);
+  LocalSpanStore::Summary GetSummary() const;
 
   // Returns the running spans that match the filter.
   std::vector<SpanData> GetLatencySampledSpans(
-      const LocalSpanStore::LatencyFilter& filter) const LOCKS_EXCLUDED(mu_);
+      const LocalSpanStore::LatencyFilter& filter) const;
 
   std::vector<SpanData> GetErrorSampledSpans(
-      const LocalSpanStore::ErrorFilter& filter) const LOCKS_EXCLUDED(mu_);
+      const LocalSpanStore::ErrorFilter& filter) const;
 
-  std::vector<SpanData> GetSpans() const LOCKS_EXCLUDED(mu_);
+  std::vector<SpanData> GetSpans() const;
 
  private:
   friend class LocalSpanStoreImplTestPeer;
@@ -71,10 +69,8 @@ class LocalSpanStoreImpl {
   LocalSpanStoreImpl() {}
 
   // Clears all currently active spans from the store.
-  void ClearForTesting() LOCKS_EXCLUDED(mu_);
-
-  mutable absl::Mutex mu_;
-  std::deque<SpanData> spans_ GUARDED_BY(mu_);
+  void ClearForTesting();
+  std::deque<SpanData> spans_;
 };
 
 }  // namespace exporter

@@ -14,7 +14,6 @@
 
 #include "opencensus/stats/view.h"
 
-#include <iostream>
 #include <utility>
 
 #include "absl/base/macros.h"
@@ -40,8 +39,8 @@ bool View::IsValid() const { return handle_ != nullptr; }
 
 const ViewData View::GetData() {
   if (!IsValid()) {
-    std::cerr << "View::GetData() called on invalid view.\n";
-    ABSL_ASSERT(0);
+//    std::cerr << "View::GetData() called on invalid view.\n";
+//    ABSL_ASSERT(0);
     return ViewData(absl::make_unique<ViewDataImpl>(absl::Now(), descriptor_));
   }
   return ViewData(handle_->GetData());

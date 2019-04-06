@@ -14,7 +14,6 @@
 
 #include "opencensus/context/with_context.h"
 
-#include <cassert>
 #include <utility>
 
 #include "opencensus/context/context.h"
@@ -46,9 +45,9 @@ WithContext::WithContext(Context&& ctx, bool cond)
 
 WithContext::~WithContext() {
 #ifndef NDEBUG
-  assert(original_context_ == Context::InternalMutableCurrent() &&
-         "WithContext must be destructed on the same thread as it was "
-         "constructed.");
+//  assert(original_context_ == Context::InternalMutableCurrent() &&
+//         "WithContext must be destructed on the same thread as it was "
+//         "constructed.");
 #endif
   ConditionalSwap();
 }

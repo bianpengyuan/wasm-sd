@@ -17,11 +17,9 @@
 
 #include <cstdint>
 #include <memory>
-#include <thread>
 #include <unordered_map>
 #include <vector>
 
-#include "absl/synchronization/mutex.h"
 #include "absl/time/time.h"
 #include "opencensus/stats/bucket_boundaries.h"
 #include "opencensus/stats/distribution.h"
@@ -79,10 +77,10 @@ class DeltaProducer final {
   void AddBoundaries(uint64_t index, const BucketBoundaries& boundaries);
 
   void Record(std::initializer_list<Measurement> measurements,
-              opencensus::tags::TagMap tags) LOCKS_EXCLUDED(delta_mu_);
+              opencensus::tags::TagMap tags);
 
   // Flushes the active delta and blocks until it is harvested.
-  void Flush() LOCKS_EXCLUDED(delta_mu_, harvester_mu_);
+  void Flush();
 
  private:
   DeltaProducer();
@@ -92,9 +90,8 @@ class DeltaProducer final {
   // ConsumeLastDelta so that Record() is blocked for as little time as
   // possible. SwapDeltas should never be called without then calling
   // ConsumeLastDelta--otherwise the delta will be lost.
-  void SwapDeltas() EXCLUSIVE_LOCKS_REQUIRED(delta_mu_, harvester_mu_);
-  void ConsumeLastDelta() EXCLUSIVE_LOCKS_REQUIRED(harvester_mu_)
-      LOCKS_EXCLUDED(delta_mu_);
+  void SwapDeltas();
+  void ConsumeLastDelta();
 
   // Loops flushing the active delta (calling SwapDeltas and ConsumeLastDelta())
   // every harvest_interval_.
@@ -102,26 +99,14 @@ class DeltaProducer final {
 
   const absl::Duration harvest_interval_ = absl::Seconds(5);
 
-  // Guards the active delta and its configuration. Anything that changes the
-  // delta configuration (e.g. adding a measure or BucketBoundaries) must
-  // acquire delta_mu_, update configuration, and call SwapDeltas() before
-  // releasing delta_mu_ to prevent Record() from accessing the delta with
-  // mismatched configuration.
-  mutable absl::Mutex delta_mu_;
-
   // The BucketBoundaries of each registered view with Distribution aggregation,
   // by measure. Array indices in the outer array correspond to measure indices.
-  std::vector<std::vector<BucketBoundaries>> registered_boundaries_
-      GUARDED_BY(delta_mu_);
-  Delta active_delta_ GUARDED_BY(delta_mu_);
+  std::vector<std::vector<BucketBoundaries>> registered_boundaries_;
+  Delta active_delta_;
 
-  // Guards the last_delta_; acquired by the main thread when triggering a
-  // flush.
-  mutable absl::Mutex harvester_mu_ ACQUIRED_AFTER(delta_mu_);
   // TODO: consider making this a lockless queue to avoid blocking the main
   // thread when calling a flush during harvesting.
-  Delta last_delta_ GUARDED_BY(harvester_mu_);
-  std::thread harvester_thread_ GUARDED_BY(harvester_mu_);
+  Delta last_delta_;
 };
 
 }  // namespace stats

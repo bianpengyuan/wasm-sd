@@ -90,7 +90,6 @@ SpanImpl::SpanImpl(const SpanContext& context, const TraceParams& trace_params,
       remote_parent_(remote_parent) {}
 
 void SpanImpl::AddAttributes(AttributesRef attributes) {
-  absl::MutexLock l(&mu_);
   if (!has_ended_) {
     for (const auto& attr : attributes) {
       attributes_.AddAttribute(attr.first,
@@ -101,7 +100,6 @@ void SpanImpl::AddAttributes(AttributesRef attributes) {
 
 void SpanImpl::AddAnnotation(absl::string_view description,
                              AttributesRef attributes) {
-  absl::MutexLock l(&mu_);
   if (!has_ended_) {
     annotations_.AddEvent(EventWithTime<exporter::Annotation>(
         absl::Now(),
@@ -113,7 +111,6 @@ void SpanImpl::AddMessageEvent(exporter::MessageEvent::Type type,
                                uint32_t message_id,
                                uint32_t compressed_message_size,
                                uint32_t uncompressed_message_size) {
-  absl::MutexLock l(&mu_);
   if (!has_ended_) {
     message_events_.AddEvent(EventWithTime<exporter::MessageEvent>(
         absl::Now(),
@@ -124,23 +121,20 @@ void SpanImpl::AddMessageEvent(exporter::MessageEvent::Type type,
 
 void SpanImpl::AddLink(const SpanContext& context, exporter::Link::Type type,
                        AttributesRef attributes) {
-  absl::MutexLock l(&mu_);
   if (!has_ended_) {
     links_.AddEvent(exporter::Link(context, type, CopyAttributes(attributes)));
   }
 }
 
 void SpanImpl::SetStatus(exporter::Status&& status) {
-  absl::MutexLock l(&mu_);
   if (!has_ended_) {
     status_ = std::move(status);
   }
 }
 
 bool SpanImpl::End() {
-  absl::MutexLock l(&mu_);
   if (has_ended_) {
-    assert(false && "Invalid attempt to End() the same Span more than once.");
+//    assert(false &/**/& "Invalid attempt to End() the same Span more than once.");
     // In non-debug builds, just ignore the second End().
     return false;
   }
@@ -150,12 +144,10 @@ bool SpanImpl::End() {
 }
 
 bool SpanImpl::HasEnded() const {
-  absl::MutexLock l(&mu_);
   return has_ended_;
 }
 
 exporter::SpanData SpanImpl::ToSpanData() const {
-  absl::MutexLock l(&mu_);
   // Make a deep copy of attributes.
   std::unordered_map<std::string, exporter::AttributeValue> attributes =
       attributes_.attributes();

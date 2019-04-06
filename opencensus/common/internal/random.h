@@ -19,8 +19,6 @@
 #include <cstdint>
 #include <random>
 
-#include "absl/base/thread_annotations.h"
-#include "absl/synchronization/mutex.h"
 #include "absl/time/clock.h"
 
 namespace opencensus {
@@ -31,13 +29,12 @@ class Generator {
   Generator() : rng_(absl::GetCurrentTimeNanos()) {}
   explicit Generator(uint64_t seed) : rng_(seed) {}
 
-  uint64_t Random64() LOCKS_EXCLUDED(mu_);
+  uint64_t Random64();
 
  private:
   friend class Random;
 
-  absl::Mutex mu_;
-  std::mt19937_64 rng_ GUARDED_BY(mu_);
+  std::mt19937_64 rng_;
 };
 
 class Random {
@@ -58,8 +55,6 @@ class Random {
   void GenerateRandomBuffer(uint8_t* buf, size_t buf_size);
 
  private:
-  friend class RandomTest;
-
   Random() = default;
 
   Random(const Random&) = delete;
