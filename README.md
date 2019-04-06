@@ -1,13 +1,9 @@
-```
-emconfigure cmake -DCMAKE_CXX_COMPILER=~/emsdk/emscripten/1.38.25/em++ \
--DCMAKE_CC_COMPILER=~/emsdk/emscripten/1.38.25/emcc -DBUILD_TESTING=OFF
+# Stackdriver WASM module
 
-emmake make
-em++ -s WASM=1 -g3 -s WASM=1 -s LEGALIZE_JS_FFI=0 \
--s EMIT_EMSCRIPTEN_METADATA=1 -O3 --js-library api/proxy_wasm_intrinsics.js \
-libwasm-sd.so -o wasm-sd.js
+WASM Module to export stackdriver metrics using opencensus library.
 
-wavm-disas wasm-sd.wasm wasm-sd.wat
-wavm-compile wasm-sd.wasm wasm-sd.wasm
-rm wasm-sd.js wasm-sd.wast libwasm-sd.so
+To build the module, run
+
+```bash
+./build.sh
 ```
