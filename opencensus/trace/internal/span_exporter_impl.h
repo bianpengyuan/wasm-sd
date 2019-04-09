@@ -20,7 +20,6 @@
 #include <string>
 #include <vector>
 
-#include "absl/time/time.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/exporter/span_exporter.h"
 #include "opencensus/trace/internal/span_impl.h"
@@ -54,7 +53,7 @@ class SpanExporterImpl {
   static constexpr uint32_t kIntervalWaitTimeInMillis = 5000;
 
  private:
-  SpanExporterImpl(uint32_t buffer_size, absl::Duration interval);
+  SpanExporterImpl(uint32_t buffer_size, uint64_t interval);
   SpanExporterImpl(const SpanExporterImpl&) = delete;
   SpanExporterImpl(SpanExporterImpl&&) = delete;
   SpanExporterImpl& operator=(const SpanExporterImpl&) = delete;
@@ -77,7 +76,7 @@ class SpanExporterImpl {
 
   static SpanExporterImpl* span_exporter_;
   const uint32_t buffer_size_;
-  const absl::Duration interval_;
+  const uint64_t interval_;
   std::vector<std::shared_ptr<opencensus::trace::SpanImpl>> spans_;
   std::vector<std::unique_ptr<SpanExporter::Handler>> handlers_;
   bool thread_started_ = false;

@@ -18,8 +18,6 @@
 
 #include "absl/base/macros.h"
 #include "absl/memory/memory.h"
-#include "absl/time/clock.h"
-#include "absl/time/time.h"
 #include "opencensus/stats/aggregation.h"
 #include "opencensus/stats/bucket_boundaries.h"
 #include "opencensus/stats/internal/delta_producer.h"
@@ -63,7 +61,7 @@ int StatsManager::ViewInformation::RemoveConsumer() {
 
 void StatsManager::ViewInformation::MergeMeasureData(
     const opencensus::tags::TagMap& tags, const MeasureData& data,
-    absl::Time now) {
+    uint64_t now) {
   std::vector<std::string> tag_values(descriptor_.columns().size());
   for (int i = 0; i < tag_values.size(); ++i) {
     const opencensus::tags::TagKey column = descriptor_.columns()[i];
@@ -78,9 +76,10 @@ void StatsManager::ViewInformation::MergeMeasureData(
 }
 
 std::unique_ptr<ViewDataImpl> StatsManager::ViewInformation::GetData() {
-  if (data_.type() == ViewDataImpl::Type::kStatsObject) {
-    return absl::make_unique<ViewDataImpl>(data_, absl::Now());
-  } else if (descriptor_.aggregation_window_.type() ==
+//  if (data_.type() == ViewDataImpl::Type::kStatsObject) {
+//    return absl::make_unique<ViewDataImpl>(data_, absl::Now());
+//  } else
+  if (descriptor_.aggregation_window_.type() ==
              AggregationWindow::Type::kDelta) {
     return data_.GetDeltaAndReset(absl::Now());
   } else {
@@ -93,7 +92,7 @@ std::unique_ptr<ViewDataImpl> StatsManager::ViewInformation::GetData() {
 
 void StatsManager::MeasureInformation::MergeMeasureData(
     const opencensus::tags::TagMap& tags, const MeasureData& data,
-    absl::Time now) {
+    uint64_t now) {
   for (auto& view : views_) {
     view->MergeMeasureData(tags, data, now);
   }
@@ -135,7 +134,7 @@ StatsManager* StatsManager::Get() {
 }
 
 void StatsManager::MergeDelta(const Delta& delta) {
-  absl::Time now = absl::Now();
+  uint64_t now = absl::Now();
   // Measures are added to the StatsManager before the DeltaProducer, so there
   // should never be measures in the delta missing from measures_.
   for (const auto& data_for_tagset : delta.delta()) {

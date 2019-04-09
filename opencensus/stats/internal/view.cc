@@ -18,7 +18,6 @@
 
 #include "absl/base/macros.h"
 #include "absl/memory/memory.h"
-#include "absl/time/time.h"
 #include "opencensus/stats/distribution.h"
 #include "opencensus/stats/internal/view_data_impl.h"
 

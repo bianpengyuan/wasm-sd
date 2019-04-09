@@ -27,7 +27,6 @@
 
 #include "absl/base/internal/endian.h"
 #include "absl/strings/string_view.h"
-#include "absl/time/time.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/exporter/status.h"
 #include "opencensus/trace/internal/span_impl.h"

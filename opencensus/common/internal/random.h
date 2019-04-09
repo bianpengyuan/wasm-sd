@@ -19,8 +19,6 @@
 #include <cstdint>
 #include <random>
 
-#include "absl/time/clock.h"
-
 namespace opencensus {
 namespace common {
 

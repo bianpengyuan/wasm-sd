@@ -24,7 +24,6 @@
 
 #include "absl/base/internal/endian.h"
 #include "absl/strings/string_view.h"
-#include "absl/time/time.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/exporter/status.h"
 #include "opencensus/trace/internal/span_impl.h"
@@ -56,7 +55,7 @@ PerSpanNameSummary& GetPerSpanNameSummary(absl::string_view span_name,
 }
 
 // Returns the LatencyBucketBoundary corresponding to the given latency.
-LatencyBucketBoundary GetLatencyBucketBoundary(absl::Duration latency) {
+LatencyBucketBoundary GetLatencyBucketBoundary(uint64_t latency) {
   if (latency < absl::Microseconds(10))
     return LatencyBucketBoundary::k0_to_10us;
   if (latency < absl::Microseconds(100))
@@ -102,7 +101,7 @@ Summary LocalSpanStoreImpl::GetSummary() const {
   Summary summary;
   for (const auto& span : spans_) {
     PerSpanNameSummary& curr = GetPerSpanNameSummary(span.name(), &summary);
-    const absl::Duration latency = span.end_time() - span.start_time();
+    const uint64_t latency = span.end_time() - span.start_time();
     MapIncrement(GetLatencyBucketBoundary(latency),
                  &curr.number_of_latency_sampled_spans);
     MapIncrement(span.status().CanonicalCode(),

@@ -17,8 +17,6 @@
 
 #include <string>
 
-#include "absl/time/time.h"
-
 namespace opencensus {
 namespace stats {
 
@@ -40,7 +38,7 @@ class AggregationWindow final {
 
   // Interval aggregation keeps a rolling total of usage over the previous
   // 'interval' of time.
-  static AggregationWindow Interval(absl::Duration interval) {
+  static AggregationWindow Interval(uint64_t interval) {
     return AggregationWindow(Type::kInterval, interval);
   }
 
@@ -51,7 +49,7 @@ class AggregationWindow final {
   };
 
   Type type() const { return type_; }
-  absl::Duration duration() const { return duration_; }
+  uint64_t duration() const { return duration_; }
 
   std::string DebugString() const;
 
@@ -63,13 +61,13 @@ class AggregationWindow final {
   }
 
  private:
-  AggregationWindow(Type type, absl::Duration duration)
+  AggregationWindow(Type type, uint64_t duration)
       : type_(type), duration_(duration) {}
 
   Type type_;
   // Should always be InfiniteDuration if type_ == kCumulative, to simplify
   // equality checking.
-  absl::Duration duration_;
+  uint64_t duration_;
 };
 
 }  // namespace stats

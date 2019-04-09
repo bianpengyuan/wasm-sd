@@ -19,7 +19,6 @@
 #include <utility>
 #include <vector>
 
-#include "absl/time/clock.h"
 #include "opencensus/trace/attribute_value_ref.h"
 #include "opencensus/trace/exporter/attribute_value.h"
 #include "opencensus/trace/exporter/message_event.h"

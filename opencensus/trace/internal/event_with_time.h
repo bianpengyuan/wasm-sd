@@ -15,20 +15,18 @@
 #ifndef OPENCENSUS_TRACE_INTERNAL_EVENT_WITH_TIME_H_
 #define OPENCENSUS_TRACE_INTERNAL_EVENT_WITH_TIME_H_
 
-#include "absl/time/time.h"
-
 namespace opencensus {
 namespace trace {
 
 // Event with a timestamp.
 template <typename T>
 struct EventWithTime {
-  EventWithTime(absl::Time record_time, const T& record_event)
+  EventWithTime(uint64_t record_time, const T& record_event)
       : time(record_time), event(record_event) {}
-  EventWithTime(absl::Time record_time, T&& record_event)
+  EventWithTime(uint64_t record_time, T&& record_event)
       : time(record_time), event(std::move(record_event)) {}
 
-  absl::Time time;
+  uint64_t time;
   T event;
 };
 

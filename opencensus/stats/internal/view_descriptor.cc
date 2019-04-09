@@ -20,7 +20,6 @@
 #include "absl/strings/str_cat.h"
 #include "absl/strings/str_join.h"
 #include "absl/strings/string_view.h"
-#include "absl/time/time.h"
 #include "opencensus/stats/aggregation.h"
 #include "opencensus/stats/internal/aggregation_window.h"
 #include "opencensus/stats/internal/measure_registry_impl.h"

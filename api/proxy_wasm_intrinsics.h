@@ -45,6 +45,8 @@ extern "C" void proxy_log(LogLevel level, const char* logMessage, size_t message
 
 extern "C" void proxy_setTickPeriodMilliseconds(uint32_t millisecond);
 
+extern "C" uint64_t proxy_getCurrentTimeMilliseconds();
+
 //
 // Low Level API.
 //
@@ -478,4 +480,8 @@ inline uint32_t httpCall(std::string_view uri, const HeaderStringPairs& request_
     ::free(headers_ptr);
     ::free(trailers_ptr);
     return result;
+}
+
+inline uint64_t getCurrentTimeMilliseconds() {
+    return proxy_getCurrentTimeMilliseconds();
 }

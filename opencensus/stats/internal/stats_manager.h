@@ -17,9 +17,7 @@
 
 #include <memory>
 
-#include "absl/time/time.h"
 #include "absl/types/span.h"
-#include "opencensus/common/internal/stats_object.h"
 #include "opencensus/stats/distribution.h"
 #include "opencensus/stats/internal/delta_producer.h"
 #include "opencensus/stats/internal/measure_data.h"
@@ -58,7 +56,7 @@ class StatsManager final {
 
     // Adds 'data' under 'tags' as of 'now'. Requires holding *mu_;
     void MergeMeasureData(const opencensus::tags::TagMap& tags,
-                          const MeasureData& data, absl::Time now);
+                          const MeasureData& data, uint64_t now);
 
     // Retrieves a copy of the data.
     std::unique_ptr<ViewDataImpl> GetData();
@@ -106,7 +104,7 @@ class StatsManager final {
     // Merges measure_data into all views under this measure. Requires holding
     // *mu_;
     void MergeMeasureData(const opencensus::tags::TagMap& tags,
-                          const MeasureData& data, absl::Time now);
+                          const MeasureData& data, uint64_t now);
 
     ViewInformation* AddConsumer(const ViewDescriptor& descriptor);
     void RemoveView(const ViewInformation* handle);

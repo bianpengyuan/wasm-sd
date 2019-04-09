@@ -18,8 +18,6 @@
 #include <utility>
 #include <vector>
 
-#include "absl/time/clock.h"
-#include "absl/time/time.h"
 #include "opencensus/stats/internal/aggregation_window.h"
 #include "opencensus/stats/stats_exporter.h"
 #include "opencensus/stats/view_data.h"
@@ -55,7 +53,7 @@ class StatsExporterImpl {
   // Loops forever, calling Export() every export_interval_.
   void RunWorkerLoop();
 
-  const absl::Duration export_interval_ = absl::Seconds(10);
+  const uint64_t export_interval_ = absl::Seconds(10);
 
   std::vector<std::unique_ptr<StatsExporter::Handler>> handlers_;
   std::unordered_map<std::string, std::unique_ptr<View>> views_;

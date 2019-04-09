@@ -19,8 +19,6 @@
 #include <memory>
 #include <vector>
 
-#include "absl/time/clock.h"
-#include "absl/time/time.h"
 #include "opencensus/stats/bucket_boundaries.h"
 #include "opencensus/stats/internal/measure_data.h"
 #include "opencensus/stats/internal/measure_registry_impl.h"
@@ -112,18 +110,6 @@ void DeltaProducer::SwapDeltas() {
 void DeltaProducer::ConsumeLastDelta() {
   StatsManager::Get()->MergeDelta(last_delta_);
   last_delta_.clear();
-}
-
-void DeltaProducer::RunHarvesterLoop() {
-  absl::Time next_harvest_time = absl::Now() + harvest_interval_;
-  while (true) {
-    const absl::Time now = absl::Now();
-    absl::SleepFor(next_harvest_time - now);
-    // Account for the possibility that the last harvest took longer than
-    // harvest_interval_ and we are already past next_harvest_time.
-    next_harvest_time = std::max(next_harvest_time, now) + harvest_interval_;
-    Flush();
-  }
 }
 
 }  // namespace stats

@@ -19,8 +19,6 @@
 #include <vector>
 
 #include "absl/memory/memory.h"
-#include "absl/time/clock.h"
-#include "absl/time/time.h"
 #include "opencensus/stats/internal/aggregation_window.h"
 #include "opencensus/stats/view_data.h"
 #include "opencensus/stats/view_descriptor.h"
@@ -82,7 +80,7 @@ void StatsExporterImpl::StartExportThread() {
 }
 
 void StatsExporterImpl::RunWorkerLoop() {
-  absl::Time next_export_time = absl::Now() + export_interval_;
+  uint64_t next_export_time = absl::Now() + export_interval_;
   while (true) {
     // SleepFor() returns immediately when given a negative duration.
     absl::SleepFor(next_export_time - absl::Now());

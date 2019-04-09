@@ -19,7 +19,6 @@
 #include <unordered_map>
 
 #include "absl/strings/string_view.h"
-#include "absl/time/time.h"
 #include "opencensus/trace/exporter/annotation.h"
 #include "opencensus/trace/exporter/attribute_value.h"
 #include "opencensus/trace/exporter/link.h"
@@ -110,9 +109,9 @@ class SpanImpl final {
   exporter::SpanData ToSpanData() const;
 
   // The start time of the span.
-  const absl::Time start_time_;
+  const uint64_t start_time_;
   // The end time of the span. Set when End() is called.
-  absl::Time end_time_;
+  uint64_t end_time_;
   // The status of the span. Only set if start_options_.record_events is true.
   exporter::Status status_;
   // The displayed name of the span.

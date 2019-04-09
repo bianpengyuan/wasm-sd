@@ -22,8 +22,6 @@
 
 #include "absl/base/macros.h"
 #include "absl/strings/string_view.h"
-#include "absl/time/time.h"
-#include "opencensus/common/internal/stats_object.h"
 #include "opencensus/common/internal/string_vector_hash.h"
 #include "opencensus/stats/aggregation.h"
 #include "opencensus/stats/distribution.h"
@@ -49,24 +47,24 @@ class ViewDataImpl {
   // 4 is the number of buckets to group observations into (see
   // opencensus/common/internal/stats_object.h for details)--this balances the
   // precision of estimates against resource use.
-  typedef common::StatsObject<4> IntervalStatsObject;
+//  typedef common::StatsObject<4> IntervalStatsObject;
 
   // Constructs an empty ViewDataImpl for internal use from the descriptor. A
   // ViewData can be constructed directly from such a ViewDataImpl for
   // snapshotting cumulative data; ViewDataImpls for interval views must be
   // converted using the following constructor before snapshotting.
-  ViewDataImpl(absl::Time start_time, const ViewDescriptor& descriptor);
+  ViewDataImpl(uint64_t start_time, const ViewDescriptor& descriptor);
   // Constructs a ViewDataImpl capturing the state of 'other' at 'now'. Requires
   // 'other' to have an interval aggregation window (and thus type()
   // kStatsObject).
-  ViewDataImpl(const ViewDataImpl& other, absl::Time now);
+//  ViewDataImpl(const ViewDataImpl& other, uint64_tnow);
 
   ViewDataImpl(const ViewDataImpl& other);
   ~ViewDataImpl();
 
   // Returns a copy of the present state of the object and resets data() and
   // start_time().
-  std::unique_ptr<ViewDataImpl> GetDeltaAndReset(absl::Time now);
+  std::unique_ptr<ViewDataImpl> GetDeltaAndReset(uint64_t now);
 
   const Aggregation& aggregation() const { return aggregation_; }
   const AggregationWindow& aggregation_window() const {
@@ -98,26 +96,26 @@ class ViewDataImpl {
 //    ABSL_ASSERT(type_ == Type::kDistribution);
     return distribution_data_;
   }
-  const DataMap<IntervalStatsObject>& interval_data() const {
+//  const DataMap<IntervalStatsObject>& interval_data() const {
 //    ABSL_ASSERT(type_ == Type::kStatsObject);
-    return interval_data_;
-  }
+//    return interval_data_;
+//  }
 
-  absl::Time start_time() const { return start_time_; }
-  absl::Time end_time() const { return end_time_; }
+  uint64_t start_time() const { return start_time_; }
+  uint64_t end_time() const { return end_time_; }
 
   // Merges bulk data for the given tag values at 'now'. tag_values must be
   // ordered according to the order of keys in the ViewDescriptor.
   // TODO: Change to take Span<string_view> when heterogenous lookup is
   // supported.
   void Merge(const std::vector<std::string>& tag_values,
-             const MeasureData& data, absl::Time now);
+             const MeasureData& data, uint64_t now);
 
  private:
   // Implements GetDeltaAndReset(), copying aggregation_ and swapping data_ and
   // start/end times. This is private so that it can be given a more descriptive
   // name in the public API.
-  ViewDataImpl(ViewDataImpl* source, absl::Time now);
+  ViewDataImpl(ViewDataImpl* source, uint64_t now);
 
   Type TypeForDescriptor(const ViewDescriptor& descriptor);
 
@@ -128,10 +126,11 @@ class ViewDataImpl {
     DataMap<double> double_data_;
     DataMap<int64_t> int_data_;
     DataMap<Distribution> distribution_data_;
-    DataMap<IntervalStatsObject> interval_data_;
+//    DataMap<IntervalStatsObject> interval_data_;
   };
-  absl::Time start_time_;
-  absl::Time end_time_;
+
+  uint64_t start_time_;
+  uint64_t end_time_;
 };
 
 }  // namespace stats

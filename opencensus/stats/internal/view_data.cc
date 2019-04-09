@@ -77,8 +77,8 @@ const ViewData::DataMap<Distribution>& ViewData::distribution_data() const {
   }
 }
 
-absl::Time ViewData::start_time() const { return impl_->start_time(); }
-absl::Time ViewData::end_time() const { return impl_->end_time(); }
+uint64_t ViewData::start_time() const { return impl_->start_time(); }
+uint64_t ViewData::end_time() const { return impl_->end_time(); }
 
 ViewData::ViewData(const ViewData& other)
     : impl_(absl::make_unique<ViewDataImpl>(*other.impl_)) {}

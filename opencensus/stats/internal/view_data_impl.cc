@@ -52,7 +52,7 @@ ViewDataImpl::Type ViewDataImpl::TypeForDescriptor(
   return ViewDataImpl::Type::kDouble;
 }
 
-ViewDataImpl::ViewDataImpl(absl::Time start_time,
+ViewDataImpl::ViewDataImpl(uint64_t start_time,
                            const ViewDescriptor& descriptor)
     : aggregation_(descriptor.aggregation()),
       aggregation_window_(descriptor.aggregation_window_),
@@ -71,54 +71,54 @@ ViewDataImpl::ViewDataImpl(absl::Time start_time,
       new (&distribution_data_) DataMap<Distribution>();
       break;
     }
-    case Type::kStatsObject: {
-      new (&interval_data_) DataMap<IntervalStatsObject>();
-      break;
-    }
+//    case Type::kStatsObject: {
+//      new (&interval_data_) DataMap<IntervalStatsObject>();
+//      break;
+//    }
   }
 }
 
-ViewDataImpl::ViewDataImpl(const ViewDataImpl& other, absl::Time now)
-    : aggregation_(other.aggregation()),
-      aggregation_window_(other.aggregation_window()),
-      type_(other.aggregation().type() == Aggregation::Type::kDistribution
-                ? Type::kDistribution
-                : Type::kDouble),
-      start_time_(std::max(other.start_time(),
-                           now - other.aggregation_window().duration())),
-      end_time_(now) {
+//ViewDataImpl::ViewDataImpl(const ViewDataImpl& other, uint64_t now)
+//    : aggregation_(other.aggregation()),
+//      aggregation_window_(other.aggregation_window()),
+//      type_(other.aggregation().type() == Aggregation::Type::kDistribution
+//                ? Type::kDistribution
+//                : Type::kDouble),
+//      start_time_(std::max(other.start_time(),
+//                           now - other.aggregation_window().duration())),
+//      end_time_(now) {
 //  ABSL_ASSERT(aggregation_window_.type() == AggregationWindow::Type::kInterval);
-  switch (aggregation_.type()) {
-    case Aggregation::Type::kSum:
-    case Aggregation::Type::kCount: {
-      new (&double_data_) DataMap<double>();
-      for (const auto& row : other.interval_data()) {
-        row.second.SumInto(absl::Span<double>(&double_data_[row.first], 1),
-                           now);
-      }
-      break;
-    }
-    case Aggregation::Type::kDistribution: {
-      new (&distribution_data_) DataMap<Distribution>();
-      for (const auto& row : other.interval_data()) {
-        const std::pair<DataMap<Distribution>::iterator, bool>& it =
-            distribution_data_.emplace(
-                row.first, Distribution(&aggregation_.bucket_boundaries()));
-        Distribution& distribution = it.first->second;
-        row.second.DistributionInto(
-            &distribution.count_, &distribution.mean_,
-            &distribution.sum_of_squared_deviation_, &distribution.min_,
-            &distribution.max_,
-            absl::Span<uint64_t>(distribution.bucket_counts_), now);
-      }
-      break;
-    }
-    case Aggregation::Type::kLastValue:
+//  switch (aggregation_.type()) {
+//    case Aggregation::Type::kSum:
+//    case Aggregation::Type::kCount: {
+//      new (&double_data_) DataMap<double>();
+//      for (const auto& row : other.interval_data()) {
+//        row.second.SumInto(absl::Span<double>(&double_data_[row.first], 1),
+//                           now);
+//      }
+//      break;
+//    }
+//    case Aggregation::Type::kDistribution: {
+//      new (&distribution_data_) DataMap<Distribution>();
+//      for (const auto& row : other.interval_data()) {
+//        const std::pair<DataMap<Distribution>::iterator, bool>& it =
+//            distribution_data_.emplace(
+//                row.first, Distribution(&aggregation_.bucket_boundaries()));
+//        Distribution& distribution = it.first->second;
+//        row.second.DistributionInto(
+//            &distribution.count_, &distribution.mean_,
+//            &distribution.sum_of_squared_deviation_, &distribution.min_,
+//            &distribution.max_,
+//            absl::Span<uint64_t>(distribution.bucket_counts_), now);
+//      }
+//      break;
+//    }
+//    case Aggregation::Type::kLastValue:
 //      std::cerr << "Interval/LastValue is not supported.\n";
 //      ABSL_ASSERT(0 && "Interval/LastValue is not supported.\n");
-      break;
-  }
-}
+//      break;
+//  }
+//}
 
 ViewDataImpl::~ViewDataImpl() {
   switch (type_) {
@@ -134,14 +134,14 @@ ViewDataImpl::~ViewDataImpl() {
       distribution_data_.~DataMap<Distribution>();
       break;
     }
-    case Type::kStatsObject: {
-      interval_data_.~DataMap<IntervalStatsObject>();
-      break;
-    }
+//    case Type::kStatsObject: {
+//      interval_data_.~DataMap<IntervalStatsObject>();
+//      break;
+//    }
   }
 }
 
-std::unique_ptr<ViewDataImpl> ViewDataImpl::GetDeltaAndReset(absl::Time now) {
+std::unique_ptr<ViewDataImpl> ViewDataImpl::GetDeltaAndReset(uint64_t now) {
   // Need to use wrap_unique because this is a private constructor.
   return absl::WrapUnique(new ViewDataImpl(this, now));
 }
@@ -176,7 +176,7 @@ ViewDataImpl::ViewDataImpl(const ViewDataImpl& other)
 }
 
 void ViewDataImpl::Merge(const std::vector<std::string>& tag_values,
-                         const MeasureData& data, absl::Time now) {
+                         const MeasureData& data, uint64_t now) {
   end_time_ = std::max(end_time_, now);
   switch (type_) {
     case Type::kDouble: {
@@ -217,39 +217,39 @@ void ViewDataImpl::Merge(const std::vector<std::string>& tag_values,
       data.AddToDistribution(&it->second);
       break;
     }
-    case Type::kStatsObject: {
-      DataMap<IntervalStatsObject>::iterator it =
-          interval_data_.find(tag_values);
-      if (aggregation_.type() == Aggregation::Type::kDistribution) {
-        const auto& buckets = aggregation_.bucket_boundaries();
-        if (it == interval_data_.end()) {
-          it = interval_data_.emplace_hint(
-              it, std::piecewise_construct, std::make_tuple(tag_values),
-              std::make_tuple(buckets.num_buckets() + 5,
-                              aggregation_window_.duration(), now));
-        }
-        auto window = it->second.MutableCurrentBucket(now);
-        data.AddToDistribution(
-            buckets, &window[0], &window[1], &window[2], &window[3], &window[4],
-            absl::Span<double>(&window[5], buckets.num_buckets()));
-      } else {
-        if (it == interval_data_.end()) {
-          it = interval_data_.emplace_hint(
-              it, std::piecewise_construct, std::make_tuple(tag_values),
-              std::make_tuple(1, aggregation_window_.duration(), now));
-        }
-        if (aggregation_ == Aggregation::Count()) {
-          it->second.MutableCurrentBucket(now)[0] += data.count();
-        } else {
-          it->second.MutableCurrentBucket(now)[0] += data.sum();
-        }
-      }
-      break;
-    }
+//    case Type::kStatsObject: {
+//      DataMap<IntervalStatsObject>::iterator it =
+//          interval_data_.find(tag_values);
+//      if (aggregation_.type() == Aggregation::Type::kDistribution) {
+//        const auto& buckets = aggregation_.bucket_boundaries();
+//        if (it == interval_data_.end()) {
+//          it = interval_data_.emplace_hint(
+//              it, std::piecewise_construct, std::make_tuple(tag_values),
+//              std::make_tuple(buckets.num_buckets() + 5,
+//                              aggregation_window_.duration(), now));
+//        }
+//        auto window = it->second.MutableCurrentBucket(now);
+//        data.AddToDistribution(
+//            buckets, &window[0], &window[1], &window[2], &window[3], &window[4],
+//            absl::Span<double>(&window[5], buckets.num_buckets()));
+//      } else {
+//        if (it == interval_data_.end()) {
+//          it = interval_data_.emplace_hint(
+//              it, std::piecewise_construct, std::make_tuple(tag_values),
+//              std::make_tuple(1, aggregation_window_.duration(), now));
+//        }
+//        if (aggregation_ == Aggregation::Count()) {
+//          it->second.MutableCurrentBucket(now)[0] += data.count();
+//        } else {
+//          it->second.MutableCurrentBucket(now)[0] += data.sum();
+//        }
+//      }
+//      break;
+//    }
   }
 }
 
-ViewDataImpl::ViewDataImpl(ViewDataImpl* source, absl::Time now)
+ViewDataImpl::ViewDataImpl(ViewDataImpl* source, uint64_t now)
     : aggregation_(source->aggregation_),
       aggregation_window_(source->aggregation_window_),
       type_(source->type_),

@@ -21,7 +21,6 @@
 #include <vector>
 
 #include "absl/strings/string_view.h"
-#include "absl/time/time.h"
 #include "opencensus/trace/exporter/annotation.h"
 #include "opencensus/trace/exporter/attribute_value.h"
 #include "opencensus/trace/exporter/link.h"
@@ -49,14 +48,14 @@ class SpanData final {
   template <typename T>
   class TimeEvent final {
    public:
-    TimeEvent(absl::Time timestamp, T&& event)
+    TimeEvent(uint64_t timestamp, T&& event)
         : timestamp_(timestamp), event_(std::move(event)) {}
 
-    absl::Time timestamp() const { return timestamp_; }
+    uint64_t timestamp() const { return timestamp_; }
     const T& event() const { return event_; }
 
    private:
-    absl::Time timestamp_;
+    uint64_t timestamp_;
     T event_;
   };
 
@@ -84,8 +83,8 @@ class SpanData final {
            TimeEvents<MessageEvent>&& message_events, std::vector<Link>&& links,
            int num_links_dropped,
            std::unordered_map<std::string, AttributeValue>&& attributes,
-           int num_attributes_dropped, bool has_ended, absl::Time start_time,
-           absl::Time end_time, Status status, bool has_remote_parent);
+           int num_attributes_dropped, bool has_ended, uint64_t start_time,
+           uint64_t end_time, Status status, bool has_remote_parent);
 
   // --- Accessors ---
 
@@ -124,10 +123,10 @@ class SpanData final {
   bool has_ended() const;
 
   // The start time of the span.
-  absl::Time start_time() const;
+  uint64_t start_time() const;
 
   // The end time of the span. Set to 0 if the span hasn't ended.
-  absl::Time end_time() const;
+  uint64_t end_time() const;
 
   // The status of the span. Unset if the span hasn't ended.
   Status status() const;
@@ -149,8 +148,8 @@ class SpanData final {
   std::unordered_map<std::string, AttributeValue> attributes_;
   int num_links_dropped_;
   int num_attributes_dropped_;
-  absl::Time start_time_;
-  absl::Time end_time_;
+  uint64_t start_time_;
+  uint64_t end_time_;
   Status status_;
   bool has_remote_parent_;
   bool has_ended_;

@@ -22,8 +22,6 @@
 #include <vector>
 
 #include "absl/strings/string_view.h"
-#include "absl/time/time.h"
-#include "opencensus/common/internal/stats_object.h"
 #include "opencensus/common/internal/string_vector_hash.h"
 #include "opencensus/stats/aggregation.h"
 #include "opencensus/stats/distribution.h"
@@ -66,8 +64,8 @@ class ViewData {
   const DataMap<int64_t>& int_data() const;
   const DataMap<Distribution>& distribution_data() const;
 
-  absl::Time start_time() const;
-  absl::Time end_time() const;
+  uint64_t start_time() const;
+  uint64_t end_time() const;
 
   ViewData(const ViewData& other);
 

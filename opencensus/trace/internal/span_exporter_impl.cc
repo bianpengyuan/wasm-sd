@@ -16,7 +16,6 @@
 
 #include <utility>
 
-#include "absl/time/clock.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/exporter/span_exporter.h"
 
@@ -33,7 +32,7 @@ SpanExporterImpl* SpanExporterImpl::Get() {
 }
 
 SpanExporterImpl::SpanExporterImpl(uint32_t buffer_size,
-                                   absl::Duration interval)
+                                   uint64_t interval)
     : buffer_size_(buffer_size), interval_(interval) {}
 
 void SpanExporterImpl::RegisterHandler(
@@ -64,7 +63,7 @@ void SpanExporterImpl::RunWorkerLoop() {
   std::vector<std::shared_ptr<opencensus::trace::SpanImpl>> batch_;
   // Thread loops forever.
   // TODO: Add in shutdown mechanism.
-  absl::Time next_forced_export_time = absl::Now() + interval_;
+  uint64_t next_forced_export_time = absl::Now() + interval_;
   while (true) {
     {
       // Wait until batch is full or interval time has been exceeded.

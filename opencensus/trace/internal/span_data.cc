@@ -31,7 +31,7 @@ SpanData::SpanData(absl::string_view name, SpanContext context,
                    std::vector<Link>&& links, int num_links_dropped,
                    std::unordered_map<std::string, AttributeValue>&& attributes,
                    int num_attributes_dropped, bool has_ended,
-                   absl::Time start_time, absl::Time end_time, Status status,
+                   uint64_t start_time, uint64_t end_time, Status status,
                    bool has_remote_parent)
     : name_(name),
       context_(context),
@@ -75,9 +75,9 @@ int SpanData::num_attributes_dropped() const { return num_attributes_dropped_; }
 
 bool SpanData::has_ended() const { return has_ended_; }
 
-absl::Time SpanData::start_time() const { return start_time_; }
+uint64_t SpanData::start_time() const { return start_time_; }
 
-absl::Time SpanData::end_time() const { return end_time_; }
+uint64_t SpanData::end_time() const { return end_time_; }
 
 Status SpanData::status() const { return status_; }
 

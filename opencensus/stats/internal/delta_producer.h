@@ -20,7 +20,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "absl/time/time.h"
 #include "opencensus/stats/bucket_boundaries.h"
 #include "opencensus/stats/distribution.h"
 #include "opencensus/stats/internal/measure_data.h"
@@ -92,12 +91,6 @@ class DeltaProducer final {
   // ConsumeLastDelta--otherwise the delta will be lost.
   void SwapDeltas();
   void ConsumeLastDelta();
-
-  // Loops flushing the active delta (calling SwapDeltas and ConsumeLastDelta())
-  // every harvest_interval_.
-  void RunHarvesterLoop();
-
-  const absl::Duration harvest_interval_ = absl::Seconds(5);
 
   // The BucketBoundaries of each registered view with Distribution aggregation,
   // by measure. Array indices in the outer array correspond to measure indices.
