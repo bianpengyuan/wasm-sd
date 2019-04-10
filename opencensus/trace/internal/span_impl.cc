@@ -19,6 +19,7 @@
 #include <utility>
 #include <vector>
 
+#include "api/proxy_wasm_intrinsics.h"
 #include "opencensus/trace/attribute_value_ref.h"
 #include "opencensus/trace/exporter/attribute_value.h"
 #include "opencensus/trace/exporter/message_event.h"
@@ -77,7 +78,7 @@ std::unordered_map<std::string, exporter::AttributeValue> CopyAttributes(
 SpanImpl::SpanImpl(const SpanContext& context, const TraceParams& trace_params,
                    absl::string_view name, const SpanId& parent_span_id,
                    bool remote_parent)
-    : start_time_(absl::Now()),
+    : start_time_(getCurrentTimeMilliseconds()),
       name_(name),
       parent_span_id_(parent_span_id),
       context_(context),
@@ -101,7 +102,7 @@ void SpanImpl::AddAnnotation(absl::string_view description,
                              AttributesRef attributes) {
   if (!has_ended_) {
     annotations_.AddEvent(EventWithTime<exporter::Annotation>(
-        absl::Now(),
+        getCurrentTimeMilliseconds(),
         exporter::Annotation(description, CopyAttributes(attributes))));
   }
 }
@@ -112,7 +113,7 @@ void SpanImpl::AddMessageEvent(exporter::MessageEvent::Type type,
                                uint32_t uncompressed_message_size) {
   if (!has_ended_) {
     message_events_.AddEvent(EventWithTime<exporter::MessageEvent>(
-        absl::Now(),
+        getCurrentTimeMilliseconds(),
         exporter::MessageEvent(type, message_id, compressed_message_size,
                                uncompressed_message_size)));
   }
@@ -138,7 +139,7 @@ bool SpanImpl::End() {
     return false;
   }
   has_ended_ = true;
-  end_time_ = absl::Now();
+  end_time_ = getCurrentTimeMilliseconds();
   return true;
 }
 

@@ -26,8 +26,7 @@ std::string AggregationWindow::DebugString() const {
     case Type::kDelta:
       return "Delta";
     case Type::kInterval:
-      return absl::StrCat("Interval (", absl::ToDoubleSeconds(duration_),
-                          "s window)");
+      return absl::StrCat("Interval (", duration_/1000, "s window)");
   }
 //  assert(false && "Bad AggregationWindow type.");
   return "BAD TYPE";

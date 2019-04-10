@@ -33,6 +33,7 @@ std::unique_ptr<Context> Context::New(uint32_t id) {
 }
 
 void ExampleContext::onStart() {
+  logInfo("call on start");
   proxy_setTickPeriodMilliseconds(5000);
 }
 
@@ -41,4 +42,5 @@ void ExampleContext::onLog() {
 }
 
 void ExampleContext::onTick() {
+
 }

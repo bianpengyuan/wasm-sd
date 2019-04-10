@@ -71,10 +71,10 @@ ViewDataImpl::ViewDataImpl(uint64_t start_time,
       new (&distribution_data_) DataMap<Distribution>();
       break;
     }
-//    case Type::kStatsObject: {
+    case Type::kStatsObject: {
 //      new (&interval_data_) DataMap<IntervalStatsObject>();
-//      break;
-//    }
+      break;
+    }
   }
 }
 
@@ -134,10 +134,10 @@ ViewDataImpl::~ViewDataImpl() {
       distribution_data_.~DataMap<Distribution>();
       break;
     }
-//    case Type::kStatsObject: {
+    case Type::kStatsObject: {
 //      interval_data_.~DataMap<IntervalStatsObject>();
-//      break;
-//    }
+      break;
+    }
   }
 }
 
@@ -217,7 +217,7 @@ void ViewDataImpl::Merge(const std::vector<std::string>& tag_values,
       data.AddToDistribution(&it->second);
       break;
     }
-//    case Type::kStatsObject: {
+    case Type::kStatsObject: {
 //      DataMap<IntervalStatsObject>::iterator it =
 //          interval_data_.find(tag_values);
 //      if (aggregation_.type() == Aggregation::Type::kDistribution) {
@@ -244,8 +244,8 @@ void ViewDataImpl::Merge(const std::vector<std::string>& tag_values,
 //          it->second.MutableCurrentBucket(now)[0] += data.sum();
 //        }
 //      }
-//      break;
-//    }
+      break;
+    }
   }
 }
 

@@ -56,19 +56,19 @@ PerSpanNameSummary& GetPerSpanNameSummary(absl::string_view span_name,
 
 // Returns the LatencyBucketBoundary corresponding to the given latency.
 LatencyBucketBoundary GetLatencyBucketBoundary(uint64_t latency) {
-  if (latency < absl::Microseconds(10))
-    return LatencyBucketBoundary::k0_to_10us;
-  if (latency < absl::Microseconds(100))
-    return LatencyBucketBoundary::k10us_to_100us;
-  if (latency < absl::Milliseconds(1))
+//  if (latency < absl::Microseconds(10))
+//    return LatencyBucketBoundary::k0_to_10us;
+//  if (latency < absl::Microseconds(100))
+//    return LatencyBucketBoundary::k10us_to_100us;
+  if (latency < 1)
     return LatencyBucketBoundary::k100us_to_1ms;
-  if (latency < absl::Milliseconds(10))
+  if (latency < 10)
     return LatencyBucketBoundary::k1ms_to_10ms;
-  if (latency < absl::Milliseconds(100))
+  if (latency < 100)
     return LatencyBucketBoundary::k10ms_to_100ms;
-  if (latency < absl::Seconds(1)) return LatencyBucketBoundary::k100ms_to_1s;
-  if (latency < absl::Seconds(10)) return LatencyBucketBoundary::k1s_to_10s;
-  if (latency < absl::Seconds(100)) return LatencyBucketBoundary::k10s_to_100s;
+  if (latency < 1000) return LatencyBucketBoundary::k100ms_to_1s;
+  if (latency < 10000) return LatencyBucketBoundary::k1s_to_10s;
+  if (latency < 100000) return LatencyBucketBoundary::k10s_to_100s;
   return LatencyBucketBoundary::k100s_plus;
 }
 
@@ -114,11 +114,10 @@ std::vector<SpanData> LocalSpanStoreImpl::GetLatencySampledSpans(
     const LatencyFilter& filter) const {
   std::vector<SpanData> out;
   for (const auto& span : spans_) {
-    uint64_t latency_ns =
-        (span.end_time() - span.start_time()) / absl::Nanoseconds(1);
+    uint64_t latency_ms = span.end_time() - span.start_time();
     if ((filter.span_name.empty() || (span.name() == filter.span_name)) &&
-        latency_ns >= filter.lower_latency_ns &&
-        latency_ns < filter.upper_latency_ns) {
+        latency_ms >= filter.lower_latency_ms &&
+        latency_ms < filter.upper_latency_ms) {
       out.emplace_back(span);
     }
     if (out.size() >= filter.max_spans_to_return) break;

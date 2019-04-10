@@ -19,12 +19,14 @@
 #include <cstdint>
 #include <random>
 
+#include "api/proxy_wasm_intrinsics.h"
+
 namespace opencensus {
 namespace common {
 
 class Generator {
  public:
-  Generator() : rng_(absl::GetCurrentTimeNanos()) {}
+  Generator() : rng_(getCurrentTimeMilliseconds()) {}
   explicit Generator(uint64_t seed) : rng_(seed) {}
 
   uint64_t Random64();

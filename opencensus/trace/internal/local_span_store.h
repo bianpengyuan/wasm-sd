@@ -42,8 +42,6 @@ class LocalSpanStore {
   // Samples based on latency for successful spans are collected in these
   // buckets. Ranges are half-open, e.g. [0..10us).
   enum LatencyBucketBoundary {
-    k0_to_10us,
-    k10us_to_100us,
     k100us_to_1ms,
     k1ms_to_10ms,
     k10ms_to_100ms,
@@ -70,8 +68,8 @@ class LocalSpanStore {
   struct LatencyFilter {
     std::string span_name;
     int max_spans_to_return;
-    uint64_t lower_latency_ns;
-    uint64_t upper_latency_ns;
+    uint64_t lower_latency_ms;
+    uint64_t upper_latency_ms;
   };
 
   // Filters all the spans based on exact match of span name and canonical code.

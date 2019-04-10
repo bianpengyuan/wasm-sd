@@ -16,6 +16,7 @@
 #define OPENCENSUS_STATS_INTERNAL_AGGREGATION_WINDOW_H_
 
 #include <string>
+#include <climits>
 
 namespace opencensus {
 namespace stats {
@@ -27,13 +28,13 @@ class AggregationWindow final {
  public:
   // Cumulative aggregation accumulates data over the lifetime of the process.
   static AggregationWindow Cumulative() {
-    return AggregationWindow(Type::kCumulative, absl::InfiniteDuration());
+    return AggregationWindow(Type::kCumulative, ULLONG_MAX);
   }
 
   // Delta aggregation accumulates data until it is requested and then resets
   // it, so that each recorded value appears in exactly one delta.
   static AggregationWindow Delta() {
-    return AggregationWindow(Type::kDelta, absl::InfiniteDuration());
+    return AggregationWindow(Type::kDelta, ULLONG_MAX);
   }
 
   // Interval aggregation keeps a rolling total of usage over the previous

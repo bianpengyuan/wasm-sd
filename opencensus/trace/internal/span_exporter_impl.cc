@@ -16,6 +16,7 @@
 
 #include <utility>
 
+#include "api/proxy_wasm_intrinsics.h"
 #include "opencensus/trace/exporter/span_data.h"
 #include "opencensus/trace/exporter/span_exporter.h"
 
@@ -27,7 +28,7 @@ SpanExporterImpl* SpanExporterImpl::span_exporter_ = nullptr;
 
 SpanExporterImpl* SpanExporterImpl::Get() {
   static SpanExporterImpl* global_span_exporter_impl = new SpanExporterImpl(
-      kDefaultBufferSize, absl::Milliseconds(kIntervalWaitTimeInMillis));
+      kDefaultBufferSize, kIntervalWaitTimeInMillis);
   return global_span_exporter_impl;
 }
 
@@ -63,14 +64,14 @@ void SpanExporterImpl::RunWorkerLoop() {
   std::vector<std::shared_ptr<opencensus::trace::SpanImpl>> batch_;
   // Thread loops forever.
   // TODO: Add in shutdown mechanism.
-  uint64_t next_forced_export_time = absl::Now() + interval_;
+  uint64_t next_forced_export_time = getCurrentTimeMilliseconds() + interval_;
   while (true) {
     {
       // Wait until batch is full or interval time has been exceeded.
 //      span_mu_.AwaitWithDeadline(
 //          absl::Condition(this, &SpanExporterImpl::IsBufferFull),
 //          next_forced_export_time);
-      next_forced_export_time = absl::Now() + interval_;
+      next_forced_export_time = getCurrentTimeMilliseconds() + interval_;
       if (spans_.empty()) {
         continue;
       }

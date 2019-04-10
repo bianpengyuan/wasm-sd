@@ -51,9 +51,9 @@ class StatsExporterImpl {
   void StartExportThread();
 
   // Loops forever, calling Export() every export_interval_.
-  void RunWorkerLoop();
+//  void RunWorkerLoop();
 
-  const uint64_t export_interval_ = absl::Seconds(10);
+//  const uint64_t export_interval_ = absl::Seconds(10);
 
   std::vector<std::unique_ptr<StatsExporter::Handler>> handlers_;
   std::unordered_map<std::string, std::unique_ptr<View>> views_;

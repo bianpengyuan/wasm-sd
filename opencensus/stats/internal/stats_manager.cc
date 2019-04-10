@@ -18,6 +18,7 @@
 
 #include "absl/base/macros.h"
 #include "absl/memory/memory.h"
+#include "api/proxy_wasm_intrinsics.h"
 #include "opencensus/stats/aggregation.h"
 #include "opencensus/stats/bucket_boundaries.h"
 #include "opencensus/stats/internal/delta_producer.h"
@@ -38,7 +39,7 @@ namespace stats {
 // StatsManager::ViewInformation
 
 StatsManager::ViewInformation::ViewInformation(const ViewDescriptor& descriptor)
-    : descriptor_(descriptor), data_(absl::Now(), descriptor) {}
+    : descriptor_(descriptor), data_(getCurrentTimeMilliseconds(), descriptor) {}
 
 bool StatsManager::ViewInformation::Matches(
     const ViewDescriptor& descriptor) const {
@@ -81,7 +82,7 @@ std::unique_ptr<ViewDataImpl> StatsManager::ViewInformation::GetData() {
 //  } else
   if (descriptor_.aggregation_window_.type() ==
              AggregationWindow::Type::kDelta) {
-    return data_.GetDeltaAndReset(absl::Now());
+    return data_.GetDeltaAndReset(getCurrentTimeMilliseconds());
   } else {
     return absl::make_unique<ViewDataImpl>(data_);
   }
@@ -134,7 +135,7 @@ StatsManager* StatsManager::Get() {
 }
 
 void StatsManager::MergeDelta(const Delta& delta) {
-  uint64_t now = absl::Now();
+  uint64_t now = getCurrentTimeMilliseconds();
   // Measures are added to the StatsManager before the DeltaProducer, so there
   // should never be measures in the delta missing from measures_.
   for (const auto& data_for_tagset : delta.delta()) {

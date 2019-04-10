@@ -18,6 +18,7 @@
 
 #include "absl/base/macros.h"
 #include "absl/memory/memory.h"
+#include "api/proxy_wasm_intrinsics.h"
 #include "opencensus/stats/distribution.h"
 #include "opencensus/stats/internal/view_data_impl.h"
 
@@ -40,7 +41,7 @@ const ViewData View::GetData() {
   if (!IsValid()) {
 //    std::cerr << "View::GetData() called on invalid view.\n";
 //    ABSL_ASSERT(0);
-    return ViewData(absl::make_unique<ViewDataImpl>(absl::Now(), descriptor_));
+    return ViewData(absl::make_unique<ViewDataImpl>(getCurrentTimeMilliseconds(), descriptor_));
   }
   return ViewData(handle_->GetData());
 }

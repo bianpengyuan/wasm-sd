@@ -83,46 +83,46 @@ Status SpanData::status() const { return status_; }
 
 bool SpanData::has_remote_parent() const { return has_remote_parent_; }
 
-std::string SpanData::DebugString() const {
-  std::string debug_str;
-  StrAppend(&debug_str, "Name: ", name(),
-            "\nTraceId-SpanId-Options: ", context().ToString(),
-            "\nParent SpanId: ", parent_span_id().ToHex(),
-            " (remote: ", has_remote_parent() ? "true" : "false",
-            ")\nStart time: ", absl::FormatTime(start_time()),
-            "\nEnd time: ", absl::FormatTime(end_time()), "\n");
-
-  StrAppend(&debug_str, "Attributes: (", num_attributes_dropped(),
-            " dropped)\n");
-  for (const auto& attribute : attributes()) {
-    StrAppend(&debug_str, "  \"", attribute.first,
-              "\":", attribute.second.DebugString(), "\n");
-  }
-
-  StrAppend(&debug_str, "Annotations: (", annotations().dropped_events_count(),
-            " dropped)\n");
-  for (const auto& annotation : annotations().events()) {
-    StrAppend(&debug_str, "  ", absl::FormatTime(annotation.timestamp()), ": ",
-              annotation.event().DebugString(), "\n");
-  }
-
-  StrAppend(&debug_str, "Message events: (",
-            message_events().dropped_events_count(), " dropped)\n");
-  for (const auto& message : message_events().events()) {
-    StrAppend(&debug_str, "  ", absl::FormatTime(message.timestamp()), ": ",
-              message.event().DebugString(), "\n");
-  }
-
-  StrAppend(&debug_str, "Links: (", num_links_dropped(), " dropped)\n");
-  for (const auto& link : links()) {
-    StrAppend(&debug_str, "  ", link.DebugString(), "\n");
-  }
-
-  StrAppend(&debug_str, "Span ended: ", (has_ended() ? "true" : "false"), "\n");
-
-  StrAppend(&debug_str, "Status: ", status().ToString(), "\n");
-  return debug_str;
-}
+//std::string SpanData::DebugString() const {
+//  std::string debug_str;
+//  StrAppend(&debug_str, "Name: ", name(),
+//            "\nTraceId-SpanId-Options: ", context().ToString(),
+//            "\nParent SpanId: ", parent_span_id().ToHex(),
+//            " (remote: ", has_remote_parent() ? "true" : "false",
+//            ")\nStart time: ", absl::FormatTime(start_time()),
+//            "\nEnd time: ", absl::FormatTime(end_time()), "\n");
+//
+//  StrAppend(&debug_str, "Attributes: (", num_attributes_dropped(),
+//            " dropped)\n");
+//  for (const auto& attribute : attributes()) {
+//    StrAppend(&debug_str, "  \"", attribute.first,
+//              "\":", attribute.second.DebugString(), "\n");
+//  }
+//
+//  StrAppend(&debug_str, "Annotations: (", annotations().dropped_events_count(),
+//            " dropped)\n");
+//  for (const auto& annotation : annotations().events()) {
+//    StrAppend(&debug_str, "  ", absl::FormatTime(annotation.timestamp()), ": ",
+//              annotation.event().DebugString(), "\n");
+//  }
+//
+//  StrAppend(&debug_str, "Message events: (",
+//            message_events().dropped_events_count(), " dropped)\n");
+//  for (const auto& message : message_events().events()) {
+//    StrAppend(&debug_str, "  ", absl::FormatTime(message.timestamp()), ": ",
+//              message.event().DebugString(), "\n");
+//  }
+//
+//  StrAppend(&debug_str, "Links: (", num_links_dropped(), " dropped)\n");
+//  for (const auto& link : links()) {
+//    StrAppend(&debug_str, "  ", link.DebugString(), "\n");
+//  }
+//
+//  StrAppend(&debug_str, "Span ended: ", (has_ended() ? "true" : "false"), "\n");
+//
+//  StrAppend(&debug_str, "Status: ", status().ToString(), "\n");
+//  return debug_str;
+//}
 
 }  // namespace exporter
 }  // namespace trace
