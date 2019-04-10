@@ -20,7 +20,6 @@
 #include "absl/base/macros.h"
 #include "absl/strings/str_cat.h"
 #include "absl/strings/string_view.h"
-#include "absl/time/time.h"
 #include "google/api/distribution.pb.h"
 #include "google/api/label.pb.h"
 #include "google/api/metric.pb.h"

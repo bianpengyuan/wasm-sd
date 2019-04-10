@@ -11,7 +11,7 @@ generate_yaml(){
     if [ -d "$file" ]
     then
          generate_yaml "$file"
-    elif [[ "$file" =~ .*\.o$ ]]
+    elif [[ "$file" =~ .*\.bc$ ]] || [[ "$file" =~ .*\.o$ ]]
     then
          echo "processing $file"
          relative_path=$(echo "$file" | sed 's/.\///')
@@ -22,7 +22,7 @@ generate_yaml(){
          new_wasm_file_name=wat/$dir/$(echo "$file" | cut -f 1 -d '.').wasm
          new_wast_file_name=wat/$dir/$(echo "$file" | cut -f 1 -d '.').wast
          new_wat_file_name=wat/$dir/$(echo "$file" | cut -f 1 -d '.').wat
-         command="em++ -s WASM=1 -g3 -s LEGALIZE_JS_FFI=0 -s EMIT_EMSCRIPTEN_METADATA=1 -O3 --js-library api/proxy_wasm_intrinsics.js $relative_path -o $new_js_file_name"
+         command="em++ -s WASM=1 -g3 -s LEGALIZE_JS_FFI=0 -s EMIT_EMSCRIPTEN_METADATA=1 -O3 --js-library api/proxy_wasm_intrinsics.js api/libprotobuf.bc $relative_path -o $new_js_file_name"
          $command
          wavm-disas "$new_wasm_file_name" "$new_wat_file_name"
          rm "$new_js_file_name" "$new_wast_file_name" "$new_wasm_file_name"
