@@ -5,12 +5,13 @@
 
 #include "api/proxy_wasm_intrinsics.h"
 #include "opencensus/stats/measure.h"
+#include "opencensus/stats/recording.h"
 #include "opencensus/stats/stats.h"
 #include "opencensus/exporters/stats/stackdriver/stackdriver_exporter.h"
 
 const absl::string_view kIstioRequestMeasureName = "istio.io/service/server/request_count_measure";
 const absl::string_view kIstioRequestViewName = "istio.io/service/server/request_count";
-const absl::string_view kProjectName = "bpy-istio";
+const std::string kProjectName = "bpy-istio";
 
 opencensus::stats::MeasureInt64 RequestCountMeasure() {
     absl::string_view descriptor = "number of request received by server";
@@ -22,7 +23,7 @@ opencensus::stats::MeasureInt64 RequestCountMeasure() {
 }
 
 class ExampleContext : public Context {
-public:
+ public:
     explicit ExampleContext(uint32_t id) : Context(id) {
       RequestCountMeasure();
       opencensus::exporters::stats::StackdriverOptions options;
@@ -40,7 +41,7 @@ public:
     void onStart() override;
     void onLog() override;
     void onTick() override;
-private:
+ private:
 };
 
 std::unique_ptr<Context> Context::New(uint32_t id) {
@@ -57,4 +58,5 @@ void ExampleContext::onLog() {
 
 void ExampleContext::onTick() {
   opencensus::stats::Flush();
+  opencensus::stats::StatsExporter::ExportViewData();
 }

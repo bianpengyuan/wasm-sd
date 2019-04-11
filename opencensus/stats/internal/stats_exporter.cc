@@ -103,5 +103,9 @@ std::vector<std::pair<ViewDescriptor, ViewData>> StatsExporter::GetViewData() {
   return StatsExporterImpl::Get()->GetViewData();
 }
 
+void StatsExporter::ExportViewData() {
+  StatsExporterImpl::Get()->Export();
+}
+
 }  // namespace stats
 }  // namespace opencensus

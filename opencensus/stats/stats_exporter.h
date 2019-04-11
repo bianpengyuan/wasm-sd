@@ -54,6 +54,8 @@ class StatsExporter final {
   // Retrieves current data for all registered views, for implementing pull
   // exporters.
   static std::vector<std::pair<ViewDescriptor, ViewData>> GetViewData();
+
+  static void ExportViewData();
 };
 
 }  // namespace stats
