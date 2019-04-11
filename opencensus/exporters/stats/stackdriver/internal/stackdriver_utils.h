@@ -39,7 +39,7 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
     const opencensus::stats::ViewDescriptor& view_descriptor,
     const opencensus::stats::ViewData& data, absl::string_view opencensus_task);
 
-void SetTimestamp(absl::Time time, google::protobuf::Timestamp* proto);
+void SetTimestamp(uint64_t time, google::protobuf::Timestamp* proto);
 
 }  // namespace stats
 }  // namespace exporters

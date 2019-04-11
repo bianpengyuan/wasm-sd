@@ -95,13 +95,10 @@ void AddDescriptorsImpl() {
       "\n\027google/rpc/status.proto\022\ngoogle.rpc\032\031g"
       "oogle/protobuf/any.proto\"N\n\006Status\022\014\n\004co"
       "de\030\001 \001(\005\022\017\n\007message\030\002 \001(\t\022%\n\007details\030\003 \003"
-      "(\0132\024.google.protobuf.AnyB^\n\016com.google.r"
-      "pcB\013StatusProtoP\001Z7google.golang.org/gen"
-      "proto/googleapis/rpc/status;status\242\002\003RPC"
-      "b\006proto3"
+      "(\0132\024.google.protobuf.Anyb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 248);
+      descriptor, 152);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "google/rpc/status.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2fany_2eproto::AddDescriptors();

@@ -9,4 +9,3 @@ libwasm-sd.so api/libprotobuf.bc -o wasm-sd.js
 wavm-disas wasm-sd.wasm wasm-sd.wat
 wavm-compile wasm-sd.wasm wasm-sd.wasm
 rm wasm-sd.js wasm-sd.wast libwasm-sd.so
-bash generate_wasm.sh

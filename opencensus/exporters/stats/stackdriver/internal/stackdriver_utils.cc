@@ -16,7 +16,6 @@
 
 #include <string>
 
-#include "absl/base/internal/sysinfo.h"
 #include "absl/base/macros.h"
 #include "absl/strings/str_cat.h"
 #include "absl/strings/string_view.h"
@@ -82,7 +81,7 @@ google::api::MetricDescriptor::ValueType GetValueType(
     case opencensus::stats::Aggregation::Type::kDistribution:
       return google::api::MetricDescriptor::DISTRIBUTION;
   }
-  ABSL_ASSERT(false && "Bad descriptor type.");
+//  ABSL_ASSERT(false && "Bad descriptor type.");
   return google::api::MetricDescriptor::DOUBLE;
 }
 
@@ -94,19 +93,19 @@ void SetTypedValue(double value, google::api::MetricDescriptor::ValueType type,
   if (type == google::api::MetricDescriptor::DOUBLE) {
     proto->set_double_value(value);
   } else {
-    ABSL_ASSERT(type == google::api::MetricDescriptor::INT64);
+//    ABSL_ASSERT(type == google::api::MetricDescriptor::INT64);
     proto->set_int64_value(static_cast<int64_t>(value));
   }
 }
 void SetTypedValue(int64_t value, google::api::MetricDescriptor::ValueType type,
                    google::monitoring::v3::TypedValue* proto) {
-  ABSL_ASSERT(type == google::api::MetricDescriptor::INT64);
+//  ABSL_ASSERT(type == google::api::MetricDescriptor::INT64);
   proto->set_int64_value(value);
 }
 void SetTypedValue(const opencensus::stats::Distribution& value,
                    google::api::MetricDescriptor::ValueType type,
                    google::monitoring::v3::TypedValue* proto) {
-  ABSL_ASSERT(type == google::api::MetricDescriptor::DISTRIBUTION);
+//  ABSL_ASSERT(type == google::api::MetricDescriptor::DISTRIBUTION);
   auto* distribution_proto = proto->mutable_distribution_value();
   distribution_proto->set_count(value.count());
   distribution_proto->set_mean(value.mean());
@@ -198,15 +197,14 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
       return DataToTimeSeries(view_descriptor, data.distribution_data(),
                               base_time_series);
   }
-  ABSL_ASSERT(false && "Bad ViewData.type().");
+//  ABSL_ASSERT(false && "Bad ViewData.type().");
   return {};
 }
 
-void SetTimestamp(absl::Time time, google::protobuf::Timestamp* proto) {
-  const int64_t seconds = absl::ToUnixSeconds(time);
-  proto->set_seconds(seconds);
-  proto->set_nanos(
-      absl::ToInt64Nanoseconds(time - absl::FromUnixSeconds(seconds)));
+void SetTimestamp(uint64_t time, google::protobuf::Timestamp* proto) {
+//  const int64_t seconds = absl::ToUnixSeconds(time);
+  proto->set_seconds(time/1000);
+  proto->set_nanos(time%1000*1000);
 }
 
 }  // namespace stats

@@ -23,8 +23,9 @@
 #include "absl/memory/memory.h"
 #include "absl/strings/str_cat.h"
 #include "absl/strings/string_view.h"
-#include "google/monitoring/v3/metric_service.grpc.pb.h"
+#include "api/proxy_wasm_intrinsics.h"
 #include "google/protobuf/empty.pb.h"
+#include "google/monitoring/v3/metric_service.pb.h"
 #include "opencensus/exporters/stats/stackdriver/internal/stackdriver_utils.h"
 #include "opencensus/stats/stats.h"
 
@@ -87,13 +88,13 @@ void Handler::ExportViewData(
 
   const int num_rpcs =
       ceil(static_cast<double>(time_series.size()) / kTimeSeriesBatchSize);
-
-  std::vector<grpc::Status> status(num_rpcs);
-  std::vector<grpc::ClientContext> ctx(num_rpcs);
-  // We can safely re-use an empty response--it is never updated.
-  google::protobuf::Empty response;
-  grpc::CompletionQueue cq;
-
+//
+//  std::vector<grpc::Status> status(num_rpcs);
+//  std::vector<grpc::ClientContext> ctx(num_rpcs);
+//  // We can safely re-use an empty response--it is never updated.
+//  google::protobuf::Empty response;
+//  grpc::CompletionQueue cq;
+//
   for (int rpc_index = 0; rpc_index < num_rpcs; ++rpc_index) {
     auto request = google::monitoring::v3::CreateTimeSeriesRequest();
     request.set_name(project_id_);
@@ -102,24 +103,21 @@ void Handler::ExportViewData(
     for (int i = rpc_index * kTimeSeriesBatchSize; i < batch_end; ++i) {
       *request.add_time_series() = time_series[i];
     }
-    ctx[rpc_index].set_deadline(
-        absl::ToChronoTime(absl::Now() + opts_.rpc_deadline));
-    auto rpc(stub_->AsyncCreateTimeSeries(&ctx[rpc_index], request, &cq));
-    rpc->Finish(&response, &status[rpc_index], (void*)(uintptr_t)rpc_index);
+    logInfo("export view data " + request.DebugString());
   }
-
-  cq.Shutdown();
-  void* tag;
-  bool ok;
-  while (cq.Next(&tag, &ok)) {
-    if (ok) {
-      const auto& s = status[(uintptr_t)tag];
-      if (!s.ok()) {
-        std::cerr << "CreateTimeSeries request failed: "
-                  << opencensus::common::ToString(s) << "\n";
-      }
-    }
-  }
+//
+//  cq.Shutdown();
+//  void* tag;
+//  bool ok;
+//  while (cq.Next(&tag, &ok)) {
+//    if (ok) {
+//      const auto& s = status[(uintptr_t)tag];
+//      if (!s.ok()) {
+//        std::cerr << "CreateTimeSeries request failed: "
+//                  << opencensus::common::ToString(s) << "\n";
+//      }
+//    }
+//  }
 }
 
 bool Handler::MaybeRegisterView(
@@ -139,16 +137,6 @@ bool Handler::MaybeRegisterView(
   request.set_name(project_id_);
   SetMetricDescriptor(project_id_, descriptor,
                       request.mutable_metric_descriptor());
-  ::grpc::ClientContext context;
-  context.set_deadline(absl::ToChronoTime(absl::Now() + opts_.rpc_deadline));
-  google::api::MetricDescriptor response;
-  ::grpc::Status status =
-      stub_->CreateMetricDescriptor(&context, request, &response);
-  if (!status.ok()) {
-    std::cerr << "CreateMetricDescriptor request failed: "
-              << opencensus::common::ToString(status) << "\n";
-    return false;
-  }
   registered_descriptors_.emplace_hint(it, descriptor.name(), descriptor);
   return true;
 }
@@ -159,15 +147,6 @@ bool Handler::MaybeRegisterView(
 void StackdriverExporter::Register(const StackdriverOptions& opts) {
   opencensus::stats::StatsExporter::RegisterPushHandler(
       absl::WrapUnique(new Handler(opts)));
-}
-
-// static, DEPRECATED
-void StackdriverExporter::Register(absl::string_view project_id,
-                                   absl::string_view opencensus_task) {
-  StackdriverOptions opts;
-  opts.project_id = std::string(project_id);
-  opts.opencensus_task = std::string(opencensus_task);
-  Register(opts);
 }
 
 }  // namespace stats
