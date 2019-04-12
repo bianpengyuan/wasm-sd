@@ -4,28 +4,18 @@
 #include <unordered_map>
 
 #include "api/proxy_wasm_intrinsics.h"
-#include "opencensus/stats/measure.h"
+#include "istio/measure.h"
 #include "opencensus/stats/recording.h"
 #include "opencensus/stats/stats.h"
 #include "opencensus/exporters/stats/stackdriver/stackdriver_exporter.h"
 
-const absl::string_view kIstioRequestMeasureName = "istio.io/service/server/request_count_measure";
 const absl::string_view kIstioRequestViewName = "istio.io/service/server/request_count";
 const std::string kProjectName = "bpy-istio";
-
-opencensus::stats::MeasureInt64 RequestCountMeasure() {
-    absl::string_view descriptor = "number of request received by server";
-    absl::string_view units = "1";
-    static const opencensus::stats::MeasureInt64 request_count =
-        opencensus::stats::MeasureInt64::Register(
-            kIstioRequestMeasureName, descriptor, units);
-    return request_count;
-}
 
 class ExampleContext : public Context {
  public:
     explicit ExampleContext(uint32_t id) : Context(id) {
-      RequestCountMeasure();
+      istio::measure::ServerRequestCountMeasure();
       opencensus::exporters::stats::StackdriverOptions options;
       options.project_id = kProjectName;
       opencensus::exporters::stats::StackdriverExporter::Register(options);
@@ -33,7 +23,7 @@ class ExampleContext : public Context {
       const opencensus::stats::ViewDescriptor server_request_view =
           opencensus::stats::ViewDescriptor()
               .set_name(kIstioRequestViewName)
-              .set_measure(kIstioRequestMeasureName)
+              .set_measure(istio::measure::kIstioServerRequestCount)
               .set_aggregation(opencensus::stats::Aggregation::Count());
       opencensus::stats::View view(server_request_view);
       server_request_view.RegisterForExport();
@@ -53,7 +43,7 @@ void ExampleContext::onStart() {
 }
 
 void ExampleContext::onLog() {
-  opencensus::stats::Record({{RequestCountMeasure(), 1}}, {});
+  opencensus::stats::Record({{istio::measure::ServerRequestCountMeasure(), 1}}, {});
 }
 
 void ExampleContext::onTick() {
