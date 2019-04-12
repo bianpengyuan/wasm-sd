@@ -39,7 +39,7 @@ namespace stats {
 // StatsManager::ViewInformation
 
 StatsManager::ViewInformation::ViewInformation(const ViewDescriptor& descriptor)
-    : descriptor_(descriptor), data_(getCurrentTimeMilliseconds(), descriptor) {}
+    : descriptor_(descriptor), data_(getCurrentTimeNanoseconds(), descriptor) {}
 
 bool StatsManager::ViewInformation::Matches(
     const ViewDescriptor& descriptor) const {
@@ -82,7 +82,7 @@ std::unique_ptr<ViewDataImpl> StatsManager::ViewInformation::GetData() {
 //  } else
   if (descriptor_.aggregation_window_.type() ==
              AggregationWindow::Type::kDelta) {
-    return data_.GetDeltaAndReset(getCurrentTimeMilliseconds());
+    return data_.GetDeltaAndReset(getCurrentTimeNanoseconds());
   } else {
     return absl::make_unique<ViewDataImpl>(data_);
   }
@@ -135,7 +135,7 @@ StatsManager* StatsManager::Get() {
 }
 
 void StatsManager::MergeDelta(const Delta& delta) {
-  uint64_t now = getCurrentTimeMilliseconds();
+  uint64_t now = getCurrentTimeNanoseconds();
   // Measures are added to the StatsManager before the DeltaProducer, so there
   // should never be measures in the delta missing from measures_.
   for (const auto& data_for_tagset : delta.delta()) {

@@ -26,7 +26,7 @@ namespace common {
 
 class Generator {
  public:
-  Generator() : rng_(getCurrentTimeMilliseconds()) {}
+  Generator() : rng_(getCurrentTimeNanoseconds()) {}
   explicit Generator(uint64_t seed) : rng_(seed) {}
 
   uint64_t Random64();

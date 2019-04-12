@@ -23,11 +23,11 @@ extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onConfigure(uint32_t ptr, uint32_t si
 
 extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onStart() { ensureContext(0)->onStart(); }
 
-extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onTick() { ensureContext(0)->onTick(); }
-
 extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onCreate(uint32_t context_id) {
     ensureContext(context_id)->onCreate();
 }
+
+extern "C" EMSCRIPTEN_KEEPALIVE void proxy_onTick() { ensureContext(0)->onTick(); }
 
 extern "C" EMSCRIPTEN_KEEPALIVE FilterHeadersStatus proxy_onRequestHeaders(uint32_t context_id) {
     auto c = getContext(context_id);

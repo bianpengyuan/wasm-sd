@@ -41,7 +41,7 @@ const ViewData View::GetData() {
   if (!IsValid()) {
 //    std::cerr << "View::GetData() called on invalid view.\n";
 //    ABSL_ASSERT(0);
-    return ViewData(absl::make_unique<ViewDataImpl>(getCurrentTimeMilliseconds(), descriptor_));
+    return ViewData(absl::make_unique<ViewDataImpl>(getCurrentTimeNanoseconds(), descriptor_));
   }
   return ViewData(handle_->GetData());
 }

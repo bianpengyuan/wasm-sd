@@ -203,8 +203,8 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
 
 void SetTimestamp(uint64_t time, google::protobuf::Timestamp* proto) {
 //  const int64_t seconds = absl::ToUnixSeconds(time);
-  proto->set_seconds(time/1000);
-  proto->set_nanos(time%1000*1000);
+  proto->set_seconds(time/1000000000);
+  proto->set_nanos(time%1000000000);
 }
 
 }  // namespace stats
