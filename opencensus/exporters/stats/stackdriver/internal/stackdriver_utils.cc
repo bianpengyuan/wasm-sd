@@ -34,21 +34,16 @@ namespace stats {
 
 namespace {
 
-constexpr char kCustomMetricDomain[] = "custom.googleapis.com/opencensus/";
 constexpr char kLabelDescription[] = "OpenCensus TagKey";
 constexpr char kOpenCensusTaskKey[] = "opencensus_task";
 constexpr char kOpenCensusTaskDescription[] = "OpenCensus task identifier";
 constexpr char kDefaultResourceType[] = "global";
 
-std::string MakeType(absl::string_view view_name) {
-  return absl::StrCat(kCustomMetricDomain, view_name);
-}
-
 // Creates a name in the format described in
 // https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors/create
 std::string MakeName(absl::string_view project_name,
                      absl::string_view view_name) {
-  return absl::StrCat(project_name, "/metricDescriptors/", MakeType(view_name));
+  return absl::StrCat(project_name, "/metricDescriptors/", view_name);
 }
 
 void SetLabelDescriptor(absl::string_view tag_key,
@@ -154,7 +149,7 @@ void SetMetricDescriptor(
     const opencensus::stats::ViewDescriptor& view_descriptor,
     google::api::MetricDescriptor* metric_descriptor) {
   metric_descriptor->set_name(MakeName(project_name, view_descriptor.name()));
-  metric_descriptor->set_type(MakeType(view_descriptor.name()));
+  metric_descriptor->set_type(view_descriptor.name());
   SetOpenCensusTaskLabelDescriptor(metric_descriptor->add_labels());
   for (const auto& tag_key : view_descriptor.columns()) {
     SetLabelDescriptor(tag_key.name(), metric_descriptor->add_labels());
@@ -178,8 +173,10 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
     absl::string_view opencensus_task) {
   // Set values that are common across all the rows.
   auto base_time_series = google::monitoring::v3::TimeSeries();
-  base_time_series.mutable_metric()->set_type(MakeType(view_descriptor.name()));
+  base_time_series.mutable_metric()->set_type(view_descriptor.name());
+  /* !!!!!!!This needs to be changed!!!!!!!*/
   base_time_series.mutable_resource()->set_type(kDefaultResourceType);
+  /* !!!!!!!This needs to be changed!!!!!!!*/
   auto* interval = base_time_series.add_points()->mutable_interval();
   SetTimestamp(data.start_time(), interval->mutable_start_time());
   SetTimestamp(data.end_time(), interval->mutable_end_time());

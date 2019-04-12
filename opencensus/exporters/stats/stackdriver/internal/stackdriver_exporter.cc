@@ -86,7 +86,7 @@ void Handler::ExportViewData(
                        view_time_series.end());
   }
 
-  const int num_rpcs =
+  const int64_t num_rpcs =
       ceil(static_cast<double>(time_series.size()) / kTimeSeriesBatchSize);
 
 //  std::vector<grpc::Status> status(num_rpcs);
@@ -95,10 +95,10 @@ void Handler::ExportViewData(
 //  google::protobuf::Empty response;
 //  grpc::CompletionQueue cq;
 
-  for (int rpc_index = 0; rpc_index < num_rpcs; ++rpc_index) {
+  for (int64_t rpc_index = 0; rpc_index < num_rpcs; ++rpc_index) {
     auto request = google::monitoring::v3::CreateTimeSeriesRequest();
     request.set_name(project_id_);
-    const int batch_end = std::min(static_cast<int>(time_series.size()),
+    const int batch_end = std::min(static_cast<int64_t>(time_series.size()),
                                    (rpc_index + 1) * kTimeSeriesBatchSize);
     for (int i = rpc_index * kTimeSeriesBatchSize; i < batch_end; ++i) {
       *request.add_time_series() = time_series[i];
