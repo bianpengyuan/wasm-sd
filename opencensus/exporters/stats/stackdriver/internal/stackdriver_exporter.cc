@@ -23,7 +23,7 @@
 #include "absl/memory/memory.h"
 #include "absl/strings/str_cat.h"
 #include "absl/strings/string_view.h"
-#include "api/proxy_wasm_intrinsics.h"
+#include "include/stackdriver.h"
 #include "google/protobuf/empty.pb.h"
 #include "google/monitoring/v3/metric_service.pb.h"
 #include "opencensus/exporters/stats/stackdriver/internal/stackdriver_utils.h"
@@ -58,6 +58,7 @@ class Handler : public ::opencensus::stats::StatsExporter::Handler {
 
   const StackdriverOptions opts_;
   const std::string project_id_;
+  Context* context_;
 //  const std::unique_ptr<google::monitoring::v3::MetricService::Stub> stub_;
   std::unordered_map<std::string, opencensus::stats::ViewDescriptor>
       registered_descriptors_;
@@ -103,7 +104,21 @@ void Handler::ExportViewData(
     for (int i = rpc_index * kTimeSeriesBatchSize; i < batch_end; ++i) {
       *request.add_time_series() = time_series[i];
     }
-    logInfo("export view data " + request.DebugString());
+
+    std::function<void(google::protobuf::Empty &&)> success_callback =
+        [](google::protobuf::Empty&& value) { /* do nothing */; };
+    std::function<void(GrpcStatus status, std::string_view error_message)> failure_callback =
+        [](GrpcStatus status, std::string_view message) {
+          logInfo(std::string("failure ") + std::to_string(static_cast<int>(status)) +
+              std::string(message));
+        };
+    GrpcService grpc_service;
+    grpc_service.mutable_envoy_grpc()->set_cluster_name("cluster");
+    std::string grpc_service_string;
+    grpc_service.SerializeToString(&grpc_service_string);
+    context_->grpcSimpleCall(grpc_service_string, "service", "method", request, 1000, success_callback, failure_callback);
+
+//    logInfo("export view data " + request.DebugString());
   }
 
 //  cq.Shutdown();

@@ -175,13 +175,19 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
   auto base_time_series = google::monitoring::v3::TimeSeries();
   base_time_series.mutable_metric()->set_type(view_descriptor.name());
   /* !!!!!!!This needs to be changed!!!!!!!*/
-  base_time_series.mutable_resource()->set_type(kDefaultResourceType);
+  base_time_series.mutable_resource()->set_type("k8s_container");
+  (*base_time_series.mutable_resource()->mutable_labels())["project_id"] = "bpy_istio";
+  (*base_time_series.mutable_resource()->mutable_labels())["location"] = "us-central1-a";
+  (*base_time_series.mutable_resource()->mutable_labels())["cluster"] = "test-cluster";
+  (*base_time_series.mutable_resource()->mutable_labels())["namespace_name"] = "test-namespace";
+  (*base_time_series.mutable_resource()->mutable_labels())["pod_name"] = "test-pod";
+  (*base_time_series.mutable_resource()->mutable_labels())["container_name"] = "test-container";
   /* !!!!!!!This needs to be changed!!!!!!!*/
   auto* interval = base_time_series.add_points()->mutable_interval();
   SetTimestamp(data.start_time(), interval->mutable_start_time());
   SetTimestamp(data.end_time(), interval->mutable_end_time());
-  (*base_time_series.mutable_metric()->mutable_labels())[kOpenCensusTaskKey] =
-      std::string(opencensus_task);
+//  (*base_time_series.mutable_metric()->mutable_labels())[kOpenCensusTaskKey] =
+//      std::string(opencensus_task);
 
   switch (data.type()) {
     case opencensus::stats::ViewData::Type::kDouble:

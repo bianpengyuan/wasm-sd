@@ -1,7 +1,0 @@
-syntax = 'proto3';
-
-import "google/protobuf/struct.proto";
-
-message WKT {
-  google.protobuf.Struct struct = 1;
-}
