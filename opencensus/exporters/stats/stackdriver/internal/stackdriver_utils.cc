@@ -176,9 +176,9 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
   base_time_series.mutable_metric()->set_type(view_descriptor.name());
   /* !!!!!!!This needs to be changed!!!!!!!*/
   base_time_series.mutable_resource()->set_type("k8s_container");
-  (*base_time_series.mutable_resource()->mutable_labels())["project_id"] = "bpy_istio";
+  (*base_time_series.mutable_resource()->mutable_labels())["project_id"] = "bpy-istio";
   (*base_time_series.mutable_resource()->mutable_labels())["location"] = "us-central1-a";
-  (*base_time_series.mutable_resource()->mutable_labels())["cluster"] = "test-cluster";
+  (*base_time_series.mutable_resource()->mutable_labels())["cluster_name"] = "test-cluster";
   (*base_time_series.mutable_resource()->mutable_labels())["namespace_name"] = "test-namespace";
   (*base_time_series.mutable_resource()->mutable_labels())["pod_name"] = "test-pod";
   (*base_time_series.mutable_resource()->mutable_labels())["container_name"] = "test-container";

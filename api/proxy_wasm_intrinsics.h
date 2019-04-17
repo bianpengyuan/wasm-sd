@@ -1244,7 +1244,7 @@ inline void Context::grpcSimpleCall(std::string_view service, std::string_view s
                                     const google::protobuf::MessageLite &request, uint32_t timeout_milliseconds, Context::GrpcSimpleCallCallback callback) {
   auto token = grpcCall(service, service_name, method_name, request, timeout_milliseconds);
   if (token) {
-    simple_grpc_calls_[token] = std::move(callback);
+//    simple_grpc_calls_[token] = std::move(callback);
   } else {
     throw ProxyException("grpcCall failed");
   }

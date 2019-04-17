@@ -39,6 +39,10 @@ constexpr char kGoogleStackdriverStatsAddress[] = "monitoring.googleapis.com";
 constexpr char kProjectIdPrefix[] = "projects/";
 // Stackdriver limits a single CreateTimeSeries request to 200 series.
 constexpr int kTimeSeriesBatchSize = 200;
+constexpr char
+    kGoogleMonitoringService[] = "google.monitoring.v3.MetricService";
+constexpr char kGoogleCreateTimeSeriesMethod[] = "CreateTimeSeries";
+constexpr int kDefaultTimeoutMillisecond = 10000;
 
 class Handler : public ::opencensus::stats::StatsExporter::Handler {
  public:
@@ -105,34 +109,39 @@ void Handler::ExportViewData(
       *request.add_time_series() = time_series[i];
     }
 
-    std::function<void(google::protobuf::Empty &&)> success_callback =
-        [](google::protobuf::Empty&& value) { /* do nothing */; };
-    std::function<void(GrpcStatus status, std::string_view error_message)> failure_callback =
+    std::function<void(google::protobuf::Empty&&)> success_callback =
+        [](google::protobuf::Empty&& value) {
+          logDebug("successfully sent out request");
+        };
+    std::function<void(GrpcStatus status, std::string_view error_message)>
+        failure_callback =
         [](GrpcStatus status, std::string_view message) {
-          logInfo(std::string("failure ") + std::to_string(static_cast<int>(status)) +
-              std::string(message));
+          logInfo(
+              std::string("failure ") + std::to_string(static_cast<int>(status))
+                  + std::string(message));
         };
     GrpcService grpc_service;
-    grpc_service.mutable_envoy_grpc()->set_cluster_name("cluster");
+    grpc_service.mutable_google_grpc()->set_target_uri(
+        kGoogleStackdriverStatsAddress);
+    grpc_service.mutable_google_grpc()
+        ->mutable_channel_credentials()
+        ->mutable_ssl_credentials()
+        ->mutable_root_certs()
+        ->set_filename("/etc/ssl/certs/ca-certificates.crt");
+    grpc_service.mutable_google_grpc()
+        ->add_call_credentials()
+        ->mutable_google_compute_engine();
     std::string grpc_service_string;
     grpc_service.SerializeToString(&grpc_service_string);
-    context_->grpcSimpleCall(grpc_service_string, "service", "method", request, 1000, success_callback, failure_callback);
 
-//    logInfo("export view data " + request.DebugString());
+    context_->grpcSimpleCall(grpc_service_string,
+                             kGoogleMonitoringService,
+                             kGoogleCreateTimeSeriesMethod,
+                             request,
+                             kDefaultTimeoutMillisecond,
+                             success_callback,
+                             failure_callback);
   }
-
-//  cq.Shutdown();
-//  void* tag;
-//  bool ok;
-//  while (cq.Next(&tag, &ok)) {
-//    if (ok) {
-//      const auto& s = status[(uintptr_t)tag];
-//      if (!s.ok()) {
-//        std::cerr << "CreateTimeSeries request failed: "
-//                  << opencensus::common::ToString(s) << "\n";
-//      }
-//    }
-//  }
 }
 
 bool Handler::MaybeRegisterView(
