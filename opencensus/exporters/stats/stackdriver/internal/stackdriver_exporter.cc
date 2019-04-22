@@ -94,12 +94,6 @@ void Handler::ExportViewData(
   const int64_t num_rpcs =
       ceil(static_cast<double>(time_series.size()) / kTimeSeriesBatchSize);
 
-//  std::vector<grpc::Status> status(num_rpcs);
-//  std::vector<grpc::ClientContext> ctx(num_rpcs);
-//  // We can safely re-use an empty response--it is never updated.
-//  google::protobuf::Empty response;
-//  grpc::CompletionQueue cq;
-
   for (int64_t rpc_index = 0; rpc_index < num_rpcs; ++rpc_index) {
     auto request = google::monitoring::v3::CreateTimeSeriesRequest();
     request.set_name(project_id_);
@@ -134,13 +128,14 @@ void Handler::ExportViewData(
     std::string grpc_service_string;
     grpc_service.SerializeToString(&grpc_service_string);
 
-    context_->grpcSimpleCall(grpc_service_string,
-                             kGoogleMonitoringService,
-                             kGoogleCreateTimeSeriesMethod,
-                             request,
-                             kDefaultTimeoutMillisecond,
-                             success_callback,
-                             failure_callback);
+//    context_->grpcSimpleCall(grpc_service_string,
+//                             kGoogleMonitoringService,
+//                             kGoogleCreateTimeSeriesMethod,
+//                             request,
+//                             kDefaultTimeoutMillisecond,
+//                             success_callback,
+//                             failure_callback);
+    logInfo(request.DebugString());
   }
 }
 

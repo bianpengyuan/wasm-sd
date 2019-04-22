@@ -109,7 +109,7 @@ void SetTypedValue(const opencensus::stats::Distribution& value,
   // TODO: Set range when Stackdriver supports it.
   if (value.bucket_boundaries().num_buckets() > 1) {
     auto* buckets = distribution_proto->mutable_bucket_options()
-                        ->mutable_explicit_buckets();
+        ->mutable_explicit_buckets();
     for (const auto boundary : value.bucket_boundaries().lower_boundaries()) {
       buckets->add_bounds(boundary);
     }
@@ -119,7 +119,7 @@ void SetTypedValue(const opencensus::stats::Distribution& value,
   }
 }
 
-template <typename DataValueT>
+template<typename DataValueT>
 std::vector<google::monitoring::v3::TimeSeries> DataToTimeSeries(
     const opencensus::stats::ViewDescriptor& view_descriptor,
     const opencensus::stats::ViewData::DataMap<DataValueT>& data,
@@ -132,7 +132,7 @@ std::vector<google::monitoring::v3::TimeSeries> DataToTimeSeries(
     auto& time_series = vector.back();
     for (int i = 0; i < view_descriptor.columns().size(); ++i) {
       (*time_series.mutable_metric()
-            ->mutable_labels())[view_descriptor.columns()[i].name()] =
+          ->mutable_labels())[view_descriptor.columns()[i].name()] =
           row.first[i];
     }
     // The point is already created in the base_time_series to set the times.
@@ -156,14 +156,14 @@ void SetMetricDescriptor(
   }
   metric_descriptor->set_metric_kind(
       view_descriptor.aggregation().type() ==
-              opencensus::stats::Aggregation::Type::kLastValue
-          ? google::api::MetricDescriptor::GAUGE
-          : google::api::MetricDescriptor::CUMULATIVE);
+          opencensus::stats::Aggregation::Type::kLastValue
+      ? google::api::MetricDescriptor::GAUGE
+      : google::api::MetricDescriptor::CUMULATIVE);
   metric_descriptor->set_value_type(GetValueType(view_descriptor));
   metric_descriptor->set_unit(
       view_descriptor.aggregation() == opencensus::stats::Aggregation::Count()
-          ? "1"
-          : view_descriptor.measure_descriptor().units());
+      ? "1"
+      : view_descriptor.measure_descriptor().units());
   metric_descriptor->set_description(view_descriptor.description());
 }
 
@@ -176,12 +176,18 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
   base_time_series.mutable_metric()->set_type(view_descriptor.name());
   /* !!!!!!!This needs to be changed!!!!!!!*/
   base_time_series.mutable_resource()->set_type("k8s_container");
-  (*base_time_series.mutable_resource()->mutable_labels())["project_id"] = "bpy-istio";
-  (*base_time_series.mutable_resource()->mutable_labels())["location"] = "us-central1-a";
-  (*base_time_series.mutable_resource()->mutable_labels())["cluster_name"] = "test-cluster";
-  (*base_time_series.mutable_resource()->mutable_labels())["namespace_name"] = "test-namespace";
-  (*base_time_series.mutable_resource()->mutable_labels())["pod_name"] = "test-pod";
-  (*base_time_series.mutable_resource()->mutable_labels())["container_name"] = "test-container";
+  (*base_time_series.mutable_resource()->mutable_labels())["project_id"] =
+      "bpy-istio";
+  (*base_time_series.mutable_resource()->mutable_labels())["location"] =
+      "us-central1-a";
+  (*base_time_series.mutable_resource()->mutable_labels())["cluster_name"] =
+      "test-cluster";
+  (*base_time_series.mutable_resource()->mutable_labels())["namespace_name"] =
+      "test-namespace";
+  (*base_time_series.mutable_resource()->mutable_labels())["pod_name"] =
+      "test-pod";
+  (*base_time_series.mutable_resource()->mutable_labels())["container_name"] =
+      "test-container";
   /* !!!!!!!This needs to be changed!!!!!!!*/
   auto* interval = base_time_series.add_points()->mutable_interval();
   SetTimestamp(data.start_time(), interval->mutable_start_time());
@@ -206,8 +212,8 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
 
 void SetTimestamp(uint64_t time, google::protobuf::Timestamp* proto) {
 //  const int64_t seconds = absl::ToUnixSeconds(time);
-  proto->set_seconds(time/1000000000);
-  proto->set_nanos(time%1000000000);
+  proto->set_seconds(time / 1000000000);
+  proto->set_nanos(time % 1000000000);
 }
 
 }  // namespace stats

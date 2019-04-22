@@ -95,9 +95,13 @@ void DeltaProducer::Record(std::initializer_list<Measurement> measurements,
   active_delta_.Record(measurements, std::move(tags));
 }
 
-void DeltaProducer::Flush() {
+bool DeltaProducer::Flush() {
   SwapDeltas();
+  if (last_delta_.delta().size() == 0) {
+    return false;
+  }
   ConsumeLastDelta();
+  return true;
 }
 
 DeltaProducer::DeltaProducer() {}

@@ -57,7 +57,8 @@ ViewDataImpl::ViewDataImpl(uint64_t start_time,
     : aggregation_(descriptor.aggregation()),
       aggregation_window_(descriptor.aggregation_window_),
       type_(TypeForDescriptor(descriptor)),
-      start_time_(start_time) {
+      start_time_(start_time),
+      end_time_(start_time + 1) {
   switch (type_) {
     case Type::kDouble: {
       new (&double_data_) DataMap<double>();

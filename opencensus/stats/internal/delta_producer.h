@@ -79,7 +79,9 @@ class DeltaProducer final {
               opencensus::tags::TagMap tags);
 
   // Flushes the active delta and blocks until it is harvested.
-  void Flush();
+  // Returns true if there is measurement added since last flush, returns false
+  // if no measurement is added.
+  bool Flush();
 
  private:
   DeltaProducer();

@@ -221,6 +221,7 @@ class WasmData {
   WasmData(const char* data, size_t size) : data_(data), size_(size) {}
   ~WasmData() { ::free((void*)data_); }
   const char* data() { return data_; }
+  size_t size() { return size_; }
   std::string_view view() { return {data_, size_}; }
   std::string toString() { return std::string(view()); }
   std::vector<std::pair<std::string_view, std::string_view>> pairs();

@@ -41,7 +41,7 @@ void Record(std::initializer_list<Measurement> measurements);
 void Record(std::initializer_list<Measurement> measurements,
             opencensus::tags::TagMap tags);
 
-void Flush();
+bool Flush();
 
 }  // namespace stats
 }  // namespace opencensus

@@ -34,8 +34,8 @@ void Record(std::initializer_list<Measurement> measurements,
   DeltaProducer::Get()->Record(measurements, std::move(tags));
 }
 
-void Flush() {
-  DeltaProducer::Get()->Flush();
+bool Flush() {
+  return DeltaProducer::Get()->Flush();
 }
 
 }  // namespace stats
