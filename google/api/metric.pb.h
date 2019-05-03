@@ -35,6 +35,8 @@
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "google/api/label.pb.h"
+#include "google/api/launch_stage.pb.h"
+#include <google/protobuf/duration.pb.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_google_2fapi_2fmetric_2eproto 
 
@@ -43,7 +45,7 @@ namespace protobuf_google_2fapi_2fmetric_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[3];
+  static const ::google::protobuf::internal::ParseTable schema[4];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -58,6 +60,9 @@ extern MetricDefaultTypeInternal _Metric_default_instance_;
 class MetricDescriptor;
 class MetricDescriptorDefaultTypeInternal;
 extern MetricDescriptorDefaultTypeInternal _MetricDescriptor_default_instance_;
+class MetricDescriptor_MetricDescriptorMetadata;
+class MetricDescriptor_MetricDescriptorMetadataDefaultTypeInternal;
+extern MetricDescriptor_MetricDescriptorMetadataDefaultTypeInternal _MetricDescriptor_MetricDescriptorMetadata_default_instance_;
 class Metric_LabelsEntry_DoNotUse;
 class Metric_LabelsEntry_DoNotUseDefaultTypeInternal;
 extern Metric_LabelsEntry_DoNotUseDefaultTypeInternal _Metric_LabelsEntry_DoNotUse_default_instance_;
@@ -67,6 +72,7 @@ namespace google {
 namespace protobuf {
 template<> ::google::api::Metric* Arena::CreateMaybeMessage<::google::api::Metric>(Arena*);
 template<> ::google::api::MetricDescriptor* Arena::CreateMaybeMessage<::google::api::MetricDescriptor>(Arena*);
+template<> ::google::api::MetricDescriptor_MetricDescriptorMetadata* Arena::CreateMaybeMessage<::google::api::MetricDescriptor_MetricDescriptorMetadata>(Arena*);
 template<> ::google::api::Metric_LabelsEntry_DoNotUse* Arena::CreateMaybeMessage<::google::api::Metric_LabelsEntry_DoNotUse>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -124,6 +130,135 @@ inline bool MetricDescriptor_ValueType_Parse(
 }
 // ===================================================================
 
+class MetricDescriptor_MetricDescriptorMetadata : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.api.MetricDescriptor.MetricDescriptorMetadata) */ {
+ public:
+  MetricDescriptor_MetricDescriptorMetadata();
+  virtual ~MetricDescriptor_MetricDescriptorMetadata();
+
+  MetricDescriptor_MetricDescriptorMetadata(const MetricDescriptor_MetricDescriptorMetadata& from);
+
+  inline MetricDescriptor_MetricDescriptorMetadata& operator=(const MetricDescriptor_MetricDescriptorMetadata& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  MetricDescriptor_MetricDescriptorMetadata(MetricDescriptor_MetricDescriptorMetadata&& from) noexcept
+    : MetricDescriptor_MetricDescriptorMetadata() {
+    *this = ::std::move(from);
+  }
+
+  inline MetricDescriptor_MetricDescriptorMetadata& operator=(MetricDescriptor_MetricDescriptorMetadata&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const MetricDescriptor_MetricDescriptorMetadata& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const MetricDescriptor_MetricDescriptorMetadata* internal_default_instance() {
+    return reinterpret_cast<const MetricDescriptor_MetricDescriptorMetadata*>(
+               &_MetricDescriptor_MetricDescriptorMetadata_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  void Swap(MetricDescriptor_MetricDescriptorMetadata* other);
+  friend void swap(MetricDescriptor_MetricDescriptorMetadata& a, MetricDescriptor_MetricDescriptorMetadata& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline MetricDescriptor_MetricDescriptorMetadata* New() const final {
+    return CreateMaybeMessage<MetricDescriptor_MetricDescriptorMetadata>(NULL);
+  }
+
+  MetricDescriptor_MetricDescriptorMetadata* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<MetricDescriptor_MetricDescriptorMetadata>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const MetricDescriptor_MetricDescriptorMetadata& from);
+  void MergeFrom(const MetricDescriptor_MetricDescriptorMetadata& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(MetricDescriptor_MetricDescriptorMetadata* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // .google.protobuf.Duration sample_period = 2;
+  bool has_sample_period() const;
+  void clear_sample_period();
+  static const int kSamplePeriodFieldNumber = 2;
+  private:
+  const ::google::protobuf::Duration& _internal_sample_period() const;
+  public:
+  const ::google::protobuf::Duration& sample_period() const;
+  ::google::protobuf::Duration* release_sample_period();
+  ::google::protobuf::Duration* mutable_sample_period();
+  void set_allocated_sample_period(::google::protobuf::Duration* sample_period);
+
+  // .google.protobuf.Duration ingest_delay = 3;
+  bool has_ingest_delay() const;
+  void clear_ingest_delay();
+  static const int kIngestDelayFieldNumber = 3;
+  private:
+  const ::google::protobuf::Duration& _internal_ingest_delay() const;
+  public:
+  const ::google::protobuf::Duration& ingest_delay() const;
+  ::google::protobuf::Duration* release_ingest_delay();
+  ::google::protobuf::Duration* mutable_ingest_delay();
+  void set_allocated_ingest_delay(::google::protobuf::Duration* ingest_delay);
+
+  // .google.api.LaunchStage launch_stage = 1;
+  void clear_launch_stage();
+  static const int kLaunchStageFieldNumber = 1;
+  ::google::api::LaunchStage launch_stage() const;
+  void set_launch_stage(::google::api::LaunchStage value);
+
+  // @@protoc_insertion_point(class_scope:google.api.MetricDescriptor.MetricDescriptorMetadata)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::Duration* sample_period_;
+  ::google::protobuf::Duration* ingest_delay_;
+  int launch_stage_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_google_2fapi_2fmetric_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class MetricDescriptor : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.api.MetricDescriptor) */ {
  public:
   MetricDescriptor();
@@ -159,7 +294,7 @@ class MetricDescriptor : public ::google::protobuf::Message /* @@protoc_insertio
                &_MetricDescriptor_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   void Swap(MetricDescriptor* other);
   friend void swap(MetricDescriptor& a, MetricDescriptor& b) {
@@ -208,6 +343,8 @@ class MetricDescriptor : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::Metadata GetMetadata() const final;
 
   // nested types ----------------------------------------------------
+
+  typedef MetricDescriptor_MetricDescriptorMetadata MetricDescriptorMetadata;
 
   typedef MetricDescriptor_MetricKind MetricKind;
   static const MetricKind METRIC_KIND_UNSPECIFIED =
@@ -359,6 +496,18 @@ class MetricDescriptor : public ::google::protobuf::Message /* @@protoc_insertio
   ::std::string* release_type();
   void set_allocated_type(::std::string* type);
 
+  // .google.api.MetricDescriptor.MetricDescriptorMetadata metadata = 10;
+  bool has_metadata() const;
+  void clear_metadata();
+  static const int kMetadataFieldNumber = 10;
+  private:
+  const ::google::api::MetricDescriptor_MetricDescriptorMetadata& _internal_metadata() const;
+  public:
+  const ::google::api::MetricDescriptor_MetricDescriptorMetadata& metadata() const;
+  ::google::api::MetricDescriptor_MetricDescriptorMetadata* release_metadata();
+  ::google::api::MetricDescriptor_MetricDescriptorMetadata* mutable_metadata();
+  void set_allocated_metadata(::google::api::MetricDescriptor_MetricDescriptorMetadata* metadata);
+
   // .google.api.MetricDescriptor.MetricKind metric_kind = 3;
   void clear_metric_kind();
   static const int kMetricKindFieldNumber = 3;
@@ -381,6 +530,7 @@ class MetricDescriptor : public ::google::protobuf::Message /* @@protoc_insertio
   ::google::protobuf::internal::ArenaStringPtr description_;
   ::google::protobuf::internal::ArenaStringPtr display_name_;
   ::google::protobuf::internal::ArenaStringPtr type_;
+  ::google::api::MetricDescriptor_MetricDescriptorMetadata* metadata_;
   int metric_kind_;
   int value_type_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -444,7 +594,7 @@ class Metric : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
                &_Metric_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   void Swap(Metric* other);
   friend void swap(Metric& a, Metric& b) {
@@ -543,6 +693,122 @@ class Metric : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// MetricDescriptor_MetricDescriptorMetadata
+
+// .google.api.LaunchStage launch_stage = 1;
+inline void MetricDescriptor_MetricDescriptorMetadata::clear_launch_stage() {
+  launch_stage_ = 0;
+}
+inline ::google::api::LaunchStage MetricDescriptor_MetricDescriptorMetadata::launch_stage() const {
+  // @@protoc_insertion_point(field_get:google.api.MetricDescriptor.MetricDescriptorMetadata.launch_stage)
+  return static_cast< ::google::api::LaunchStage >(launch_stage_);
+}
+inline void MetricDescriptor_MetricDescriptorMetadata::set_launch_stage(::google::api::LaunchStage value) {
+  
+  launch_stage_ = value;
+  // @@protoc_insertion_point(field_set:google.api.MetricDescriptor.MetricDescriptorMetadata.launch_stage)
+}
+
+// .google.protobuf.Duration sample_period = 2;
+inline bool MetricDescriptor_MetricDescriptorMetadata::has_sample_period() const {
+  return this != internal_default_instance() && sample_period_ != NULL;
+}
+inline const ::google::protobuf::Duration& MetricDescriptor_MetricDescriptorMetadata::_internal_sample_period() const {
+  return *sample_period_;
+}
+inline const ::google::protobuf::Duration& MetricDescriptor_MetricDescriptorMetadata::sample_period() const {
+  const ::google::protobuf::Duration* p = sample_period_;
+  // @@protoc_insertion_point(field_get:google.api.MetricDescriptor.MetricDescriptorMetadata.sample_period)
+  return p != NULL ? *p : *reinterpret_cast<const ::google::protobuf::Duration*>(
+      &::google::protobuf::_Duration_default_instance_);
+}
+inline ::google::protobuf::Duration* MetricDescriptor_MetricDescriptorMetadata::release_sample_period() {
+  // @@protoc_insertion_point(field_release:google.api.MetricDescriptor.MetricDescriptorMetadata.sample_period)
+  
+  ::google::protobuf::Duration* temp = sample_period_;
+  sample_period_ = NULL;
+  return temp;
+}
+inline ::google::protobuf::Duration* MetricDescriptor_MetricDescriptorMetadata::mutable_sample_period() {
+  
+  if (sample_period_ == NULL) {
+    auto* p = CreateMaybeMessage<::google::protobuf::Duration>(GetArenaNoVirtual());
+    sample_period_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:google.api.MetricDescriptor.MetricDescriptorMetadata.sample_period)
+  return sample_period_;
+}
+inline void MetricDescriptor_MetricDescriptorMetadata::set_allocated_sample_period(::google::protobuf::Duration* sample_period) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(sample_period_);
+  }
+  if (sample_period) {
+    ::google::protobuf::Arena* submessage_arena =
+      reinterpret_cast<::google::protobuf::MessageLite*>(sample_period)->GetArena();
+    if (message_arena != submessage_arena) {
+      sample_period = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, sample_period, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  sample_period_ = sample_period;
+  // @@protoc_insertion_point(field_set_allocated:google.api.MetricDescriptor.MetricDescriptorMetadata.sample_period)
+}
+
+// .google.protobuf.Duration ingest_delay = 3;
+inline bool MetricDescriptor_MetricDescriptorMetadata::has_ingest_delay() const {
+  return this != internal_default_instance() && ingest_delay_ != NULL;
+}
+inline const ::google::protobuf::Duration& MetricDescriptor_MetricDescriptorMetadata::_internal_ingest_delay() const {
+  return *ingest_delay_;
+}
+inline const ::google::protobuf::Duration& MetricDescriptor_MetricDescriptorMetadata::ingest_delay() const {
+  const ::google::protobuf::Duration* p = ingest_delay_;
+  // @@protoc_insertion_point(field_get:google.api.MetricDescriptor.MetricDescriptorMetadata.ingest_delay)
+  return p != NULL ? *p : *reinterpret_cast<const ::google::protobuf::Duration*>(
+      &::google::protobuf::_Duration_default_instance_);
+}
+inline ::google::protobuf::Duration* MetricDescriptor_MetricDescriptorMetadata::release_ingest_delay() {
+  // @@protoc_insertion_point(field_release:google.api.MetricDescriptor.MetricDescriptorMetadata.ingest_delay)
+  
+  ::google::protobuf::Duration* temp = ingest_delay_;
+  ingest_delay_ = NULL;
+  return temp;
+}
+inline ::google::protobuf::Duration* MetricDescriptor_MetricDescriptorMetadata::mutable_ingest_delay() {
+  
+  if (ingest_delay_ == NULL) {
+    auto* p = CreateMaybeMessage<::google::protobuf::Duration>(GetArenaNoVirtual());
+    ingest_delay_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:google.api.MetricDescriptor.MetricDescriptorMetadata.ingest_delay)
+  return ingest_delay_;
+}
+inline void MetricDescriptor_MetricDescriptorMetadata::set_allocated_ingest_delay(::google::protobuf::Duration* ingest_delay) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(ingest_delay_);
+  }
+  if (ingest_delay) {
+    ::google::protobuf::Arena* submessage_arena =
+      reinterpret_cast<::google::protobuf::MessageLite*>(ingest_delay)->GetArena();
+    if (message_arena != submessage_arena) {
+      ingest_delay = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, ingest_delay, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  ingest_delay_ = ingest_delay;
+  // @@protoc_insertion_point(field_set_allocated:google.api.MetricDescriptor.MetricDescriptorMetadata.ingest_delay)
+}
+
+// -------------------------------------------------------------------
+
 // MetricDescriptor
 
 // string name = 1;
@@ -865,6 +1131,60 @@ inline void MetricDescriptor::set_allocated_display_name(::std::string* display_
   // @@protoc_insertion_point(field_set_allocated:google.api.MetricDescriptor.display_name)
 }
 
+// .google.api.MetricDescriptor.MetricDescriptorMetadata metadata = 10;
+inline bool MetricDescriptor::has_metadata() const {
+  return this != internal_default_instance() && metadata_ != NULL;
+}
+inline void MetricDescriptor::clear_metadata() {
+  if (GetArenaNoVirtual() == NULL && metadata_ != NULL) {
+    delete metadata_;
+  }
+  metadata_ = NULL;
+}
+inline const ::google::api::MetricDescriptor_MetricDescriptorMetadata& MetricDescriptor::_internal_metadata() const {
+  return *metadata_;
+}
+inline const ::google::api::MetricDescriptor_MetricDescriptorMetadata& MetricDescriptor::metadata() const {
+  const ::google::api::MetricDescriptor_MetricDescriptorMetadata* p = metadata_;
+  // @@protoc_insertion_point(field_get:google.api.MetricDescriptor.metadata)
+  return p != NULL ? *p : *reinterpret_cast<const ::google::api::MetricDescriptor_MetricDescriptorMetadata*>(
+      &::google::api::_MetricDescriptor_MetricDescriptorMetadata_default_instance_);
+}
+inline ::google::api::MetricDescriptor_MetricDescriptorMetadata* MetricDescriptor::release_metadata() {
+  // @@protoc_insertion_point(field_release:google.api.MetricDescriptor.metadata)
+  
+  ::google::api::MetricDescriptor_MetricDescriptorMetadata* temp = metadata_;
+  metadata_ = NULL;
+  return temp;
+}
+inline ::google::api::MetricDescriptor_MetricDescriptorMetadata* MetricDescriptor::mutable_metadata() {
+  
+  if (metadata_ == NULL) {
+    auto* p = CreateMaybeMessage<::google::api::MetricDescriptor_MetricDescriptorMetadata>(GetArenaNoVirtual());
+    metadata_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:google.api.MetricDescriptor.metadata)
+  return metadata_;
+}
+inline void MetricDescriptor::set_allocated_metadata(::google::api::MetricDescriptor_MetricDescriptorMetadata* metadata) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete metadata_;
+  }
+  if (metadata) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      metadata = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, metadata, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  metadata_ = metadata;
+  // @@protoc_insertion_point(field_set_allocated:google.api.MetricDescriptor.metadata)
+}
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -945,6 +1265,8 @@ Metric::mutable_labels() {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

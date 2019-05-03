@@ -25,15 +25,15 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/map.h>  // IWYU pragma: export
-#include <google/protobuf/map_entry.h>
-#include <google/protobuf/map_field_inl.h>
-#include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/map_entry_lite.h>
+#include <google/protobuf/map_field_lite.h>
 #include "google/api/label.pb.h"
+#include "struct_lite.pb.h"
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_google_2fapi_2fmonitored_5fresource_2eproto 
 
@@ -42,12 +42,11 @@ namespace protobuf_google_2fapi_2fmonitored_5fresource_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[3];
+  static const ::google::protobuf::internal::ParseTable schema[5];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_google_2fapi_2fmonitored_5fresource_2eproto
 namespace google {
 namespace api {
@@ -57,6 +56,12 @@ extern MonitoredResourceDefaultTypeInternal _MonitoredResource_default_instance_
 class MonitoredResourceDescriptor;
 class MonitoredResourceDescriptorDefaultTypeInternal;
 extern MonitoredResourceDescriptorDefaultTypeInternal _MonitoredResourceDescriptor_default_instance_;
+class MonitoredResourceMetadata;
+class MonitoredResourceMetadataDefaultTypeInternal;
+extern MonitoredResourceMetadataDefaultTypeInternal _MonitoredResourceMetadata_default_instance_;
+class MonitoredResourceMetadata_UserLabelsEntry_DoNotUse;
+class MonitoredResourceMetadata_UserLabelsEntry_DoNotUseDefaultTypeInternal;
+extern MonitoredResourceMetadata_UserLabelsEntry_DoNotUseDefaultTypeInternal _MonitoredResourceMetadata_UserLabelsEntry_DoNotUse_default_instance_;
 class MonitoredResource_LabelsEntry_DoNotUse;
 class MonitoredResource_LabelsEntry_DoNotUseDefaultTypeInternal;
 extern MonitoredResource_LabelsEntry_DoNotUseDefaultTypeInternal _MonitoredResource_LabelsEntry_DoNotUse_default_instance_;
@@ -66,6 +71,8 @@ namespace google {
 namespace protobuf {
 template<> ::google::api::MonitoredResource* Arena::CreateMaybeMessage<::google::api::MonitoredResource>(Arena*);
 template<> ::google::api::MonitoredResourceDescriptor* Arena::CreateMaybeMessage<::google::api::MonitoredResourceDescriptor>(Arena*);
+template<> ::google::api::MonitoredResourceMetadata* Arena::CreateMaybeMessage<::google::api::MonitoredResourceMetadata>(Arena*);
+template<> ::google::api::MonitoredResourceMetadata_UserLabelsEntry_DoNotUse* Arena::CreateMaybeMessage<::google::api::MonitoredResourceMetadata_UserLabelsEntry_DoNotUse>(Arena*);
 template<> ::google::api::MonitoredResource_LabelsEntry_DoNotUse* Arena::CreateMaybeMessage<::google::api::MonitoredResource_LabelsEntry_DoNotUse>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -74,7 +81,7 @@ namespace api {
 
 // ===================================================================
 
-class MonitoredResourceDescriptor : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.api.MonitoredResourceDescriptor) */ {
+class MonitoredResourceDescriptor : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.api.MonitoredResourceDescriptor) */ {
  public:
   MonitoredResourceDescriptor();
   virtual ~MonitoredResourceDescriptor();
@@ -106,7 +113,6 @@ class MonitoredResourceDescriptor : public ::google::protobuf::Message /* @@prot
   inline void* GetMaybeArenaPointer() const final {
     return MaybeArenaPtr();
   }
-  static const ::google::protobuf::Descriptor* descriptor();
   static const MonitoredResourceDescriptor& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -132,8 +138,8 @@ class MonitoredResourceDescriptor : public ::google::protobuf::Message /* @@prot
   MonitoredResourceDescriptor* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<MonitoredResourceDescriptor>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const MonitoredResourceDescriptor& from);
   void MergeFrom(const MonitoredResourceDescriptor& from);
   void Clear() final;
@@ -144,14 +150,13 @@ class MonitoredResourceDescriptor : public ::google::protobuf::Message /* @@prot
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(MonitoredResourceDescriptor* other);
   protected:
   explicit MonitoredResourceDescriptor(::google::protobuf::Arena* arena);
@@ -167,7 +172,7 @@ class MonitoredResourceDescriptor : public ::google::protobuf::Message /* @@prot
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -280,7 +285,7 @@ class MonitoredResourceDescriptor : public ::google::protobuf::Message /* @@prot
   // @@protoc_insertion_point(class_scope:google.api.MonitoredResourceDescriptor)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   template <typename T> friend class ::google::protobuf::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
@@ -294,13 +299,13 @@ class MonitoredResourceDescriptor : public ::google::protobuf::Message /* @@prot
 };
 // -------------------------------------------------------------------
 
-class MonitoredResource_LabelsEntry_DoNotUse : public ::google::protobuf::internal::MapEntry<MonitoredResource_LabelsEntry_DoNotUse, 
+class MonitoredResource_LabelsEntry_DoNotUse : public ::google::protobuf::internal::MapEntryLite<MonitoredResource_LabelsEntry_DoNotUse, 
     ::std::string, ::std::string,
     ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
     ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
     0 > {
 public:
-  typedef ::google::protobuf::internal::MapEntry<MonitoredResource_LabelsEntry_DoNotUse, 
+  typedef ::google::protobuf::internal::MapEntryLite<MonitoredResource_LabelsEntry_DoNotUse, 
     ::std::string, ::std::string,
     ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
     ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
@@ -309,13 +314,11 @@ public:
   MonitoredResource_LabelsEntry_DoNotUse(::google::protobuf::Arena* arena);
   void MergeFrom(const MonitoredResource_LabelsEntry_DoNotUse& other);
   static const MonitoredResource_LabelsEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const MonitoredResource_LabelsEntry_DoNotUse*>(&_MonitoredResource_LabelsEntry_DoNotUse_default_instance_); }
-  void MergeFrom(const ::google::protobuf::Message& other) final;
-  ::google::protobuf::Metadata GetMetadata() const;
 };
 
 // -------------------------------------------------------------------
 
-class MonitoredResource : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.api.MonitoredResource) */ {
+class MonitoredResource : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.api.MonitoredResource) */ {
  public:
   MonitoredResource();
   virtual ~MonitoredResource();
@@ -347,7 +350,6 @@ class MonitoredResource : public ::google::protobuf::Message /* @@protoc_inserti
   inline void* GetMaybeArenaPointer() const final {
     return MaybeArenaPtr();
   }
-  static const ::google::protobuf::Descriptor* descriptor();
   static const MonitoredResource& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -373,8 +375,8 @@ class MonitoredResource : public ::google::protobuf::Message /* @@protoc_inserti
   MonitoredResource* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<MonitoredResource>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const MonitoredResource& from);
   void MergeFrom(const MonitoredResource& from);
   void Clear() final;
@@ -385,14 +387,13 @@ class MonitoredResource : public ::google::protobuf::Message /* @@protoc_inserti
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(MonitoredResource* other);
   protected:
   explicit MonitoredResource(::google::protobuf::Arena* arena);
@@ -408,7 +409,7 @@ class MonitoredResource : public ::google::protobuf::Message /* @@protoc_inserti
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -450,17 +451,177 @@ class MonitoredResource : public ::google::protobuf::Message /* @@protoc_inserti
   // @@protoc_insertion_point(class_scope:google.api.MonitoredResource)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   template <typename T> friend class ::google::protobuf::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::google::protobuf::internal::MapField<
+  ::google::protobuf::internal::MapFieldLite<
       MonitoredResource_LabelsEntry_DoNotUse,
       ::std::string, ::std::string,
       ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
       ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
       0 > labels_;
   ::google::protobuf::internal::ArenaStringPtr type_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_google_2fapi_2fmonitored_5fresource_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class MonitoredResourceMetadata_UserLabelsEntry_DoNotUse : public ::google::protobuf::internal::MapEntryLite<MonitoredResourceMetadata_UserLabelsEntry_DoNotUse, 
+    ::std::string, ::std::string,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    0 > {
+public:
+  typedef ::google::protobuf::internal::MapEntryLite<MonitoredResourceMetadata_UserLabelsEntry_DoNotUse, 
+    ::std::string, ::std::string,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    0 > SuperType;
+  MonitoredResourceMetadata_UserLabelsEntry_DoNotUse();
+  MonitoredResourceMetadata_UserLabelsEntry_DoNotUse(::google::protobuf::Arena* arena);
+  void MergeFrom(const MonitoredResourceMetadata_UserLabelsEntry_DoNotUse& other);
+  static const MonitoredResourceMetadata_UserLabelsEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const MonitoredResourceMetadata_UserLabelsEntry_DoNotUse*>(&_MonitoredResourceMetadata_UserLabelsEntry_DoNotUse_default_instance_); }
+};
+
+// -------------------------------------------------------------------
+
+class MonitoredResourceMetadata : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.api.MonitoredResourceMetadata) */ {
+ public:
+  MonitoredResourceMetadata();
+  virtual ~MonitoredResourceMetadata();
+
+  MonitoredResourceMetadata(const MonitoredResourceMetadata& from);
+
+  inline MonitoredResourceMetadata& operator=(const MonitoredResourceMetadata& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  MonitoredResourceMetadata(MonitoredResourceMetadata&& from) noexcept
+    : MonitoredResourceMetadata() {
+    *this = ::std::move(from);
+  }
+
+  inline MonitoredResourceMetadata& operator=(MonitoredResourceMetadata&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  inline ::google::protobuf::Arena* GetArena() const final {
+    return GetArenaNoVirtual();
+  }
+  inline void* GetMaybeArenaPointer() const final {
+    return MaybeArenaPtr();
+  }
+  static const MonitoredResourceMetadata& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const MonitoredResourceMetadata* internal_default_instance() {
+    return reinterpret_cast<const MonitoredResourceMetadata*>(
+               &_MonitoredResourceMetadata_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  void UnsafeArenaSwap(MonitoredResourceMetadata* other);
+  void Swap(MonitoredResourceMetadata* other);
+  friend void swap(MonitoredResourceMetadata& a, MonitoredResourceMetadata& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline MonitoredResourceMetadata* New() const final {
+    return CreateMaybeMessage<MonitoredResourceMetadata>(NULL);
+  }
+
+  MonitoredResourceMetadata* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<MonitoredResourceMetadata>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
+  void CopyFrom(const MonitoredResourceMetadata& from);
+  void MergeFrom(const MonitoredResourceMetadata& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(MonitoredResourceMetadata* other);
+  protected:
+  explicit MonitoredResourceMetadata(::google::protobuf::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::google::protobuf::Arena* arena);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+
+  // accessors -------------------------------------------------------
+
+  // map<string, string> user_labels = 2;
+  int user_labels_size() const;
+  void clear_user_labels();
+  static const int kUserLabelsFieldNumber = 2;
+  const ::google::protobuf::Map< ::std::string, ::std::string >&
+      user_labels() const;
+  ::google::protobuf::Map< ::std::string, ::std::string >*
+      mutable_user_labels();
+
+  // .google.protobuf.Struct system_labels = 1;
+  bool has_system_labels() const;
+  void clear_system_labels();
+  static const int kSystemLabelsFieldNumber = 1;
+  private:
+  const ::google::protobuf::Struct& _internal_system_labels() const;
+  public:
+  const ::google::protobuf::Struct& system_labels() const;
+  ::google::protobuf::Struct* release_system_labels();
+  ::google::protobuf::Struct* mutable_system_labels();
+  void set_allocated_system_labels(::google::protobuf::Struct* system_labels);
+  void unsafe_arena_set_allocated_system_labels(
+      ::google::protobuf::Struct* system_labels);
+  ::google::protobuf::Struct* unsafe_arena_release_system_labels();
+
+  // @@protoc_insertion_point(class_scope:google.api.MonitoredResourceMetadata)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  template <typename T> friend class ::google::protobuf::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::google::protobuf::internal::MapFieldLite<
+      MonitoredResourceMetadata_UserLabelsEntry_DoNotUse,
+      ::std::string, ::std::string,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      0 > user_labels_;
+  ::google::protobuf::Struct* system_labels_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_google_2fapi_2fmonitored_5fresource_2eproto::TableStruct;
 };
@@ -485,13 +646,13 @@ inline const ::std::string& MonitoredResourceDescriptor::name() const {
 }
 inline void MonitoredResourceDescriptor::set_name(const ::std::string& value) {
   
-  name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.api.MonitoredResourceDescriptor.name)
 }
 #if LANG_CXX11
 inline void MonitoredResourceDescriptor::set_name(::std::string&& value) {
   
-  name_.Set(
+  name_.SetLite(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.api.MonitoredResourceDescriptor.name)
 }
@@ -499,14 +660,14 @@ inline void MonitoredResourceDescriptor::set_name(::std::string&& value) {
 inline void MonitoredResourceDescriptor::set_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.api.MonitoredResourceDescriptor.name)
 }
 inline void MonitoredResourceDescriptor::set_name(const char* value,
     size_t size) {
   
-  name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.api.MonitoredResourceDescriptor.name)
 }
@@ -560,13 +721,13 @@ inline const ::std::string& MonitoredResourceDescriptor::type() const {
 }
 inline void MonitoredResourceDescriptor::set_type(const ::std::string& value) {
   
-  type_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  type_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.api.MonitoredResourceDescriptor.type)
 }
 #if LANG_CXX11
 inline void MonitoredResourceDescriptor::set_type(::std::string&& value) {
   
-  type_.Set(
+  type_.SetLite(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.api.MonitoredResourceDescriptor.type)
 }
@@ -574,14 +735,14 @@ inline void MonitoredResourceDescriptor::set_type(::std::string&& value) {
 inline void MonitoredResourceDescriptor::set_type(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  type_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  type_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.api.MonitoredResourceDescriptor.type)
 }
 inline void MonitoredResourceDescriptor::set_type(const char* value,
     size_t size) {
   
-  type_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  type_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.api.MonitoredResourceDescriptor.type)
 }
@@ -635,13 +796,13 @@ inline const ::std::string& MonitoredResourceDescriptor::display_name() const {
 }
 inline void MonitoredResourceDescriptor::set_display_name(const ::std::string& value) {
   
-  display_name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  display_name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.api.MonitoredResourceDescriptor.display_name)
 }
 #if LANG_CXX11
 inline void MonitoredResourceDescriptor::set_display_name(::std::string&& value) {
   
-  display_name_.Set(
+  display_name_.SetLite(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.api.MonitoredResourceDescriptor.display_name)
 }
@@ -649,14 +810,14 @@ inline void MonitoredResourceDescriptor::set_display_name(::std::string&& value)
 inline void MonitoredResourceDescriptor::set_display_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  display_name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  display_name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.api.MonitoredResourceDescriptor.display_name)
 }
 inline void MonitoredResourceDescriptor::set_display_name(const char* value,
     size_t size) {
   
-  display_name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  display_name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.api.MonitoredResourceDescriptor.display_name)
 }
@@ -710,13 +871,13 @@ inline const ::std::string& MonitoredResourceDescriptor::description() const {
 }
 inline void MonitoredResourceDescriptor::set_description(const ::std::string& value) {
   
-  description_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  description_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.api.MonitoredResourceDescriptor.description)
 }
 #if LANG_CXX11
 inline void MonitoredResourceDescriptor::set_description(::std::string&& value) {
   
-  description_.Set(
+  description_.SetLite(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.api.MonitoredResourceDescriptor.description)
 }
@@ -724,14 +885,14 @@ inline void MonitoredResourceDescriptor::set_description(::std::string&& value) 
 inline void MonitoredResourceDescriptor::set_description(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  description_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  description_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.api.MonitoredResourceDescriptor.description)
 }
 inline void MonitoredResourceDescriptor::set_description(const char* value,
     size_t size) {
   
-  description_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  description_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.api.MonitoredResourceDescriptor.description)
 }
@@ -818,13 +979,13 @@ inline const ::std::string& MonitoredResource::type() const {
 }
 inline void MonitoredResource::set_type(const ::std::string& value) {
   
-  type_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  type_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.api.MonitoredResource.type)
 }
 #if LANG_CXX11
 inline void MonitoredResource::set_type(::std::string&& value) {
   
-  type_.Set(
+  type_.SetLite(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.api.MonitoredResource.type)
 }
@@ -832,14 +993,14 @@ inline void MonitoredResource::set_type(::std::string&& value) {
 inline void MonitoredResource::set_type(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  type_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  type_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.api.MonitoredResource.type)
 }
 inline void MonitoredResource::set_type(const char* value,
     size_t size) {
   
-  type_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  type_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.api.MonitoredResource.type)
 }
@@ -901,9 +1062,96 @@ MonitoredResource::mutable_labels() {
   return labels_.MutableMap();
 }
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// MonitoredResourceMetadata
+
+// .google.protobuf.Struct system_labels = 1;
+inline bool MonitoredResourceMetadata::has_system_labels() const {
+  return this != internal_default_instance() && system_labels_ != NULL;
+}
+inline const ::google::protobuf::Struct& MonitoredResourceMetadata::_internal_system_labels() const {
+  return *system_labels_;
+}
+inline const ::google::protobuf::Struct& MonitoredResourceMetadata::system_labels() const {
+  const ::google::protobuf::Struct* p = system_labels_;
+  // @@protoc_insertion_point(field_get:google.api.MonitoredResourceMetadata.system_labels)
+  return p != NULL ? *p : *reinterpret_cast<const ::google::protobuf::Struct*>(
+      &::google::protobuf::_Struct_default_instance_);
+}
+inline ::google::protobuf::Struct* MonitoredResourceMetadata::release_system_labels() {
+  // @@protoc_insertion_point(field_release:google.api.MonitoredResourceMetadata.system_labels)
+  
+  ::google::protobuf::Struct* temp = system_labels_;
+  if (GetArenaNoVirtual() != NULL) {
+    temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+  }
+  system_labels_ = NULL;
+  return temp;
+}
+inline ::google::protobuf::Struct* MonitoredResourceMetadata::unsafe_arena_release_system_labels() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:google.api.MonitoredResourceMetadata.system_labels)
+  
+  ::google::protobuf::Struct* temp = system_labels_;
+  system_labels_ = NULL;
+  return temp;
+}
+inline ::google::protobuf::Struct* MonitoredResourceMetadata::mutable_system_labels() {
+  
+  if (system_labels_ == NULL) {
+    auto* p = CreateMaybeMessage<::google::protobuf::Struct>(GetArenaNoVirtual());
+    system_labels_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:google.api.MonitoredResourceMetadata.system_labels)
+  return system_labels_;
+}
+inline void MonitoredResourceMetadata::set_allocated_system_labels(::google::protobuf::Struct* system_labels) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(system_labels_);
+  }
+  if (system_labels) {
+    ::google::protobuf::Arena* submessage_arena =
+      reinterpret_cast<::google::protobuf::MessageLite*>(system_labels)->GetArena();
+    if (message_arena != submessage_arena) {
+      system_labels = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, system_labels, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  system_labels_ = system_labels;
+  // @@protoc_insertion_point(field_set_allocated:google.api.MonitoredResourceMetadata.system_labels)
+}
+
+// map<string, string> user_labels = 2;
+inline int MonitoredResourceMetadata::user_labels_size() const {
+  return user_labels_.size();
+}
+inline void MonitoredResourceMetadata::clear_user_labels() {
+  user_labels_.Clear();
+}
+inline const ::google::protobuf::Map< ::std::string, ::std::string >&
+MonitoredResourceMetadata::user_labels() const {
+  // @@protoc_insertion_point(field_map:google.api.MonitoredResourceMetadata.user_labels)
+  return user_labels_.GetMap();
+}
+inline ::google::protobuf::Map< ::std::string, ::std::string >*
+MonitoredResourceMetadata::mutable_user_labels() {
+  // @@protoc_insertion_point(field_mutable_map:google.api.MonitoredResourceMetadata.user_labels)
+  return user_labels_.MutableMap();
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

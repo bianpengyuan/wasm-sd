@@ -25,17 +25,17 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
-#include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/generated_enum_util.h>
 #include "google/api/annotations.pb.h"
 #include "google/api/metric.pb.h"
 #include "google/api/monitored_resource.pb.h"
 #include "google/monitoring/v3/common.pb.h"
 #include "google/monitoring/v3/metric.pb.h"
+#include <google/protobuf/duration.pb.h>
 #include <google/protobuf/empty.pb.h>
 #include "google/rpc/status.pb.h"
 // @@protoc_insertion_point(includes)
@@ -51,7 +51,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_google_2fmonitoring_2fv3_2fmetric_5fservice_2eproto
 namespace google {
 namespace monitoring {
@@ -126,19 +125,9 @@ const ListTimeSeriesRequest_TimeSeriesView ListTimeSeriesRequest_TimeSeriesView_
 const ListTimeSeriesRequest_TimeSeriesView ListTimeSeriesRequest_TimeSeriesView_TimeSeriesView_MAX = ListTimeSeriesRequest_TimeSeriesView_HEADERS;
 const int ListTimeSeriesRequest_TimeSeriesView_TimeSeriesView_ARRAYSIZE = ListTimeSeriesRequest_TimeSeriesView_TimeSeriesView_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ListTimeSeriesRequest_TimeSeriesView_descriptor();
-inline const ::std::string& ListTimeSeriesRequest_TimeSeriesView_Name(ListTimeSeriesRequest_TimeSeriesView value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ListTimeSeriesRequest_TimeSeriesView_descriptor(), value);
-}
-inline bool ListTimeSeriesRequest_TimeSeriesView_Parse(
-    const ::std::string& name, ListTimeSeriesRequest_TimeSeriesView* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ListTimeSeriesRequest_TimeSeriesView>(
-    ListTimeSeriesRequest_TimeSeriesView_descriptor(), name, value);
-}
 // ===================================================================
 
-class ListMonitoredResourceDescriptorsRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListMonitoredResourceDescriptorsRequest) */ {
+class ListMonitoredResourceDescriptorsRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListMonitoredResourceDescriptorsRequest) */ {
  public:
   ListMonitoredResourceDescriptorsRequest();
   virtual ~ListMonitoredResourceDescriptorsRequest();
@@ -164,7 +153,6 @@ class ListMonitoredResourceDescriptorsRequest : public ::google::protobuf::Messa
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ListMonitoredResourceDescriptorsRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -189,8 +177,8 @@ class ListMonitoredResourceDescriptorsRequest : public ::google::protobuf::Messa
   ListMonitoredResourceDescriptorsRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ListMonitoredResourceDescriptorsRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ListMonitoredResourceDescriptorsRequest& from);
   void MergeFrom(const ListMonitoredResourceDescriptorsRequest& from);
   void Clear() final;
@@ -201,14 +189,13 @@ class ListMonitoredResourceDescriptorsRequest : public ::google::protobuf::Messa
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ListMonitoredResourceDescriptorsRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -219,7 +206,7 @@ class ListMonitoredResourceDescriptorsRequest : public ::google::protobuf::Messa
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -276,7 +263,7 @@ class ListMonitoredResourceDescriptorsRequest : public ::google::protobuf::Messa
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.ListMonitoredResourceDescriptorsRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr filter_;
   ::google::protobuf::internal::ArenaStringPtr page_token_;
   ::google::protobuf::internal::ArenaStringPtr name_;
@@ -286,7 +273,7 @@ class ListMonitoredResourceDescriptorsRequest : public ::google::protobuf::Messa
 };
 // -------------------------------------------------------------------
 
-class ListMonitoredResourceDescriptorsResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListMonitoredResourceDescriptorsResponse) */ {
+class ListMonitoredResourceDescriptorsResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListMonitoredResourceDescriptorsResponse) */ {
  public:
   ListMonitoredResourceDescriptorsResponse();
   virtual ~ListMonitoredResourceDescriptorsResponse();
@@ -312,7 +299,6 @@ class ListMonitoredResourceDescriptorsResponse : public ::google::protobuf::Mess
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ListMonitoredResourceDescriptorsResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -337,8 +323,8 @@ class ListMonitoredResourceDescriptorsResponse : public ::google::protobuf::Mess
   ListMonitoredResourceDescriptorsResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ListMonitoredResourceDescriptorsResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ListMonitoredResourceDescriptorsResponse& from);
   void MergeFrom(const ListMonitoredResourceDescriptorsResponse& from);
   void Clear() final;
@@ -349,14 +335,13 @@ class ListMonitoredResourceDescriptorsResponse : public ::google::protobuf::Mess
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ListMonitoredResourceDescriptorsResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -367,7 +352,7 @@ class ListMonitoredResourceDescriptorsResponse : public ::google::protobuf::Mess
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -402,7 +387,7 @@ class ListMonitoredResourceDescriptorsResponse : public ::google::protobuf::Mess
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.ListMonitoredResourceDescriptorsResponse)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::google::api::MonitoredResourceDescriptor > resource_descriptors_;
   ::google::protobuf::internal::ArenaStringPtr next_page_token_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -410,7 +395,7 @@ class ListMonitoredResourceDescriptorsResponse : public ::google::protobuf::Mess
 };
 // -------------------------------------------------------------------
 
-class GetMonitoredResourceDescriptorRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.GetMonitoredResourceDescriptorRequest) */ {
+class GetMonitoredResourceDescriptorRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.GetMonitoredResourceDescriptorRequest) */ {
  public:
   GetMonitoredResourceDescriptorRequest();
   virtual ~GetMonitoredResourceDescriptorRequest();
@@ -436,7 +421,6 @@ class GetMonitoredResourceDescriptorRequest : public ::google::protobuf::Message
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GetMonitoredResourceDescriptorRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -461,8 +445,8 @@ class GetMonitoredResourceDescriptorRequest : public ::google::protobuf::Message
   GetMonitoredResourceDescriptorRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<GetMonitoredResourceDescriptorRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const GetMonitoredResourceDescriptorRequest& from);
   void MergeFrom(const GetMonitoredResourceDescriptorRequest& from);
   void Clear() final;
@@ -473,14 +457,13 @@ class GetMonitoredResourceDescriptorRequest : public ::google::protobuf::Message
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(GetMonitoredResourceDescriptorRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -491,7 +474,7 @@ class GetMonitoredResourceDescriptorRequest : public ::google::protobuf::Message
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -514,14 +497,14 @@ class GetMonitoredResourceDescriptorRequest : public ::google::protobuf::Message
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.GetMonitoredResourceDescriptorRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_google_2fmonitoring_2fv3_2fmetric_5fservice_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ListMetricDescriptorsRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListMetricDescriptorsRequest) */ {
+class ListMetricDescriptorsRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListMetricDescriptorsRequest) */ {
  public:
   ListMetricDescriptorsRequest();
   virtual ~ListMetricDescriptorsRequest();
@@ -547,7 +530,6 @@ class ListMetricDescriptorsRequest : public ::google::protobuf::Message /* @@pro
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ListMetricDescriptorsRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -572,8 +554,8 @@ class ListMetricDescriptorsRequest : public ::google::protobuf::Message /* @@pro
   ListMetricDescriptorsRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ListMetricDescriptorsRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ListMetricDescriptorsRequest& from);
   void MergeFrom(const ListMetricDescriptorsRequest& from);
   void Clear() final;
@@ -584,14 +566,13 @@ class ListMetricDescriptorsRequest : public ::google::protobuf::Message /* @@pro
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ListMetricDescriptorsRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -602,7 +583,7 @@ class ListMetricDescriptorsRequest : public ::google::protobuf::Message /* @@pro
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -659,7 +640,7 @@ class ListMetricDescriptorsRequest : public ::google::protobuf::Message /* @@pro
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.ListMetricDescriptorsRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr filter_;
   ::google::protobuf::internal::ArenaStringPtr page_token_;
   ::google::protobuf::internal::ArenaStringPtr name_;
@@ -669,7 +650,7 @@ class ListMetricDescriptorsRequest : public ::google::protobuf::Message /* @@pro
 };
 // -------------------------------------------------------------------
 
-class ListMetricDescriptorsResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListMetricDescriptorsResponse) */ {
+class ListMetricDescriptorsResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListMetricDescriptorsResponse) */ {
  public:
   ListMetricDescriptorsResponse();
   virtual ~ListMetricDescriptorsResponse();
@@ -695,7 +676,6 @@ class ListMetricDescriptorsResponse : public ::google::protobuf::Message /* @@pr
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ListMetricDescriptorsResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -720,8 +700,8 @@ class ListMetricDescriptorsResponse : public ::google::protobuf::Message /* @@pr
   ListMetricDescriptorsResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ListMetricDescriptorsResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ListMetricDescriptorsResponse& from);
   void MergeFrom(const ListMetricDescriptorsResponse& from);
   void Clear() final;
@@ -732,14 +712,13 @@ class ListMetricDescriptorsResponse : public ::google::protobuf::Message /* @@pr
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ListMetricDescriptorsResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -750,7 +729,7 @@ class ListMetricDescriptorsResponse : public ::google::protobuf::Message /* @@pr
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -785,7 +764,7 @@ class ListMetricDescriptorsResponse : public ::google::protobuf::Message /* @@pr
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.ListMetricDescriptorsResponse)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::google::api::MetricDescriptor > metric_descriptors_;
   ::google::protobuf::internal::ArenaStringPtr next_page_token_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -793,7 +772,7 @@ class ListMetricDescriptorsResponse : public ::google::protobuf::Message /* @@pr
 };
 // -------------------------------------------------------------------
 
-class GetMetricDescriptorRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.GetMetricDescriptorRequest) */ {
+class GetMetricDescriptorRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.GetMetricDescriptorRequest) */ {
  public:
   GetMetricDescriptorRequest();
   virtual ~GetMetricDescriptorRequest();
@@ -819,7 +798,6 @@ class GetMetricDescriptorRequest : public ::google::protobuf::Message /* @@proto
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GetMetricDescriptorRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -844,8 +822,8 @@ class GetMetricDescriptorRequest : public ::google::protobuf::Message /* @@proto
   GetMetricDescriptorRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<GetMetricDescriptorRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const GetMetricDescriptorRequest& from);
   void MergeFrom(const GetMetricDescriptorRequest& from);
   void Clear() final;
@@ -856,14 +834,13 @@ class GetMetricDescriptorRequest : public ::google::protobuf::Message /* @@proto
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(GetMetricDescriptorRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -874,7 +851,7 @@ class GetMetricDescriptorRequest : public ::google::protobuf::Message /* @@proto
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -897,14 +874,14 @@ class GetMetricDescriptorRequest : public ::google::protobuf::Message /* @@proto
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.GetMetricDescriptorRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_google_2fmonitoring_2fv3_2fmetric_5fservice_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class CreateMetricDescriptorRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.CreateMetricDescriptorRequest) */ {
+class CreateMetricDescriptorRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.CreateMetricDescriptorRequest) */ {
  public:
   CreateMetricDescriptorRequest();
   virtual ~CreateMetricDescriptorRequest();
@@ -930,7 +907,6 @@ class CreateMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const CreateMetricDescriptorRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -955,8 +931,8 @@ class CreateMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
   CreateMetricDescriptorRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<CreateMetricDescriptorRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const CreateMetricDescriptorRequest& from);
   void MergeFrom(const CreateMetricDescriptorRequest& from);
   void Clear() final;
@@ -967,14 +943,13 @@ class CreateMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(CreateMetricDescriptorRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -985,7 +960,7 @@ class CreateMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1020,7 +995,7 @@ class CreateMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.CreateMetricDescriptorRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::api::MetricDescriptor* metric_descriptor_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -1028,7 +1003,7 @@ class CreateMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
 };
 // -------------------------------------------------------------------
 
-class DeleteMetricDescriptorRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.DeleteMetricDescriptorRequest) */ {
+class DeleteMetricDescriptorRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.DeleteMetricDescriptorRequest) */ {
  public:
   DeleteMetricDescriptorRequest();
   virtual ~DeleteMetricDescriptorRequest();
@@ -1054,7 +1029,6 @@ class DeleteMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const DeleteMetricDescriptorRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1079,8 +1053,8 @@ class DeleteMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
   DeleteMetricDescriptorRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<DeleteMetricDescriptorRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const DeleteMetricDescriptorRequest& from);
   void MergeFrom(const DeleteMetricDescriptorRequest& from);
   void Clear() final;
@@ -1091,14 +1065,13 @@ class DeleteMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(DeleteMetricDescriptorRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1109,7 +1082,7 @@ class DeleteMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1132,14 +1105,14 @@ class DeleteMetricDescriptorRequest : public ::google::protobuf::Message /* @@pr
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.DeleteMetricDescriptorRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_google_2fmonitoring_2fv3_2fmetric_5fservice_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ListTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListTimeSeriesRequest) */ {
+class ListTimeSeriesRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListTimeSeriesRequest) */ {
  public:
   ListTimeSeriesRequest();
   virtual ~ListTimeSeriesRequest();
@@ -1165,7 +1138,6 @@ class ListTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_ins
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ListTimeSeriesRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1190,8 +1162,8 @@ class ListTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_ins
   ListTimeSeriesRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ListTimeSeriesRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ListTimeSeriesRequest& from);
   void MergeFrom(const ListTimeSeriesRequest& from);
   void Clear() final;
@@ -1202,14 +1174,13 @@ class ListTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_ins
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ListTimeSeriesRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1220,7 +1191,7 @@ class ListTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_ins
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1238,17 +1209,6 @@ class ListTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_ins
     ListTimeSeriesRequest_TimeSeriesView_TimeSeriesView_MAX;
   static const int TimeSeriesView_ARRAYSIZE =
     ListTimeSeriesRequest_TimeSeriesView_TimeSeriesView_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  TimeSeriesView_descriptor() {
-    return ListTimeSeriesRequest_TimeSeriesView_descriptor();
-  }
-  static inline const ::std::string& TimeSeriesView_Name(TimeSeriesView value) {
-    return ListTimeSeriesRequest_TimeSeriesView_Name(value);
-  }
-  static inline bool TimeSeriesView_Parse(const ::std::string& name,
-      TimeSeriesView* value) {
-    return ListTimeSeriesRequest_TimeSeriesView_Parse(name, value);
-  }
 
   // accessors -------------------------------------------------------
 
@@ -1347,7 +1307,7 @@ class ListTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_ins
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.ListTimeSeriesRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr filter_;
   ::google::protobuf::internal::ArenaStringPtr order_by_;
   ::google::protobuf::internal::ArenaStringPtr page_token_;
@@ -1361,7 +1321,7 @@ class ListTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_ins
 };
 // -------------------------------------------------------------------
 
-class ListTimeSeriesResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListTimeSeriesResponse) */ {
+class ListTimeSeriesResponse : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.ListTimeSeriesResponse) */ {
  public:
   ListTimeSeriesResponse();
   virtual ~ListTimeSeriesResponse();
@@ -1387,7 +1347,6 @@ class ListTimeSeriesResponse : public ::google::protobuf::Message /* @@protoc_in
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ListTimeSeriesResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1412,8 +1371,8 @@ class ListTimeSeriesResponse : public ::google::protobuf::Message /* @@protoc_in
   ListTimeSeriesResponse* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<ListTimeSeriesResponse>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const ListTimeSeriesResponse& from);
   void MergeFrom(const ListTimeSeriesResponse& from);
   void Clear() final;
@@ -1424,14 +1383,13 @@ class ListTimeSeriesResponse : public ::google::protobuf::Message /* @@protoc_in
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(ListTimeSeriesResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1442,7 +1400,7 @@ class ListTimeSeriesResponse : public ::google::protobuf::Message /* @@protoc_in
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1459,6 +1417,18 @@ class ListTimeSeriesResponse : public ::google::protobuf::Message /* @@protoc_in
   ::google::monitoring::v3::TimeSeries* add_time_series();
   const ::google::protobuf::RepeatedPtrField< ::google::monitoring::v3::TimeSeries >&
       time_series() const;
+
+  // repeated .google.rpc.Status execution_errors = 3;
+  int execution_errors_size() const;
+  void clear_execution_errors();
+  static const int kExecutionErrorsFieldNumber = 3;
+  ::google::rpc::Status* mutable_execution_errors(int index);
+  ::google::protobuf::RepeatedPtrField< ::google::rpc::Status >*
+      mutable_execution_errors();
+  const ::google::rpc::Status& execution_errors(int index) const;
+  ::google::rpc::Status* add_execution_errors();
+  const ::google::protobuf::RepeatedPtrField< ::google::rpc::Status >&
+      execution_errors() const;
 
   // string next_page_token = 2;
   void clear_next_page_token();
@@ -1477,15 +1447,16 @@ class ListTimeSeriesResponse : public ::google::protobuf::Message /* @@protoc_in
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.ListTimeSeriesResponse)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::google::monitoring::v3::TimeSeries > time_series_;
+  ::google::protobuf::RepeatedPtrField< ::google::rpc::Status > execution_errors_;
   ::google::protobuf::internal::ArenaStringPtr next_page_token_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_google_2fmonitoring_2fv3_2fmetric_5fservice_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class CreateTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.CreateTimeSeriesRequest) */ {
+class CreateTimeSeriesRequest : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.CreateTimeSeriesRequest) */ {
  public:
   CreateTimeSeriesRequest();
   virtual ~CreateTimeSeriesRequest();
@@ -1511,7 +1482,6 @@ class CreateTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_i
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const CreateTimeSeriesRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1536,8 +1506,8 @@ class CreateTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_i
   CreateTimeSeriesRequest* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<CreateTimeSeriesRequest>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const CreateTimeSeriesRequest& from);
   void MergeFrom(const CreateTimeSeriesRequest& from);
   void Clear() final;
@@ -1548,14 +1518,13 @@ class CreateTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_i
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(CreateTimeSeriesRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1566,7 +1535,7 @@ class CreateTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_i
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1601,7 +1570,7 @@ class CreateTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_i
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.CreateTimeSeriesRequest)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::google::monitoring::v3::TimeSeries > time_series_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -1609,7 +1578,7 @@ class CreateTimeSeriesRequest : public ::google::protobuf::Message /* @@protoc_i
 };
 // -------------------------------------------------------------------
 
-class CreateTimeSeriesError : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.CreateTimeSeriesError) */ {
+class CreateTimeSeriesError : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.CreateTimeSeriesError) */ {
  public:
   CreateTimeSeriesError();
   virtual ~CreateTimeSeriesError();
@@ -1635,7 +1604,6 @@ class CreateTimeSeriesError : public ::google::protobuf::Message /* @@protoc_ins
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const CreateTimeSeriesError& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -1660,8 +1628,8 @@ class CreateTimeSeriesError : public ::google::protobuf::Message /* @@protoc_ins
   CreateTimeSeriesError* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<CreateTimeSeriesError>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const CreateTimeSeriesError& from);
   void MergeFrom(const CreateTimeSeriesError& from);
   void Clear() final;
@@ -1672,14 +1640,13 @@ class CreateTimeSeriesError : public ::google::protobuf::Message /* @@protoc_ins
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(CreateTimeSeriesError* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -1690,7 +1657,7 @@ class CreateTimeSeriesError : public ::google::protobuf::Message /* @@protoc_ins
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -1723,7 +1690,7 @@ class CreateTimeSeriesError : public ::google::protobuf::Message /* @@protoc_ins
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.CreateTimeSeriesError)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::monitoring::v3::TimeSeries* time_series_;
   ::google::rpc::Status* status_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -2958,6 +2925,33 @@ inline void ListTimeSeriesResponse::set_allocated_next_page_token(::std::string*
   // @@protoc_insertion_point(field_set_allocated:google.monitoring.v3.ListTimeSeriesResponse.next_page_token)
 }
 
+// repeated .google.rpc.Status execution_errors = 3;
+inline int ListTimeSeriesResponse::execution_errors_size() const {
+  return execution_errors_.size();
+}
+inline ::google::rpc::Status* ListTimeSeriesResponse::mutable_execution_errors(int index) {
+  // @@protoc_insertion_point(field_mutable:google.monitoring.v3.ListTimeSeriesResponse.execution_errors)
+  return execution_errors_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::google::rpc::Status >*
+ListTimeSeriesResponse::mutable_execution_errors() {
+  // @@protoc_insertion_point(field_mutable_list:google.monitoring.v3.ListTimeSeriesResponse.execution_errors)
+  return &execution_errors_;
+}
+inline const ::google::rpc::Status& ListTimeSeriesResponse::execution_errors(int index) const {
+  // @@protoc_insertion_point(field_get:google.monitoring.v3.ListTimeSeriesResponse.execution_errors)
+  return execution_errors_.Get(index);
+}
+inline ::google::rpc::Status* ListTimeSeriesResponse::add_execution_errors() {
+  // @@protoc_insertion_point(field_add:google.monitoring.v3.ListTimeSeriesResponse.execution_errors)
+  return execution_errors_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::google::rpc::Status >&
+ListTimeSeriesResponse::execution_errors() const {
+  // @@protoc_insertion_point(field_list:google.monitoring.v3.ListTimeSeriesResponse.execution_errors)
+  return execution_errors_;
+}
+
 // -------------------------------------------------------------------
 
 // CreateTimeSeriesRequest
@@ -3178,10 +3172,6 @@ namespace google {
 namespace protobuf {
 
 template <> struct is_proto_enum< ::google::monitoring::v3::ListTimeSeriesRequest_TimeSeriesView> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::google::monitoring::v3::ListTimeSeriesRequest_TimeSeriesView>() {
-  return ::google::monitoring::v3::ListTimeSeriesRequest_TimeSeriesView_descriptor();
-}
 
 }  // namespace protobuf
 }  // namespace google

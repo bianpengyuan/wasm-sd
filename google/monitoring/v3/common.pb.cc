@@ -20,7 +20,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_google_2fapi_2fdistribution_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_google_2fapi_2fdistribution_2eproto ::google::protobuf::internal::SCCInfo<2> scc_info_Distribution;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_google_2fapi_2fdistribution_2eproto ::google::protobuf::internal::SCCInfo<3> scc_info_Distribution;
 }  // namespace protobuf_google_2fapi_2fdistribution_2eproto
 namespace protobuf_google_2fprotobuf_2fduration_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_google_2fprotobuf_2fduration_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Duration;

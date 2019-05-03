@@ -30,7 +30,6 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
-#include "google/api/annotations.pb.h"
 #include <google/protobuf/any.pb.h>
 #include <google/protobuf/timestamp.pb.h>
 // @@protoc_insertion_point(includes)
@@ -41,7 +40,7 @@ namespace protobuf_google_2fapi_2fdistribution_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[6];
+  static const ::google::protobuf::internal::ParseTable schema[7];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -65,6 +64,9 @@ extern Distribution_BucketOptions_ExponentialDefaultTypeInternal _Distribution_B
 class Distribution_BucketOptions_Linear;
 class Distribution_BucketOptions_LinearDefaultTypeInternal;
 extern Distribution_BucketOptions_LinearDefaultTypeInternal _Distribution_BucketOptions_Linear_default_instance_;
+class Distribution_Exemplar;
+class Distribution_ExemplarDefaultTypeInternal;
+extern Distribution_ExemplarDefaultTypeInternal _Distribution_Exemplar_default_instance_;
 class Distribution_Range;
 class Distribution_RangeDefaultTypeInternal;
 extern Distribution_RangeDefaultTypeInternal _Distribution_Range_default_instance_;
@@ -77,6 +79,7 @@ template<> ::google::api::Distribution_BucketOptions* Arena::CreateMaybeMessage<
 template<> ::google::api::Distribution_BucketOptions_Explicit* Arena::CreateMaybeMessage<::google::api::Distribution_BucketOptions_Explicit>(Arena*);
 template<> ::google::api::Distribution_BucketOptions_Exponential* Arena::CreateMaybeMessage<::google::api::Distribution_BucketOptions_Exponential>(Arena*);
 template<> ::google::api::Distribution_BucketOptions_Linear* Arena::CreateMaybeMessage<::google::api::Distribution_BucketOptions_Linear>(Arena*);
+template<> ::google::api::Distribution_Exemplar* Arena::CreateMaybeMessage<::google::api::Distribution_Exemplar>(Arena*);
 template<> ::google::api::Distribution_Range* Arena::CreateMaybeMessage<::google::api::Distribution_Range>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -698,6 +701,135 @@ class Distribution_BucketOptions : public ::google::protobuf::Message /* @@proto
 };
 // -------------------------------------------------------------------
 
+class Distribution_Exemplar : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.api.Distribution.Exemplar) */ {
+ public:
+  Distribution_Exemplar();
+  virtual ~Distribution_Exemplar();
+
+  Distribution_Exemplar(const Distribution_Exemplar& from);
+
+  inline Distribution_Exemplar& operator=(const Distribution_Exemplar& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  Distribution_Exemplar(Distribution_Exemplar&& from) noexcept
+    : Distribution_Exemplar() {
+    *this = ::std::move(from);
+  }
+
+  inline Distribution_Exemplar& operator=(Distribution_Exemplar&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Distribution_Exemplar& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const Distribution_Exemplar* internal_default_instance() {
+    return reinterpret_cast<const Distribution_Exemplar*>(
+               &_Distribution_Exemplar_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  void Swap(Distribution_Exemplar* other);
+  friend void swap(Distribution_Exemplar& a, Distribution_Exemplar& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline Distribution_Exemplar* New() const final {
+    return CreateMaybeMessage<Distribution_Exemplar>(NULL);
+  }
+
+  Distribution_Exemplar* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<Distribution_Exemplar>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const Distribution_Exemplar& from);
+  void MergeFrom(const Distribution_Exemplar& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Distribution_Exemplar* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .google.protobuf.Any attachments = 3;
+  int attachments_size() const;
+  void clear_attachments();
+  static const int kAttachmentsFieldNumber = 3;
+  ::google::protobuf::Any* mutable_attachments(int index);
+  ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any >*
+      mutable_attachments();
+  const ::google::protobuf::Any& attachments(int index) const;
+  ::google::protobuf::Any* add_attachments();
+  const ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any >&
+      attachments() const;
+
+  // .google.protobuf.Timestamp timestamp = 2;
+  bool has_timestamp() const;
+  void clear_timestamp();
+  static const int kTimestampFieldNumber = 2;
+  private:
+  const ::google::protobuf::Timestamp& _internal_timestamp() const;
+  public:
+  const ::google::protobuf::Timestamp& timestamp() const;
+  ::google::protobuf::Timestamp* release_timestamp();
+  ::google::protobuf::Timestamp* mutable_timestamp();
+  void set_allocated_timestamp(::google::protobuf::Timestamp* timestamp);
+
+  // double value = 1;
+  void clear_value();
+  static const int kValueFieldNumber = 1;
+  double value() const;
+  void set_value(double value);
+
+  // @@protoc_insertion_point(class_scope:google.api.Distribution.Exemplar)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any > attachments_;
+  ::google::protobuf::Timestamp* timestamp_;
+  double value_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_google_2fapi_2fdistribution_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
 class Distribution : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.api.Distribution) */ {
  public:
   Distribution();
@@ -733,7 +865,7 @@ class Distribution : public ::google::protobuf::Message /* @@protoc_insertion_po
                &_Distribution_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   void Swap(Distribution* other);
   friend void swap(Distribution& a, Distribution& b) {
@@ -785,6 +917,7 @@ class Distribution : public ::google::protobuf::Message /* @@protoc_insertion_po
 
   typedef Distribution_Range Range;
   typedef Distribution_BucketOptions BucketOptions;
+  typedef Distribution_Exemplar Exemplar;
 
   // accessors -------------------------------------------------------
 
@@ -799,6 +932,18 @@ class Distribution : public ::google::protobuf::Message /* @@protoc_insertion_po
       bucket_counts() const;
   ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
       mutable_bucket_counts();
+
+  // repeated .google.api.Distribution.Exemplar exemplars = 10;
+  int exemplars_size() const;
+  void clear_exemplars();
+  static const int kExemplarsFieldNumber = 10;
+  ::google::api::Distribution_Exemplar* mutable_exemplars(int index);
+  ::google::protobuf::RepeatedPtrField< ::google::api::Distribution_Exemplar >*
+      mutable_exemplars();
+  const ::google::api::Distribution_Exemplar& exemplars(int index) const;
+  ::google::api::Distribution_Exemplar* add_exemplars();
+  const ::google::protobuf::RepeatedPtrField< ::google::api::Distribution_Exemplar >&
+      exemplars() const;
 
   // .google.api.Distribution.Range range = 4;
   bool has_range() const;
@@ -848,6 +993,7 @@ class Distribution : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int64 > bucket_counts_;
   mutable int _bucket_counts_cached_byte_size_;
+  ::google::protobuf::RepeatedPtrField< ::google::api::Distribution_Exemplar > exemplars_;
   ::google::api::Distribution_Range* range_;
   ::google::api::Distribution_BucketOptions* bucket_options_;
   ::google::protobuf::int64 count_;
@@ -1168,6 +1314,100 @@ inline Distribution_BucketOptions::OptionsCase Distribution_BucketOptions::optio
 }
 // -------------------------------------------------------------------
 
+// Distribution_Exemplar
+
+// double value = 1;
+inline void Distribution_Exemplar::clear_value() {
+  value_ = 0;
+}
+inline double Distribution_Exemplar::value() const {
+  // @@protoc_insertion_point(field_get:google.api.Distribution.Exemplar.value)
+  return value_;
+}
+inline void Distribution_Exemplar::set_value(double value) {
+  
+  value_ = value;
+  // @@protoc_insertion_point(field_set:google.api.Distribution.Exemplar.value)
+}
+
+// .google.protobuf.Timestamp timestamp = 2;
+inline bool Distribution_Exemplar::has_timestamp() const {
+  return this != internal_default_instance() && timestamp_ != NULL;
+}
+inline const ::google::protobuf::Timestamp& Distribution_Exemplar::_internal_timestamp() const {
+  return *timestamp_;
+}
+inline const ::google::protobuf::Timestamp& Distribution_Exemplar::timestamp() const {
+  const ::google::protobuf::Timestamp* p = timestamp_;
+  // @@protoc_insertion_point(field_get:google.api.Distribution.Exemplar.timestamp)
+  return p != NULL ? *p : *reinterpret_cast<const ::google::protobuf::Timestamp*>(
+      &::google::protobuf::_Timestamp_default_instance_);
+}
+inline ::google::protobuf::Timestamp* Distribution_Exemplar::release_timestamp() {
+  // @@protoc_insertion_point(field_release:google.api.Distribution.Exemplar.timestamp)
+  
+  ::google::protobuf::Timestamp* temp = timestamp_;
+  timestamp_ = NULL;
+  return temp;
+}
+inline ::google::protobuf::Timestamp* Distribution_Exemplar::mutable_timestamp() {
+  
+  if (timestamp_ == NULL) {
+    auto* p = CreateMaybeMessage<::google::protobuf::Timestamp>(GetArenaNoVirtual());
+    timestamp_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:google.api.Distribution.Exemplar.timestamp)
+  return timestamp_;
+}
+inline void Distribution_Exemplar::set_allocated_timestamp(::google::protobuf::Timestamp* timestamp) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(timestamp_);
+  }
+  if (timestamp) {
+    ::google::protobuf::Arena* submessage_arena =
+      reinterpret_cast<::google::protobuf::MessageLite*>(timestamp)->GetArena();
+    if (message_arena != submessage_arena) {
+      timestamp = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, timestamp, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  timestamp_ = timestamp;
+  // @@protoc_insertion_point(field_set_allocated:google.api.Distribution.Exemplar.timestamp)
+}
+
+// repeated .google.protobuf.Any attachments = 3;
+inline int Distribution_Exemplar::attachments_size() const {
+  return attachments_.size();
+}
+inline ::google::protobuf::Any* Distribution_Exemplar::mutable_attachments(int index) {
+  // @@protoc_insertion_point(field_mutable:google.api.Distribution.Exemplar.attachments)
+  return attachments_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any >*
+Distribution_Exemplar::mutable_attachments() {
+  // @@protoc_insertion_point(field_mutable_list:google.api.Distribution.Exemplar.attachments)
+  return &attachments_;
+}
+inline const ::google::protobuf::Any& Distribution_Exemplar::attachments(int index) const {
+  // @@protoc_insertion_point(field_get:google.api.Distribution.Exemplar.attachments)
+  return attachments_.Get(index);
+}
+inline ::google::protobuf::Any* Distribution_Exemplar::add_attachments() {
+  // @@protoc_insertion_point(field_add:google.api.Distribution.Exemplar.attachments)
+  return attachments_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any >&
+Distribution_Exemplar::attachments() const {
+  // @@protoc_insertion_point(field_list:google.api.Distribution.Exemplar.attachments)
+  return attachments_;
+}
+
+// -------------------------------------------------------------------
+
 // Distribution
 
 // int64 count = 1;
@@ -1350,9 +1590,41 @@ Distribution::mutable_bucket_counts() {
   return &bucket_counts_;
 }
 
+// repeated .google.api.Distribution.Exemplar exemplars = 10;
+inline int Distribution::exemplars_size() const {
+  return exemplars_.size();
+}
+inline void Distribution::clear_exemplars() {
+  exemplars_.Clear();
+}
+inline ::google::api::Distribution_Exemplar* Distribution::mutable_exemplars(int index) {
+  // @@protoc_insertion_point(field_mutable:google.api.Distribution.exemplars)
+  return exemplars_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::google::api::Distribution_Exemplar >*
+Distribution::mutable_exemplars() {
+  // @@protoc_insertion_point(field_mutable_list:google.api.Distribution.exemplars)
+  return &exemplars_;
+}
+inline const ::google::api::Distribution_Exemplar& Distribution::exemplars(int index) const {
+  // @@protoc_insertion_point(field_get:google.api.Distribution.exemplars)
+  return exemplars_.Get(index);
+}
+inline ::google::api::Distribution_Exemplar* Distribution::add_exemplars() {
+  // @@protoc_insertion_point(field_add:google.api.Distribution.exemplars)
+  return exemplars_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::google::api::Distribution_Exemplar >&
+Distribution::exemplars() const {
+  // @@protoc_insertion_point(field_list:google.api.Distribution.exemplars)
+  return exemplars_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

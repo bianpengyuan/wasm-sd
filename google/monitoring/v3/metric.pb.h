@@ -25,11 +25,12 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
+#include <google/protobuf/metadata_lite.h>
+#include <google/protobuf/message_lite.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/unknown_field_set.h>
+#include "google/api/annotations.pb.h"
+#include "google/api/label.pb.h"
 #include "google/api/metric.pb.h"
 #include "google/api/monitored_resource.pb.h"
 #include "google/monitoring/v3/common.pb.h"
@@ -46,7 +47,6 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
-void AddDescriptors();
 }  // namespace protobuf_google_2fmonitoring_2fv3_2fmetric_2eproto
 namespace google {
 namespace monitoring {
@@ -72,7 +72,7 @@ namespace v3 {
 
 // ===================================================================
 
-class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.Point) */ {
+class Point : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.Point) */ {
  public:
   Point();
   virtual ~Point();
@@ -98,7 +98,6 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const Point& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -123,8 +122,8 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   Point* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<Point>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const Point& from);
   void MergeFrom(const Point& from);
   void Clear() final;
@@ -135,14 +134,13 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(Point* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -153,7 +151,7 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -186,7 +184,7 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.Point)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::monitoring::v3::TimeInterval* interval_;
   ::google::monitoring::v3::TypedValue* value_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -194,7 +192,7 @@ class Point : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
 };
 // -------------------------------------------------------------------
 
-class TimeSeries : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.monitoring.v3.TimeSeries) */ {
+class TimeSeries : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.monitoring.v3.TimeSeries) */ {
  public:
   TimeSeries();
   virtual ~TimeSeries();
@@ -220,7 +218,6 @@ class TimeSeries : public ::google::protobuf::Message /* @@protoc_insertion_poin
     return *this;
   }
   #endif
-  static const ::google::protobuf::Descriptor* descriptor();
   static const TimeSeries& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -245,8 +242,8 @@ class TimeSeries : public ::google::protobuf::Message /* @@protoc_insertion_poin
   TimeSeries* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<TimeSeries>(arena);
   }
-  void CopyFrom(const ::google::protobuf::Message& from) final;
-  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
+    final;
   void CopyFrom(const TimeSeries& from);
   void MergeFrom(const TimeSeries& from);
   void Clear() final;
@@ -257,14 +254,13 @@ class TimeSeries : public ::google::protobuf::Message /* @@protoc_insertion_poin
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const final;
+  void DiscardUnknownFields();
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const final;
+  void SetCachedSize(int size) const;
   void InternalSwap(TimeSeries* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
@@ -275,7 +271,7 @@ class TimeSeries : public ::google::protobuf::Message /* @@protoc_insertion_poin
   }
   public:
 
-  ::google::protobuf::Metadata GetMetadata() const final;
+  ::std::string GetTypeName() const final;
 
   // nested types ----------------------------------------------------
 
@@ -317,6 +313,18 @@ class TimeSeries : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::api::MonitoredResource* mutable_resource();
   void set_allocated_resource(::google::api::MonitoredResource* resource);
 
+  // .google.api.MonitoredResourceMetadata metadata = 7;
+  bool has_metadata() const;
+  void clear_metadata();
+  static const int kMetadataFieldNumber = 7;
+  private:
+  const ::google::api::MonitoredResourceMetadata& _internal_metadata() const;
+  public:
+  const ::google::api::MonitoredResourceMetadata& metadata() const;
+  ::google::api::MonitoredResourceMetadata* release_metadata();
+  ::google::api::MonitoredResourceMetadata* mutable_metadata();
+  void set_allocated_metadata(::google::api::MonitoredResourceMetadata* metadata);
+
   // .google.api.MetricDescriptor.MetricKind metric_kind = 3;
   void clear_metric_kind();
   static const int kMetricKindFieldNumber = 3;
@@ -332,10 +340,11 @@ class TimeSeries : public ::google::protobuf::Message /* @@protoc_insertion_poin
   // @@protoc_insertion_point(class_scope:google.monitoring.v3.TimeSeries)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::google::monitoring::v3::Point > points_;
   ::google::api::Metric* metric_;
   ::google::api::MonitoredResource* resource_;
+  ::google::api::MonitoredResourceMetadata* metadata_;
   int metric_kind_;
   int value_type_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -547,6 +556,55 @@ inline void TimeSeries::set_allocated_resource(::google::api::MonitoredResource*
   }
   resource_ = resource;
   // @@protoc_insertion_point(field_set_allocated:google.monitoring.v3.TimeSeries.resource)
+}
+
+// .google.api.MonitoredResourceMetadata metadata = 7;
+inline bool TimeSeries::has_metadata() const {
+  return this != internal_default_instance() && metadata_ != NULL;
+}
+inline const ::google::api::MonitoredResourceMetadata& TimeSeries::_internal_metadata() const {
+  return *metadata_;
+}
+inline const ::google::api::MonitoredResourceMetadata& TimeSeries::metadata() const {
+  const ::google::api::MonitoredResourceMetadata* p = metadata_;
+  // @@protoc_insertion_point(field_get:google.monitoring.v3.TimeSeries.metadata)
+  return p != NULL ? *p : *reinterpret_cast<const ::google::api::MonitoredResourceMetadata*>(
+      &::google::api::_MonitoredResourceMetadata_default_instance_);
+}
+inline ::google::api::MonitoredResourceMetadata* TimeSeries::release_metadata() {
+  // @@protoc_insertion_point(field_release:google.monitoring.v3.TimeSeries.metadata)
+  
+  ::google::api::MonitoredResourceMetadata* temp = metadata_;
+  metadata_ = NULL;
+  return temp;
+}
+inline ::google::api::MonitoredResourceMetadata* TimeSeries::mutable_metadata() {
+  
+  if (metadata_ == NULL) {
+    auto* p = CreateMaybeMessage<::google::api::MonitoredResourceMetadata>(GetArenaNoVirtual());
+    metadata_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:google.monitoring.v3.TimeSeries.metadata)
+  return metadata_;
+}
+inline void TimeSeries::set_allocated_metadata(::google::api::MonitoredResourceMetadata* metadata) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete reinterpret_cast< ::google::protobuf::MessageLite*>(metadata_);
+  }
+  if (metadata) {
+    ::google::protobuf::Arena* submessage_arena =
+      reinterpret_cast<::google::protobuf::MessageLite*>(metadata)->GetArena();
+    if (message_arena != submessage_arena) {
+      metadata = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, metadata, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  metadata_ = metadata;
+  // @@protoc_insertion_point(field_set_allocated:google.monitoring.v3.TimeSeries.metadata)
 }
 
 // .google.api.MetricDescriptor.MetricKind metric_kind = 3;

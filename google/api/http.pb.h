@@ -368,6 +368,29 @@ class HttpRule : public ::google::protobuf::Message /* @@protoc_insertion_point(
   void unsafe_arena_set_allocated_body(
       ::std::string* body);
 
+  // string response_body = 12;
+  void clear_response_body();
+  static const int kResponseBodyFieldNumber = 12;
+  const ::std::string& response_body() const;
+  void set_response_body(const ::std::string& value);
+  #if LANG_CXX11
+  void set_response_body(::std::string&& value);
+  #endif
+  void set_response_body(const char* value);
+  void set_response_body(const char* value, size_t size);
+  ::std::string* mutable_response_body();
+  ::std::string* release_response_body();
+  void set_allocated_response_body(::std::string* response_body);
+  PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  ::std::string* unsafe_arena_release_response_body();
+  PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_response_body(
+      ::std::string* response_body);
+
   // string get = 2;
   private:
   bool has_get() const;
@@ -534,6 +557,7 @@ class HttpRule : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::RepeatedPtrField< ::google::api::HttpRule > additional_bindings_;
   ::google::protobuf::internal::ArenaStringPtr selector_;
   ::google::protobuf::internal::ArenaStringPtr body_;
+  ::google::protobuf::internal::ArenaStringPtr response_body_;
   union PatternUnion {
     PatternUnion() {}
     ::google::protobuf::internal::ArenaStringPtr get_;
@@ -1602,6 +1626,81 @@ inline void HttpRule::unsafe_arena_set_allocated_body(
   body_.UnsafeArenaSetAllocated(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       body, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:google.api.HttpRule.body)
+}
+
+// string response_body = 12;
+inline void HttpRule::clear_response_body() {
+  response_body_.ClearToEmpty(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
+}
+inline const ::std::string& HttpRule::response_body() const {
+  // @@protoc_insertion_point(field_get:google.api.HttpRule.response_body)
+  return response_body_.Get();
+}
+inline void HttpRule::set_response_body(const ::std::string& value) {
+  
+  response_body_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  // @@protoc_insertion_point(field_set:google.api.HttpRule.response_body)
+}
+#if LANG_CXX11
+inline void HttpRule::set_response_body(::std::string&& value) {
+  
+  response_body_.Set(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
+  // @@protoc_insertion_point(field_set_rvalue:google.api.HttpRule.response_body)
+}
+#endif
+inline void HttpRule::set_response_body(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  response_body_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArenaNoVirtual());
+  // @@protoc_insertion_point(field_set_char:google.api.HttpRule.response_body)
+}
+inline void HttpRule::set_response_body(const char* value,
+    size_t size) {
+  
+  response_body_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
+  // @@protoc_insertion_point(field_set_pointer:google.api.HttpRule.response_body)
+}
+inline ::std::string* HttpRule::mutable_response_body() {
+  
+  // @@protoc_insertion_point(field_mutable:google.api.HttpRule.response_body)
+  return response_body_.Mutable(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
+}
+inline ::std::string* HttpRule::release_response_body() {
+  // @@protoc_insertion_point(field_release:google.api.HttpRule.response_body)
+  
+  return response_body_.Release(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), GetArenaNoVirtual());
+}
+inline void HttpRule::set_allocated_response_body(::std::string* response_body) {
+  if (response_body != NULL) {
+    
+  } else {
+    
+  }
+  response_body_.SetAllocated(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), response_body,
+      GetArenaNoVirtual());
+  // @@protoc_insertion_point(field_set_allocated:google.api.HttpRule.response_body)
+}
+inline ::std::string* HttpRule::unsafe_arena_release_response_body() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:google.api.HttpRule.response_body)
+  GOOGLE_DCHECK(GetArenaNoVirtual() != NULL);
+  
+  return response_body_.UnsafeArenaRelease(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      GetArenaNoVirtual());
+}
+inline void HttpRule::unsafe_arena_set_allocated_response_body(
+    ::std::string* response_body) {
+  GOOGLE_DCHECK(GetArenaNoVirtual() != NULL);
+  if (response_body != NULL) {
+    
+  } else {
+    
+  }
+  response_body_.UnsafeArenaSetAllocated(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      response_body, GetArenaNoVirtual());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:google.api.HttpRule.response_body)
 }
 
 // repeated .google.api.HttpRule additional_bindings = 11;

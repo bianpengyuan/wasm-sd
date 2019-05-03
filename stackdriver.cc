@@ -9,7 +9,7 @@
 
 const std::string kProjectName = "bpy-istio";
 const int32_t kFlushIntervalMilliseconds = 5000;
-const int32_t kExportTickCount = 12; // export every 5s * 12 = 60s
+const int32_t kExportTickCount = 1; // export every 5s * 12 = 60s
 
 std::unique_ptr<Context> Context::New(uint32_t id) {
   return std::unique_ptr<Context>(new StackdriverContext(id));
