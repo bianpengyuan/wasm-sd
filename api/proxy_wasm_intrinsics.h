@@ -10,7 +10,7 @@
 #include <vector>
 
 #ifndef EMSCRIPTEN_PROTOBUF_LITE
-#include "proxy_wasm_intrinsics_lite.pb.h"
+#include "proxy_wasm_intrinsics.pb.h"
 #else
 #include "proxy_wasm_intrinsics_lite.pb.h"
 #endif
@@ -78,7 +78,8 @@ enum class MetadataType : uint32_t {
   Response = 1,
   RequestRoute = 2,   // Immutable
   ResponseRoute = 3,  // Immutable
-  Log = 4             // Immutable
+  Log = 4,            // Immutable
+  Node = 5            // Immutable
 };
 enum class MapType : uint32_t {
   RequestHeaders = 0,  // During the onLog callback these are immutable
@@ -190,6 +191,7 @@ class Context;
 inline uint64_t getCurrentTimeNanoseconds() {
   return proxy_getCurrentTimeNanoseconds();
 }
+
 
 class ProxyException : std::runtime_error {
  public:
@@ -476,12 +478,14 @@ class Context {
   google::protobuf::Value logMetadataValue(std::string_view key);
   google::protobuf::Value requestMetadataValue(std::string_view key);
   google::protobuf::Value responseMetadataValue(std::string_view key);
+  google::protobuf::Value nodeMetadataValue(std::string_view key);
   google::protobuf::Value namedMetadataValue(MetadataType type, std::string_view name, std::string_view key);
   google::protobuf::Value requestMetadataValue(std::string_view name, std::string_view key);
   google::protobuf::Value responseMetadataValue(std::string_view name, std::string_view key);
   google::protobuf::Struct metadataStruct(MetadataType type, std::string_view name = "");
   google::protobuf::Struct requestRouteMetadataStruct();
   google::protobuf::Struct responseRouteMetadataStruct();
+  google::protobuf::Struct nodeMetadataStruct();
   google::protobuf::Struct logMetadataStruct(std::string_view name = "");
   google::protobuf::Struct requestMetadataStruct(std::string_view name = "");
   google::protobuf::Struct responseMetadataStruct(std::string_view name = "");
@@ -517,7 +521,12 @@ inline bool Context::isImmutable(MetadataType type) {
 
 // Override in subclasses to proactively cache certain types of metadata.
 inline bool Context::isProactivelyCachable(MetadataType type) {
-  return false;
+  switch (type) {
+    case MetadataType::Node:
+      return true;
+    default:
+      return false;
+  }
 }
 
 // StreamInfo
@@ -650,6 +659,10 @@ inline google::protobuf::Value Context::responseMetadataValue(std::string_view k
   return metadataValue(MetadataType::Response, key);
 }
 
+inline google::protobuf::Value Context::nodeMetadataValue(std::string_view key) {
+  return metadataValue(MetadataType::Node, key);
+}
+
 inline google::protobuf::Value Context::namedMetadataValue(MetadataType type, std::string_view name, std::string_view key) {
   auto n = std::string(name);
   auto cache_key = std::make_tuple(type,  n, std::string(key));
@@ -695,6 +708,10 @@ inline google::protobuf::Struct Context::requestRouteMetadataStruct() {
 
 inline google::protobuf::Struct Context::responseRouteMetadataStruct() {
   return metadataStruct(MetadataType::ResponseRoute);
+}
+
+inline google::protobuf::Struct Context::nodeMetadataStruct() {
+  return metadataStruct(MetadataType::Node);
 }
 
 inline google::protobuf::Struct Context::logMetadataStruct(std::string_view name) {
@@ -1245,7 +1262,7 @@ inline void Context::grpcSimpleCall(std::string_view service, std::string_view s
                                     const google::protobuf::MessageLite &request, uint32_t timeout_milliseconds, Context::GrpcSimpleCallCallback callback) {
   auto token = grpcCall(service, service_name, method_name, request, timeout_milliseconds);
   if (token) {
-//    simple_grpc_calls_[token] = std::move(callback);
+    simple_grpc_calls_[token] = std::move(callback);
   } else {
     throw ProxyException("grpcCall failed");
   }

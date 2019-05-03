@@ -128,14 +128,14 @@ void Handler::ExportViewData(
     std::string grpc_service_string;
     grpc_service.SerializeToString(&grpc_service_string);
 
-//    context_->grpcSimpleCall(grpc_service_string,
-//                             kGoogleMonitoringService,
-//                             kGoogleCreateTimeSeriesMethod,
-//                             request,
-//                             kDefaultTimeoutMillisecond,
-//                             success_callback,
-//                             failure_callback);
-    logInfo(request.DebugString());
+    context_->grpcSimpleCall(grpc_service_string,
+                             kGoogleMonitoringService,
+                             kGoogleCreateTimeSeriesMethod,
+                             request,
+                             kDefaultTimeoutMillisecond,
+                             success_callback,
+                             failure_callback);
+//    logInfo(request.DebugString());
   }
 }
 
