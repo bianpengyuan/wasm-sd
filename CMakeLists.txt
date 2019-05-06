@@ -12,6 +12,8 @@ file(GLOB stats_SRC
         "google/api/*.cc"
         "google/devtools/cloudtrace/v2/*.cc"
         "google/monitoring/v3/*.cc"
+        "google/logging/v2/*.cc"
+        "google/logging/type/*.cc"
         "google/rpc/*.cc"
         )
 file(GLOB api_SRC

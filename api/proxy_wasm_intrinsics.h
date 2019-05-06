@@ -504,7 +504,7 @@ class Context {
   std::unordered_map<std::tuple<MetadataType, std::string, std::string>, google::protobuf::Value, Tuple3Hash> name_value_cache_;
   std::unordered_map<std::pair<MetadataType, std::string>, google::protobuf::Struct, PairHash> struct_cache_;
   std::unordered_map<uint32_t, HttpCallCallback> http_calls_;
-  std::unordered_map<uint32_t, GrpcSimpleCallCallback> simple_grpc_calls_;
+  std::map<uint32_t, GrpcSimpleCallCallback> simple_grpc_calls_;
   std::unordered_map<uint32_t, std::unique_ptr<GrpcCallHandlerBase>> grpc_calls_;
   std::unordered_map<uint32_t, std::unique_ptr<GrpcStreamHandlerBase>> grpc_streams_;
 };
