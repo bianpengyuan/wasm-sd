@@ -9,10 +9,7 @@
 #include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
-#include <google/protobuf/descriptor.h>
-#include <google/protobuf/generated_message_reflection.h>
-#include <google/protobuf/reflection_ops.h>
-#include <google/protobuf/wire_format.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 // This is a temporary google only hack
 #ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
 #include "third_party/protobuf/version.h"
@@ -34,12 +31,12 @@ extern PROTOBUF_INTERNAL_EXPORT_protobuf_google_2flogging_2fv2_2flog_5fentry_2ep
 namespace protobuf_google_2fprotobuf_2fany_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_google_2fprotobuf_2fany_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Any;
 }  // namespace protobuf_google_2fprotobuf_2fany_2eproto
-namespace protobuf_google_2fprotobuf_2fstruct_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_google_2fprotobuf_2fstruct_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ListValue;
-}  // namespace protobuf_google_2fprotobuf_2fstruct_2eproto
 namespace protobuf_google_2fprotobuf_2ftimestamp_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_google_2fprotobuf_2ftimestamp_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Timestamp;
 }  // namespace protobuf_google_2fprotobuf_2ftimestamp_2eproto
+namespace protobuf_struct_5flite_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_struct_5flite_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_ListValue;
+}  // namespace protobuf_struct_5flite_2eproto
 namespace google {
 namespace logging {
 namespace v2 {
@@ -98,7 +95,7 @@ static void InitDefaultsLogEntry() {
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 9, InitDefaultsLogEntry}, {
       &protobuf_google_2fapi_2fmonitored_5fresource_2eproto::scc_info_MonitoredResource.base,
       &protobuf_google_2fprotobuf_2fany_2eproto::scc_info_Any.base,
-      &protobuf_google_2fprotobuf_2fstruct_2eproto::scc_info_ListValue.base,
+      &protobuf_struct_5flite_2eproto::scc_info_ListValue.base,
       &protobuf_google_2fprotobuf_2ftimestamp_2eproto::scc_info_Timestamp.base,
       &protobuf_google_2flogging_2ftype_2fhttp_5frequest_2eproto::scc_info_HttpRequest.base,
       &protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntry_LabelsEntry_DoNotUse.base,
@@ -141,153 +138,6 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_LogEntrySourceLocation.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[4];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry_LabelsEntry_DoNotUse, _has_bits_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry_LabelsEntry_DoNotUse, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry_LabelsEntry_DoNotUse, key_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry_LabelsEntry_DoNotUse, value_),
-  0,
-  1,
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, _internal_metadata_),
-  ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, _oneof_case_[0]),
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, log_name_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, resource_),
-  offsetof(::google::logging::v2::LogEntryDefaultTypeInternal, proto_payload_),
-  offsetof(::google::logging::v2::LogEntryDefaultTypeInternal, text_payload_),
-  offsetof(::google::logging::v2::LogEntryDefaultTypeInternal, json_payload_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, timestamp_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, receive_timestamp_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, severity_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, insert_id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, http_request_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, labels_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, metadata_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, operation_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, trace_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, span_id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, trace_sampled_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, source_location_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntry, payload_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntryOperation, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntryOperation, id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntryOperation, producer_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntryOperation, first_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntryOperation, last_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntrySourceLocation, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntrySourceLocation, file_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntrySourceLocation, line_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::google::logging::v2::LogEntrySourceLocation, function_),
-};
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 7, sizeof(::google::logging::v2::LogEntry_LabelsEntry_DoNotUse)},
-  { 9, -1, sizeof(::google::logging::v2::LogEntry)},
-  { 32, -1, sizeof(::google::logging::v2::LogEntryOperation)},
-  { 41, -1, sizeof(::google::logging::v2::LogEntrySourceLocation)},
-};
-
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::google::logging::v2::_LogEntry_LabelsEntry_DoNotUse_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::google::logging::v2::_LogEntry_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::google::logging::v2::_LogEntryOperation_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::google::logging::v2::_LogEntrySourceLocation_default_instance_),
-};
-
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "google/logging/v2/log_entry.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
-}
-
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 4);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n!google/logging/v2/log_entry.proto\022\021goo"
-      "gle.logging.v2\032\034google/api/annotations.p"
-      "roto\032#google/api/monitored_resource.prot"
-      "o\032&google/logging/type/http_request.prot"
-      "o\032&google/logging/type/log_severity.prot"
-      "o\032\031google/protobuf/any.proto\032\034google/pro"
-      "tobuf/struct.proto\032\037google/protobuf/time"
-      "stamp.proto\"\212\006\n\010LogEntry\022\020\n\010log_name\030\014 \001"
-      "(\t\022/\n\010resource\030\010 \001(\0132\035.google.api.Monito"
-      "redResource\022-\n\rproto_payload\030\002 \001(\0132\024.goo"
-      "gle.protobuf.AnyH\000\022\026\n\014text_payload\030\003 \001(\t"
-      "H\000\022/\n\014json_payload\030\006 \001(\0132\027.google.protob"
-      "uf.StructH\000\022-\n\ttimestamp\030\t \001(\0132\032.google."
-      "protobuf.Timestamp\0225\n\021receive_timestamp\030"
-      "\030 \001(\0132\032.google.protobuf.Timestamp\0222\n\010sev"
-      "erity\030\n \001(\0162 .google.logging.type.LogSev"
-      "erity\022\021\n\tinsert_id\030\004 \001(\t\0226\n\014http_request"
-      "\030\007 \001(\0132 .google.logging.type.HttpRequest"
-      "\0227\n\006labels\030\013 \003(\0132\'.google.logging.v2.Log"
-      "Entry.LabelsEntry\0227\n\010metadata\030\031 \001(\0132%.go"
-      "ogle.api.MonitoredResourceMetadata\0227\n\top"
-      "eration\030\017 \001(\0132$.google.logging.v2.LogEnt"
-      "ryOperation\022\r\n\005trace\030\026 \001(\t\022\017\n\007span_id\030\033 "
-      "\001(\t\022\025\n\rtrace_sampled\030\036 \001(\010\022B\n\017source_loc"
-      "ation\030\027 \001(\0132).google.logging.v2.LogEntry"
-      "SourceLocation\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001"
-      "(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\t\n\007payload\"N\n\021LogE"
-      "ntryOperation\022\n\n\002id\030\001 \001(\t\022\020\n\010producer\030\002 "
-      "\001(\t\022\r\n\005first\030\003 \001(\010\022\014\n\004last\030\004 \001(\010\"F\n\026LogE"
-      "ntrySourceLocation\022\014\n\004file\030\001 \001(\t\022\014\n\004line"
-      "\030\002 \001(\003\022\020\n\010function\030\003 \001(\tB\231\001\n\025com.google."
-      "logging.v2B\rLogEntryProtoP\001Z8google.gola"
-      "ng.org/genproto/googleapis/logging/v2;lo"
-      "gging\370\001\001\252\002\027Google.Cloud.Logging.V2\312\002\027Goo"
-      "gle\\Cloud\\Logging\\V2b\006proto3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1388);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "google/logging/v2/log_entry.proto", &protobuf_RegisterTypes);
-  ::protobuf_google_2fapi_2fannotations_2eproto::AddDescriptors();
-  ::protobuf_google_2fapi_2fmonitored_5fresource_2eproto::AddDescriptors();
-  ::protobuf_google_2flogging_2ftype_2fhttp_5frequest_2eproto::AddDescriptors();
-  ::protobuf_google_2flogging_2ftype_2flog_5fseverity_2eproto::AddDescriptors();
-  ::protobuf_google_2fprotobuf_2fany_2eproto::AddDescriptors();
-  ::protobuf_google_2fprotobuf_2fstruct_2eproto::AddDescriptors();
-  ::protobuf_google_2fprotobuf_2ftimestamp_2eproto::AddDescriptors();
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
 }  // namespace protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto
 namespace google {
 namespace logging {
@@ -300,27 +150,12 @@ LogEntry_LabelsEntry_DoNotUse::LogEntry_LabelsEntry_DoNotUse(::google::protobuf:
 void LogEntry_LabelsEntry_DoNotUse::MergeFrom(const LogEntry_LabelsEntry_DoNotUse& other) {
   MergeFromInternal(other);
 }
-::google::protobuf::Metadata LogEntry_LabelsEntry_DoNotUse::GetMetadata() const {
-  ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::file_level_metadata[0];
-}
-void LogEntry_LabelsEntry_DoNotUse::MergeFrom(
-    const ::google::protobuf::Message& other) {
-  ::google::protobuf::Message::MergeFrom(other);
-}
-
 
 // ===================================================================
 
 void LogEntry::InitAsDefaultInstance() {
   ::google::logging::v2::_LogEntry_default_instance_._instance.get_mutable()->resource_ = const_cast< ::google::api::MonitoredResource*>(
       ::google::api::MonitoredResource::internal_default_instance());
-  ::google::logging::v2::_LogEntry_default_instance_.proto_payload_ = const_cast< ::google::protobuf::Any*>(
-      ::google::protobuf::Any::internal_default_instance());
-  ::google::logging::v2::_LogEntry_default_instance_.text_payload_.UnsafeSetDefault(
-      &::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::google::logging::v2::_LogEntry_default_instance_.json_payload_ = const_cast< ::google::protobuf::Struct*>(
-      ::google::protobuf::Struct::internal_default_instance());
   ::google::logging::v2::_LogEntry_default_instance_._instance.get_mutable()->timestamp_ = const_cast< ::google::protobuf::Timestamp*>(
       ::google::protobuf::Timestamp::internal_default_instance());
   ::google::logging::v2::_LogEntry_default_instance_._instance.get_mutable()->receive_timestamp_ = const_cast< ::google::protobuf::Timestamp*>(
@@ -521,14 +356,14 @@ const int LogEntry::kSourceLocationFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 LogEntry::LogEntry()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntry.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:google.logging.v2.LogEntry)
 }
 LogEntry::LogEntry(::google::protobuf::Arena* arena)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
   _internal_metadata_(arena),
   labels_(arena) {
   ::google::protobuf::internal::InitSCC(&protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntry.base);
@@ -537,28 +372,28 @@ LogEntry::LogEntry(::google::protobuf::Arena* arena)
   // @@protoc_insertion_point(arena_constructor:google.logging.v2.LogEntry)
 }
 LogEntry::LogEntry(const LogEntry& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   labels_.MergeFrom(from.labels_);
   insert_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.insert_id().size() > 0) {
-    insert_id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.insert_id(),
+    insert_id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.insert_id(),
       GetArenaNoVirtual());
   }
   log_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.log_name().size() > 0) {
-    log_name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.log_name(),
+    log_name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.log_name(),
       GetArenaNoVirtual());
   }
   trace_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.trace().size() > 0) {
-    trace_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.trace(),
+    trace_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.trace(),
       GetArenaNoVirtual());
   }
   span_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.span_id().size() > 0) {
-    span_id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.span_id(),
+    span_id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.span_id(),
       GetArenaNoVirtual());
   }
   if (from.has_http_request()) {
@@ -663,11 +498,6 @@ void LogEntry::RegisterArenaDtor(::google::protobuf::Arena* arena) {
 void LogEntry::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* LogEntry::descriptor() {
-  ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const LogEntry& LogEntry::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntry.base);
   return *internal_default_instance();
@@ -752,6 +582,12 @@ bool LogEntry::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:google.logging.v2.LogEntry)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(16383u);
@@ -869,7 +705,7 @@ bool LogEntry::MergePartialFromCodedStream(
       case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
-          LogEntry_LabelsEntry_DoNotUse::Parser< ::google::protobuf::internal::MapField<
+          LogEntry_LabelsEntry_DoNotUse::Parser< ::google::protobuf::internal::MapFieldLite<
               LogEntry_LabelsEntry_DoNotUse,
               ::std::string, ::std::string,
               ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
@@ -1007,8 +843,8 @@ bool LogEntry::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -1056,7 +892,7 @@ void LogEntry::SerializeWithCachedSizes(
 
   // .google.protobuf.Struct json_payload = 6;
   if (has_json_payload()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       6, this->_internal_json_payload(), output);
   }
 
@@ -1068,7 +904,7 @@ void LogEntry::SerializeWithCachedSizes(
 
   // .google.api.MonitoredResource resource = 8;
   if (this->has_resource()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       8, this->_internal_resource(), output);
   }
 
@@ -1119,7 +955,7 @@ void LogEntry::SerializeWithCachedSizes(
       for (size_type i = 0; i < n; i++) {
         entry.reset(labels_.NewEntryWrapper(
             items[static_cast<ptrdiff_t>(i)]->first, items[static_cast<ptrdiff_t>(i)]->second));
-        ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+        ::google::protobuf::internal::WireFormatLite::WriteMessage(
             11, *entry, output);
         if (entry->GetArena() != NULL) {
           entry.release();
@@ -1133,7 +969,7 @@ void LogEntry::SerializeWithCachedSizes(
           it != this->labels().end(); ++it) {
         entry.reset(labels_.NewEntryWrapper(
             it->first, it->second));
-        ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+        ::google::protobuf::internal::WireFormatLite::WriteMessage(
             11, *entry, output);
         if (entry->GetArena() != NULL) {
           entry.release();
@@ -1155,7 +991,7 @@ void LogEntry::SerializeWithCachedSizes(
 
   // .google.logging.v2.LogEntryOperation operation = 15;
   if (this->has_operation()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       15, this->_internal_operation(), output);
   }
 
@@ -1171,7 +1007,7 @@ void LogEntry::SerializeWithCachedSizes(
 
   // .google.logging.v2.LogEntrySourceLocation source_location = 23;
   if (this->has_source_location()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       23, this->_internal_source_location(), output);
   }
 
@@ -1183,7 +1019,7 @@ void LogEntry::SerializeWithCachedSizes(
 
   // .google.api.MonitoredResourceMetadata metadata = 25;
   if (this->has_metadata()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
       25, this->_internal_metadata(), output);
   }
 
@@ -1202,229 +1038,17 @@ void LogEntry::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(30, this->trace_sampled(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:google.logging.v2.LogEntry)
-}
-
-::google::protobuf::uint8* LogEntry::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:google.logging.v2.LogEntry)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .google.protobuf.Any proto_payload = 2;
-  if (has_proto_payload()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        2, this->_internal_proto_payload(), deterministic, target);
-  }
-
-  // string text_payload = 3;
-  if (has_text_payload()) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->text_payload().data(), static_cast<int>(this->text_payload().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.logging.v2.LogEntry.text_payload");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->text_payload(), target);
-  }
-
-  // string insert_id = 4;
-  if (this->insert_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->insert_id().data(), static_cast<int>(this->insert_id().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.logging.v2.LogEntry.insert_id");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        4, this->insert_id(), target);
-  }
-
-  // .google.protobuf.Struct json_payload = 6;
-  if (has_json_payload()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        6, this->_internal_json_payload(), deterministic, target);
-  }
-
-  // .google.logging.type.HttpRequest http_request = 7;
-  if (this->has_http_request()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        7, this->_internal_http_request(), deterministic, target);
-  }
-
-  // .google.api.MonitoredResource resource = 8;
-  if (this->has_resource()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        8, this->_internal_resource(), deterministic, target);
-  }
-
-  // .google.protobuf.Timestamp timestamp = 9;
-  if (this->has_timestamp()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        9, this->_internal_timestamp(), deterministic, target);
-  }
-
-  // .google.logging.type.LogSeverity severity = 10;
-  if (this->severity() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      10, this->severity(), target);
-  }
-
-  // map<string, string> labels = 11;
-  if (!this->labels().empty()) {
-    typedef ::google::protobuf::Map< ::std::string, ::std::string >::const_pointer
-        ConstPtr;
-    typedef ConstPtr SortItem;
-    typedef ::google::protobuf::internal::CompareByDerefFirst<SortItem> Less;
-    struct Utf8Check {
-      static void Check(ConstPtr p) {
-        ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          p->first.data(), static_cast<int>(p->first.length()),
-          ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-          "google.logging.v2.LogEntry.LabelsEntry.key");
-        ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-          p->second.data(), static_cast<int>(p->second.length()),
-          ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-          "google.logging.v2.LogEntry.LabelsEntry.value");
-      }
-    };
-
-    if (deterministic &&
-        this->labels().size() > 1) {
-      ::std::unique_ptr<SortItem[]> items(
-          new SortItem[this->labels().size()]);
-      typedef ::google::protobuf::Map< ::std::string, ::std::string >::size_type size_type;
-      size_type n = 0;
-      for (::google::protobuf::Map< ::std::string, ::std::string >::const_iterator
-          it = this->labels().begin();
-          it != this->labels().end(); ++it, ++n) {
-        items[static_cast<ptrdiff_t>(n)] = SortItem(&*it);
-      }
-      ::std::sort(&items[0], &items[static_cast<ptrdiff_t>(n)], Less());
-      ::std::unique_ptr<LogEntry_LabelsEntry_DoNotUse> entry;
-      for (size_type i = 0; i < n; i++) {
-        entry.reset(labels_.NewEntryWrapper(
-            items[static_cast<ptrdiff_t>(i)]->first, items[static_cast<ptrdiff_t>(i)]->second));
-        target = ::google::protobuf::internal::WireFormatLite::
-                   InternalWriteMessageNoVirtualToArray(
-                       11, *entry, deterministic, target);
-;
-        if (entry->GetArena() != NULL) {
-          entry.release();
-        }
-        Utf8Check::Check(items[static_cast<ptrdiff_t>(i)]);
-      }
-    } else {
-      ::std::unique_ptr<LogEntry_LabelsEntry_DoNotUse> entry;
-      for (::google::protobuf::Map< ::std::string, ::std::string >::const_iterator
-          it = this->labels().begin();
-          it != this->labels().end(); ++it) {
-        entry.reset(labels_.NewEntryWrapper(
-            it->first, it->second));
-        target = ::google::protobuf::internal::WireFormatLite::
-                   InternalWriteMessageNoVirtualToArray(
-                       11, *entry, deterministic, target);
-;
-        if (entry->GetArena() != NULL) {
-          entry.release();
-        }
-        Utf8Check::Check(&*it);
-      }
-    }
-  }
-
-  // string log_name = 12;
-  if (this->log_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->log_name().data(), static_cast<int>(this->log_name().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.logging.v2.LogEntry.log_name");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        12, this->log_name(), target);
-  }
-
-  // .google.logging.v2.LogEntryOperation operation = 15;
-  if (this->has_operation()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        15, this->_internal_operation(), deterministic, target);
-  }
-
-  // string trace = 22;
-  if (this->trace().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->trace().data(), static_cast<int>(this->trace().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.logging.v2.LogEntry.trace");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        22, this->trace(), target);
-  }
-
-  // .google.logging.v2.LogEntrySourceLocation source_location = 23;
-  if (this->has_source_location()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        23, this->_internal_source_location(), deterministic, target);
-  }
-
-  // .google.protobuf.Timestamp receive_timestamp = 24;
-  if (this->has_receive_timestamp()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        24, this->_internal_receive_timestamp(), deterministic, target);
-  }
-
-  // .google.api.MonitoredResourceMetadata metadata = 25;
-  if (this->has_metadata()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        25, this->_internal_metadata(), deterministic, target);
-  }
-
-  // string span_id = 27;
-  if (this->span_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->span_id().data(), static_cast<int>(this->span_id().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.logging.v2.LogEntry.span_id");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        27, this->span_id(), target);
-  }
-
-  // bool trace_sampled = 30;
-  if (this->trace_sampled() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(30, this->trace_sampled(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:google.logging.v2.LogEntry)
-  return target;
 }
 
 size_t LogEntry::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:google.logging.v2.LogEntry)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // map<string, string> labels = 11;
   total_size += 1 *
       ::google::protobuf::internal::FromIntSize(this->labels_size());
@@ -1564,19 +1188,9 @@ size_t LogEntry::ByteSizeLong() const {
   return total_size;
 }
 
-void LogEntry::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:google.logging.v2.LogEntry)
-  GOOGLE_DCHECK_NE(&from, this);
-  const LogEntry* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const LogEntry>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:google.logging.v2.LogEntry)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:google.logging.v2.LogEntry)
-    MergeFrom(*source);
-  }
+void LogEntry::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const LogEntry*>(&from));
 }
 
 void LogEntry::MergeFrom(const LogEntry& from) {
@@ -1645,13 +1259,6 @@ void LogEntry::MergeFrom(const LogEntry& from) {
   }
 }
 
-void LogEntry::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:google.logging.v2.LogEntry)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
 void LogEntry::CopyFrom(const LogEntry& from) {
 // @@protoc_insertion_point(class_specific_copy_from_start:google.logging.v2.LogEntry)
   if (&from == this) return;
@@ -1707,9 +1314,8 @@ void LogEntry::InternalSwap(LogEntry* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata LogEntry::GetMetadata() const {
-  protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string LogEntry::GetTypeName() const {
+  return "google.logging.v2.LogEntry";
 }
 
 
@@ -1725,14 +1331,14 @@ const int LogEntryOperation::kLastFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 LogEntryOperation::LogEntryOperation()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntryOperation.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:google.logging.v2.LogEntryOperation)
 }
 LogEntryOperation::LogEntryOperation(::google::protobuf::Arena* arena)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
   _internal_metadata_(arena) {
   ::google::protobuf::internal::InitSCC(&protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntryOperation.base);
   SharedCtor();
@@ -1740,17 +1346,17 @@ LogEntryOperation::LogEntryOperation(::google::protobuf::Arena* arena)
   // @@protoc_insertion_point(arena_constructor:google.logging.v2.LogEntryOperation)
 }
 LogEntryOperation::LogEntryOperation(const LogEntryOperation& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.id().size() > 0) {
-    id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.id(),
+    id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.id(),
       GetArenaNoVirtual());
   }
   producer_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.producer().size() > 0) {
-    producer_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.producer(),
+    producer_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.producer(),
       GetArenaNoVirtual());
   }
   ::memcpy(&first_, &from.first_,
@@ -1787,11 +1393,6 @@ void LogEntryOperation::RegisterArenaDtor(::google::protobuf::Arena* arena) {
 void LogEntryOperation::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* LogEntryOperation::descriptor() {
-  ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const LogEntryOperation& LogEntryOperation::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntryOperation.base);
   return *internal_default_instance();
@@ -1816,6 +1417,12 @@ bool LogEntryOperation::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:google.logging.v2.LogEntryOperation)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -1887,8 +1494,8 @@ bool LogEntryOperation::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -1938,69 +1545,17 @@ void LogEntryOperation::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->last(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:google.logging.v2.LogEntryOperation)
-}
-
-::google::protobuf::uint8* LogEntryOperation::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:google.logging.v2.LogEntryOperation)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string id = 1;
-  if (this->id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->id().data(), static_cast<int>(this->id().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.logging.v2.LogEntryOperation.id");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->id(), target);
-  }
-
-  // string producer = 2;
-  if (this->producer().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->producer().data(), static_cast<int>(this->producer().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.logging.v2.LogEntryOperation.producer");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->producer(), target);
-  }
-
-  // bool first = 3;
-  if (this->first() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(3, this->first(), target);
-  }
-
-  // bool last = 4;
-  if (this->last() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(4, this->last(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:google.logging.v2.LogEntryOperation)
-  return target;
 }
 
 size_t LogEntryOperation::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:google.logging.v2.LogEntryOperation)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // string id = 1;
   if (this->id().size() > 0) {
     total_size += 1 +
@@ -2030,19 +1585,9 @@ size_t LogEntryOperation::ByteSizeLong() const {
   return total_size;
 }
 
-void LogEntryOperation::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:google.logging.v2.LogEntryOperation)
-  GOOGLE_DCHECK_NE(&from, this);
-  const LogEntryOperation* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const LogEntryOperation>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:google.logging.v2.LogEntryOperation)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:google.logging.v2.LogEntryOperation)
-    MergeFrom(*source);
-  }
+void LogEntryOperation::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const LogEntryOperation*>(&from));
 }
 
 void LogEntryOperation::MergeFrom(const LogEntryOperation& from) {
@@ -2064,13 +1609,6 @@ void LogEntryOperation::MergeFrom(const LogEntryOperation& from) {
   if (from.last() != 0) {
     set_last(from.last());
   }
-}
-
-void LogEntryOperation::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:google.logging.v2.LogEntryOperation)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void LogEntryOperation::CopyFrom(const LogEntryOperation& from) {
@@ -2114,9 +1652,8 @@ void LogEntryOperation::InternalSwap(LogEntryOperation* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata LogEntryOperation::GetMetadata() const {
-  protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string LogEntryOperation::GetTypeName() const {
+  return "google.logging.v2.LogEntryOperation";
 }
 
 
@@ -2131,14 +1668,14 @@ const int LogEntrySourceLocation::kFunctionFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 LogEntrySourceLocation::LogEntrySourceLocation()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  : ::google::protobuf::MessageLite(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
       &protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntrySourceLocation.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:google.logging.v2.LogEntrySourceLocation)
 }
 LogEntrySourceLocation::LogEntrySourceLocation(::google::protobuf::Arena* arena)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
   _internal_metadata_(arena) {
   ::google::protobuf::internal::InitSCC(&protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntrySourceLocation.base);
   SharedCtor();
@@ -2146,17 +1683,17 @@ LogEntrySourceLocation::LogEntrySourceLocation(::google::protobuf::Arena* arena)
   // @@protoc_insertion_point(arena_constructor:google.logging.v2.LogEntrySourceLocation)
 }
 LogEntrySourceLocation::LogEntrySourceLocation(const LogEntrySourceLocation& from)
-  : ::google::protobuf::Message(),
+  : ::google::protobuf::MessageLite(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   file_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.file().size() > 0) {
-    file_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.file(),
+    file_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.file(),
       GetArenaNoVirtual());
   }
   function_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.function().size() > 0) {
-    function_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.function(),
+    function_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.function(),
       GetArenaNoVirtual());
   }
   line_ = from.line_;
@@ -2189,11 +1726,6 @@ void LogEntrySourceLocation::RegisterArenaDtor(::google::protobuf::Arena* arena)
 void LogEntrySourceLocation::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* LogEntrySourceLocation::descriptor() {
-  ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const LogEntrySourceLocation& LogEntrySourceLocation::default_instance() {
   ::google::protobuf::internal::InitSCC(&protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::scc_info_LogEntrySourceLocation.base);
   return *internal_default_instance();
@@ -2216,6 +1748,12 @@ bool LogEntrySourceLocation::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
+  ::google::protobuf::internal::LiteUnknownFieldSetter unknown_fields_setter(
+      &_internal_metadata_);
+  ::google::protobuf::io::StringOutputStream unknown_fields_output(
+      unknown_fields_setter.buffer());
+  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
+      &unknown_fields_output, false);
   // @@protoc_insertion_point(parse_start:google.logging.v2.LogEntrySourceLocation)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
@@ -2273,8 +1811,8 @@ bool LogEntrySourceLocation::MergePartialFromCodedStream(
         if (tag == 0) {
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
+            input, tag, &unknown_fields_stream));
         break;
       }
     }
@@ -2319,64 +1857,17 @@ void LogEntrySourceLocation::SerializeWithCachedSizes(
       3, this->function(), output);
   }
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
+  output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
+                   static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:google.logging.v2.LogEntrySourceLocation)
-}
-
-::google::protobuf::uint8* LogEntrySourceLocation::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:google.logging.v2.LogEntrySourceLocation)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string file = 1;
-  if (this->file().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->file().data(), static_cast<int>(this->file().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.logging.v2.LogEntrySourceLocation.file");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->file(), target);
-  }
-
-  // int64 line = 2;
-  if (this->line() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(2, this->line(), target);
-  }
-
-  // string function = 3;
-  if (this->function().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->function().data(), static_cast<int>(this->function().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "google.logging.v2.LogEntrySourceLocation.function");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->function(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:google.logging.v2.LogEntrySourceLocation)
-  return target;
 }
 
 size_t LogEntrySourceLocation::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:google.logging.v2.LogEntrySourceLocation)
   size_t total_size = 0;
 
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
+  total_size += (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size();
+
   // string file = 1;
   if (this->file().size() > 0) {
     total_size += 1 +
@@ -2403,19 +1894,9 @@ size_t LogEntrySourceLocation::ByteSizeLong() const {
   return total_size;
 }
 
-void LogEntrySourceLocation::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:google.logging.v2.LogEntrySourceLocation)
-  GOOGLE_DCHECK_NE(&from, this);
-  const LogEntrySourceLocation* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const LogEntrySourceLocation>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:google.logging.v2.LogEntrySourceLocation)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:google.logging.v2.LogEntrySourceLocation)
-    MergeFrom(*source);
-  }
+void LogEntrySourceLocation::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const LogEntrySourceLocation*>(&from));
 }
 
 void LogEntrySourceLocation::MergeFrom(const LogEntrySourceLocation& from) {
@@ -2434,13 +1915,6 @@ void LogEntrySourceLocation::MergeFrom(const LogEntrySourceLocation& from) {
   if (from.line() != 0) {
     set_line(from.line());
   }
-}
-
-void LogEntrySourceLocation::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:google.logging.v2.LogEntrySourceLocation)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
 }
 
 void LogEntrySourceLocation::CopyFrom(const LogEntrySourceLocation& from) {
@@ -2483,9 +1957,8 @@ void LogEntrySourceLocation::InternalSwap(LogEntrySourceLocation* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata LogEntrySourceLocation::GetMetadata() const {
-  protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto::file_level_metadata[kIndexInFileMessages];
+::std::string LogEntrySourceLocation::GetTypeName() const {
+  return "google.logging.v2.LogEntrySourceLocation";
 }
 
 
