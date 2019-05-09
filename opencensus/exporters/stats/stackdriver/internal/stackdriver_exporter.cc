@@ -62,7 +62,7 @@ class Handler : public ::opencensus::stats::StatsExporter::Handler {
 
   const StackdriverOptions opts_;
   const std::string project_id_;
-  Context* context_;
+  Context* context_ = nullptr;
 //  const std::unique_ptr<google::monitoring::v3::MetricService::Stub> stub_;
   std::unordered_map<std::string, opencensus::stats::ViewDescriptor>
       registered_descriptors_;
@@ -70,7 +70,8 @@ class Handler : public ::opencensus::stats::StatsExporter::Handler {
 
 Handler::Handler(const StackdriverOptions& opts)
     : opts_(opts),
-      project_id_(absl::StrCat(kProjectIdPrefix, opts.project_id)) {
+      project_id_(absl::StrCat(kProjectIdPrefix, opts.project_id)),
+      context_(opts.context) {
 //      stub_(google::monitoring::v3::MetricService::NewStub(
 //          ::grpc::CreateCustomChannel(kGoogleStackdriverStatsAddress,
 //                                      ::grpc::GoogleDefaultCredentials(),
@@ -94,6 +95,31 @@ void Handler::ExportViewData(
   const int64_t num_rpcs =
       ceil(static_cast<double>(time_series.size()) / kTimeSeriesBatchSize);
 
+  std::function<void(google::protobuf::Empty&&)> success_callback =
+      [](google::protobuf::Empty&& value) {
+        logDebug("successfully sent out request");
+      };
+  std::function<void(GrpcStatus status, std::string_view error_message)>
+      failure_callback =
+      [](GrpcStatus status, std::string_view message) {
+        logInfo(
+            std::string("failure ") + std::to_string(static_cast<int>(status))
+                + std::string(message));
+      };
+  GrpcService grpc_service;
+  grpc_service.mutable_google_grpc()->set_target_uri(
+      kGoogleStackdriverStatsAddress);
+  grpc_service.mutable_google_grpc()
+      ->mutable_channel_credentials()
+      ->mutable_ssl_credentials()
+      ->mutable_root_certs()
+      ->set_filename("/etc/ssl/certs/ca-certificates.crt");
+  grpc_service.mutable_google_grpc()
+      ->add_call_credentials()
+      ->mutable_google_compute_engine();
+  std::string grpc_service_string;
+  grpc_service.SerializeToString(&grpc_service_string);
+
   for (int64_t rpc_index = 0; rpc_index < num_rpcs; ++rpc_index) {
     auto request = google::monitoring::v3::CreateTimeSeriesRequest();
     request.set_name(project_id_);
@@ -103,31 +129,6 @@ void Handler::ExportViewData(
       *request.add_time_series() = time_series[i];
     }
 
-    std::function<void(google::protobuf::Empty&&)> success_callback =
-        [](google::protobuf::Empty&& value) {
-          logDebug("successfully sent out request");
-        };
-    std::function<void(GrpcStatus status, std::string_view error_message)>
-        failure_callback =
-        [](GrpcStatus status, std::string_view message) {
-          logInfo(
-              std::string("failure ") + std::to_string(static_cast<int>(status))
-                  + std::string(message));
-        };
-    GrpcService grpc_service;
-    grpc_service.mutable_google_grpc()->set_target_uri(
-        kGoogleStackdriverStatsAddress);
-    grpc_service.mutable_google_grpc()
-        ->mutable_channel_credentials()
-        ->mutable_ssl_credentials()
-        ->mutable_root_certs()
-        ->set_filename("/etc/ssl/certs/ca-certificates.crt");
-    grpc_service.mutable_google_grpc()
-        ->add_call_credentials()
-        ->mutable_google_compute_engine();
-    std::string grpc_service_string;
-    grpc_service.SerializeToString(&grpc_service_string);
-
     context_->grpcSimpleCall(grpc_service_string,
                              kGoogleMonitoringService,
                              kGoogleCreateTimeSeriesMethod,
@@ -135,7 +136,6 @@ void Handler::ExportViewData(
                              kDefaultTimeoutMillisecond,
                              success_callback,
                              failure_callback);
-//    logInfo(request.DebugString());
   }
 }
 

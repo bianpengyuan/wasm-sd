@@ -5,11 +5,13 @@
 #include "include/stackdriver.h"
 #include "istio/measure.h"
 #include "istio/view.h"
+#include "istio/tag.h"
+#include "logging/logger.h"
 #include "opencensus/exporters/stats/stackdriver/stackdriver_exporter.h"
 
 const std::string kProjectName = "bpy-istio";
 const int32_t kFlushIntervalMilliseconds = 5000;
-const int32_t kExportTickCount = 1; // export every 5s * 12 = 60s
+const int32_t kExportTickCount = 12; // export every 5s * 12 = 60s
 
 std::unique_ptr<Context> Context::New(uint32_t id) {
   return std::unique_ptr<Context>(new StackdriverContext(id));
@@ -24,6 +26,9 @@ void StackdriverContext::onStart() {
   // initialize tags, measures and views
   istio::measure::RegisterMeasures();
   istio::view::InitViews();
+
+  // initialize logger
+  logging::Logger::Get()->Init(this);
 
   // start periodic flush
   proxy_setTickPeriodMilliseconds(kFlushIntervalMilliseconds);
@@ -73,6 +78,9 @@ void StackdriverContext::onLog() {
                              {istio::measure::ServerRequestLatencyMeasure(),
                               total_time_ms}},
                             {});
+
+  logging::Logger::Get()->AddLogEntry({{istio::tag::RequestLatencyKey(),
+                                        std::to_string(total_time_ms)}});
 }
 
 void StackdriverContext::onTick() {
@@ -82,6 +90,8 @@ void StackdriverContext::onTick() {
   }
   if (tick_counter_ == kExportTickCount - 1 && need_flush_) {
     opencensus::stats::StatsExporter::ExportViewData();
+    logging::Logger::Get()->Flush();
+    logging::Logger::Get()->Export();
     need_flush_ = false;
   }
 }

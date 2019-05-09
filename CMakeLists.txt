@@ -16,6 +16,8 @@ file(GLOB stats_SRC
         "google/logging/type/*.cc"
         "google/rpc/*.cc"
         )
+file(GLOB logging_SRC
+        "logging/*.cc")
 file(GLOB api_SRC
         "api/*.cc"
         )
@@ -23,5 +25,5 @@ add_subdirectory(abseil-cpp)
 include_directories(/usr/local/include/)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/api)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-add_library(wasm-sd MODULE stackdriver.cc ${api_SRC} ${stats_SRC})
+add_library(wasm-sd MODULE stackdriver.cc ${api_SRC} ${stats_SRC} ${logging_SRC})
 target_link_libraries(wasm-sd absl::base absl::strings absl::numeric)

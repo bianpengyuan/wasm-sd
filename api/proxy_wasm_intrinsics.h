@@ -2,6 +2,9 @@
  * Intrinsic functions available to WASM modules.
  */
 // NOLINT(namespace-envoy)
+#ifndef API_PROXY_WASM_INTRINSICS_H
+#define API_PROXY_WASM_INTRINSICS_H
+
 #include <string>
 #include <string_view>
 #include <tuple>
@@ -1403,3 +1406,5 @@ inline void Context::grpcStreamHandler(std::string_view service, std::string_vie
     throw ProxyException("grpcStream failed");
   }
 }
+
+#endif
