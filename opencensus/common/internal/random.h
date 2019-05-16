@@ -19,14 +19,19 @@
 #include <cstdint>
 #include <random>
 
-#include "api/proxy_wasm_intrinsics.h"
+#ifndef NULL_PLUGIN
+#include "api/wasm/cpp/proxy_wasm_intrinsics.h"
+#else
+#include "extensions/common/wasm/null/null.h"
+using namespace Envoy::Extensions::Common::Wasm::Null::Plugin;
+#endif
 
 namespace opencensus {
 namespace common {
 
 class Generator {
  public:
-  Generator() : rng_(getCurrentTimeNanoseconds()) {}
+  Generator() : rng_(proxy_getCurrentTimeNanoseconds()) {}
   explicit Generator(uint64_t seed) : rng_(seed) {}
 
   uint64_t Random64();

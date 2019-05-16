@@ -1,7 +1,3 @@
 [submodule "abseil-cpp"]
 	path = abseil-cpp
 	url = https://github.com/abseil/abseil-cpp
-
-[submodule "protobuf-emscripten"]
-	path = protobuf-emscripten
-	url = https://github.com/invokr/protobuf-emscripten

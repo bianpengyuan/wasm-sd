@@ -48,7 +48,7 @@ void MeasureData::Add(double value) {
   min_ = std::min(value, min_);
   max_ = std::max(value, max_);
 
-  for (int i = 0; i < boundaries_.size(); ++i) {
+  for (uint32_t i = 0; i < boundaries_.size(); ++i) {
     ++histograms_[i][boundaries_[i].BucketForValue(value)];
   }
 }
@@ -86,7 +86,7 @@ void MeasureData::AddToDistribution(const BucketBoundaries& boundaries,
     *max = std::max(*max, max_);
   }
 
-  int histogram_index =
+  uint32_t histogram_index =
       std::find(boundaries_.begin(), boundaries_.end(), boundaries) -
       boundaries_.begin();
   if (histogram_index >= histograms_.size()) {
@@ -96,7 +96,7 @@ void MeasureData::AddToDistribution(const BucketBoundaries& boundaries,
     // bucket counts not matching the total count.
     histogram_buckets[0] += count_;
   } else {
-    for (int i = 0; i < histograms_[histogram_index].size(); ++i) {
+    for (uint32_t i = 0; i < histograms_[histogram_index].size(); ++i) {
       histogram_buckets[i] += histograms_[histogram_index][i];
     }
   }

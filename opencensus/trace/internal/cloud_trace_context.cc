@@ -35,7 +35,7 @@ namespace {
 
 // Returns true if the string only contains valid hex digits.
 bool IsHexDigits(absl::string_view s) {
-  for (int i = 0; i < s.length(); ++i) {
+  for (uint32_t i = 0; i < s.length(); ++i) {
     if (!absl::ascii_isxdigit(s[i])) return false;
   }
   return true;

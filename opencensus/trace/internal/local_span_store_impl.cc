@@ -120,7 +120,7 @@ std::vector<SpanData> LocalSpanStoreImpl::GetLatencySampledSpans(
         latency_ms < filter.upper_latency_ms) {
       out.emplace_back(span);
     }
-    if (out.size() >= filter.max_spans_to_return) break;
+    if (out.size() >= static_cast<uint64_t>(filter.max_spans_to_return)) break;
   }
   return out;
 }
@@ -133,7 +133,7 @@ std::vector<SpanData> LocalSpanStoreImpl::GetErrorSampledSpans(
         filter.canonical_code == span.status().CanonicalCode()) {
       out.emplace_back(span);
     }
-    if (out.size() >= filter.max_spans_to_return) break;
+    if (out.size() >= static_cast<uint64_t>(filter.max_spans_to_return)) break;
   }
   return out;
 }

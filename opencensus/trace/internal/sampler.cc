@@ -54,11 +54,11 @@ ProbabilitySampler::ProbabilitySampler(double probability)
     : threshold_(CalculateThreshold(probability)) {}
 
 bool ProbabilitySampler::ShouldSample(
-    const SpanContext* parent_context,
-    bool has_remote_parent, const TraceId& trace_id,
-    const SpanId& span_id,
-    absl::string_view name,
-    const std::vector<Span*>& parent_links) const {
+    const SpanContext* /* parent_context */,
+    bool /* has_remote_parent */, const TraceId& trace_id,
+    const SpanId& /* span_id */,
+    absl::string_view /* name */,
+    const std::vector<Span*>& /* parent_links */) const {
   if (threshold_ == 0) return false;
   // All Spans within the same Trace will get the same sampling decision, so
   // full trees of Spans will be sampled.

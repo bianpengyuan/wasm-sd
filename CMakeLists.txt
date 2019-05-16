@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 project(wasm_sd)
 SET(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1 -s LEGALIZE_JS_FFI=0 -s EMIT_EMSCRIPTEN_METADATA=1 -O3 -g3 -DEMSCRIPTEN_PROTOBUF_LITE")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s WASM=1 -s LEGALIZE_JS_FFI=0 -s EMIT_EMSCRIPTEN_METADATA=1 -O3 -g3")
 
 file(GLOB stats_SRC
         "opencensus/context/internal/*.cc"
@@ -19,11 +19,11 @@ file(GLOB stats_SRC
 file(GLOB logging_SRC
         "logging/*.cc")
 file(GLOB api_SRC
-        "api/*.cc"
+        "api/wasm/cpp/*.cc"
         )
 add_subdirectory(abseil-cpp)
 include_directories(/usr/local/include/)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/api)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/api/wasm/cpp/)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_library(wasm-sd MODULE stackdriver.cc ${api_SRC} ${stats_SRC} ${logging_SRC})
 target_link_libraries(wasm-sd absl::base absl::strings absl::numeric)

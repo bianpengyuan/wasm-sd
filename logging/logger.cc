@@ -1,5 +1,10 @@
 #include "logger.h"
-#include "api/proxy_wasm_intrinsics.h"
+
+
+#ifdef NULL_PLUGIN
+using namespace Envoy::Extensions::Common::Wasm::Null::Plugin;
+using namespace envoy::api::v2::core;
+#endif
 
 namespace logging {
 
@@ -49,7 +54,7 @@ void Logger::AddLogEntry(const std::vector<std::pair<opencensus::tags::TagKey,
   auto* new_entry = log_entries->Add();
 
   // Get current time and fill in timestamp
-  auto current_time = getCurrentTimeNanoseconds();
+  auto current_time = proxy_getCurrentTimeNanoseconds();
   auto* timestamp = new_entry->mutable_timestamp();
   timestamp->set_seconds(current_time / 1000000000);
   timestamp->set_nanos(current_time % 1000000000);
@@ -80,7 +85,7 @@ void Logger::Flush() {
 
 void Logger::Export() {
   std::function<void(google::protobuf::Empty&&)> success_callback =
-      [](google::protobuf::Empty&& value) {
+      [](google::protobuf::Empty&&) {
         logDebug("successfully sent out request");
       };
   std::function<void(GrpcStatus status, std::string_view error_message)>
@@ -105,10 +110,7 @@ void Logger::Export() {
   std::string grpc_service_string;
   grpc_service.SerializeToString(&grpc_service_string);
 
-  int count = 0;
   for (const auto& req : request_queue_) {
-    count += 1;
-    logInfo("here is request number " + std::to_string(count));
     context_->grpcSimpleCall(grpc_service_string,
                              kGoogleLoggingService,
                              kGoogleWriteLogEntriesMethod,

@@ -9,13 +9,28 @@
 #include "logging/logger.h"
 #include "opencensus/exporters/stats/stackdriver/stackdriver_exporter.h"
 
-const std::string kProjectName = "bpy-istio";
-const int32_t kFlushIntervalMilliseconds = 5000;
-const int32_t kExportTickCount = 12; // export every 5s * 12 = 60s
+#ifndef NULL_PLUGIN
+#include "api/wasm/cpp/proxy_wasm_intrinsics.h"
+#else
 
-std::unique_ptr<Context> Context::New(uint32_t id) {
+#include "extensions/common/wasm/null/null.h"
+
+namespace Envoy {
+namespace Extensions {
+namespace Common {
+namespace Wasm {
+namespace Null {
+namespace Plugin {
+namespace Stackdriver {
+#endif
+
+std::unique_ptr<Context> NewContext(uint32_t id) {
   return std::unique_ptr<Context>(new StackdriverContext(id));
 }
+
+const std::string kProjectName = "bpy-istio";
+const int32_t kFlushIntervalMilliseconds = 5000;
+const int32_t kExportTickCount = 6; // export every 5s * 6 = 30s
 
 void StackdriverContext::onStart() {
   opencensus::exporters::stats::StackdriverOptions options;
@@ -35,12 +50,12 @@ void StackdriverContext::onStart() {
 }
 
 void StackdriverContext::onCreate() {
-  start_time_ = getCurrentTimeNanoseconds();
+  start_time_ = proxy_getCurrentTimeNanoseconds();
 }
 
 FilterHeadersStatus StackdriverContext::onRequestHeaders() {
   auto headers = getRequestHeaderPairs();
-  received_bytes_ += headers->size();
+  // received_bytes_ += headers->size();
   return FilterHeadersStatus::Continue;
 }
 
@@ -54,7 +69,7 @@ FilterDataStatus StackdriverContext::onRequestBody(size_t body_buffer_length,
 
 FilterHeadersStatus StackdriverContext::onResponseHeaders() {
   auto headers = getRequestHeaderPairs();
-  sent_bytes_ += headers->size();
+  // sent_bytes_ += headers->size();
   return FilterHeadersStatus::Continue;
 }
 
@@ -69,7 +84,7 @@ FilterDataStatus StackdriverContext::onResponseBody(size_t body_buffer_length,
 void StackdriverContext::onLog() {
   double_t
       total_time_ms =
-      double_t(getCurrentTimeNanoseconds() - start_time_) / 1000000;
+      double_t(proxy_getCurrentTimeNanoseconds() - start_time_) / 1000000;
   opencensus::stats::Record({{istio::measure::ServerRequestCountMeasure(), 1},
                              {istio::measure::ServerRequestBytesMeasure(),
                               received_bytes_},
@@ -95,3 +110,13 @@ void StackdriverContext::onTick() {
     need_flush_ = false;
   }
 }
+
+#ifdef NULL_PLUGIN
+} // namespace Stackdriver
+} // namespace Plugin
+} // namespace Null
+} // namespace Wasm
+} // namespace Common
+} // namespace Extensions
+} // namespace Envoy
+#endif

@@ -18,7 +18,7 @@ syntax = "proto3";
 package google.api;
 
 import "google/api/label.proto";
-import "struct_lite.proto";
+import "google/protobuf/struct.proto";
 
 option cc_enable_arenas = true;
 option go_package = "google.golang.org/genproto/googleapis/api/monitoredres;monitoredres";
@@ -26,7 +26,6 @@ option java_multiple_files = true;
 option java_outer_classname = "MonitoredResourceProto";
 option java_package = "com.google.api";
 option objc_class_prefix = "GAPI";
-option optimize_for = LITE_RUNTIME;
 
 // An object that describes the schema of a [MonitoredResource][google.api.MonitoredResource] object using a
 // type name and a set of labels.  For example, the monitored resource

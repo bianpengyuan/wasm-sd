@@ -25,19 +25,20 @@
 #include <google/protobuf/generated_message_table_driven.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/inlined_string_field.h>
-#include <google/protobuf/metadata_lite.h>
-#include <google/protobuf/message_lite.h>
+#include <google/protobuf/metadata.h>
+#include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/map.h>  // IWYU pragma: export
-#include <google/protobuf/map_entry_lite.h>
-#include <google/protobuf/map_field_lite.h>
+#include <google/protobuf/map_entry.h>
+#include <google/protobuf/map_field_inl.h>
+#include <google/protobuf/unknown_field_set.h>
 #include "google/api/annotations.pb.h"
 #include "google/api/monitored_resource.pb.h"
 #include "google/logging/type/http_request.pb.h"
 #include "google/logging/type/log_severity.pb.h"
 #include <google/protobuf/any.pb.h>
-#include "struct_lite.pb.h"
+#include <google/protobuf/struct.pb.h>
 #include <google/protobuf/timestamp.pb.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto 
@@ -52,6 +53,7 @@ struct TableStruct {
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
+void AddDescriptors();
 }  // namespace protobuf_google_2flogging_2fv2_2flog_5fentry_2eproto
 namespace google {
 namespace logging {
@@ -85,13 +87,13 @@ namespace v2 {
 
 // ===================================================================
 
-class LogEntry_LabelsEntry_DoNotUse : public ::google::protobuf::internal::MapEntryLite<LogEntry_LabelsEntry_DoNotUse, 
+class LogEntry_LabelsEntry_DoNotUse : public ::google::protobuf::internal::MapEntry<LogEntry_LabelsEntry_DoNotUse, 
     ::std::string, ::std::string,
     ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
     ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
     0 > {
 public:
-  typedef ::google::protobuf::internal::MapEntryLite<LogEntry_LabelsEntry_DoNotUse, 
+  typedef ::google::protobuf::internal::MapEntry<LogEntry_LabelsEntry_DoNotUse, 
     ::std::string, ::std::string,
     ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
     ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
@@ -100,11 +102,13 @@ public:
   LogEntry_LabelsEntry_DoNotUse(::google::protobuf::Arena* arena);
   void MergeFrom(const LogEntry_LabelsEntry_DoNotUse& other);
   static const LogEntry_LabelsEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const LogEntry_LabelsEntry_DoNotUse*>(&_LogEntry_LabelsEntry_DoNotUse_default_instance_); }
+  void MergeFrom(const ::google::protobuf::Message& other) final;
+  ::google::protobuf::Metadata GetMetadata() const;
 };
 
 // -------------------------------------------------------------------
 
-class LogEntry : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.logging.v2.LogEntry) */ {
+class LogEntry : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.logging.v2.LogEntry) */ {
  public:
   LogEntry();
   virtual ~LogEntry();
@@ -136,6 +140,7 @@ class LogEntry : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   inline void* GetMaybeArenaPointer() const final {
     return MaybeArenaPtr();
   }
+  static const ::google::protobuf::Descriptor* descriptor();
   static const LogEntry& default_instance();
 
   enum PayloadCase {
@@ -168,8 +173,8 @@ class LogEntry : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   LogEntry* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<LogEntry>(arena);
   }
-  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
-    final;
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
   void CopyFrom(const LogEntry& from);
   void MergeFrom(const LogEntry& from);
   void Clear() final;
@@ -180,13 +185,14 @@ class LogEntry : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  void DiscardUnknownFields();
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const;
+  void SetCachedSize(int size) const final;
   void InternalSwap(LogEntry* other);
   protected:
   explicit LogEntry(::google::protobuf::Arena* arena);
@@ -202,7 +208,7 @@ class LogEntry : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   }
   public:
 
-  ::std::string GetTypeName() const final;
+  ::google::protobuf::Metadata GetMetadata() const final;
 
   // nested types ----------------------------------------------------
 
@@ -494,11 +500,11 @@ class LogEntry : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   inline bool has_payload() const;
   inline void clear_has_payload();
 
-  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   template <typename T> friend class ::google::protobuf::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::google::protobuf::internal::MapFieldLite<
+  ::google::protobuf::internal::MapField<
       LogEntry_LabelsEntry_DoNotUse,
       ::std::string, ::std::string,
       ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
@@ -530,7 +536,7 @@ class LogEntry : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
 };
 // -------------------------------------------------------------------
 
-class LogEntryOperation : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.logging.v2.LogEntryOperation) */ {
+class LogEntryOperation : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.logging.v2.LogEntryOperation) */ {
  public:
   LogEntryOperation();
   virtual ~LogEntryOperation();
@@ -562,6 +568,7 @@ class LogEntryOperation : public ::google::protobuf::MessageLite /* @@protoc_ins
   inline void* GetMaybeArenaPointer() const final {
     return MaybeArenaPtr();
   }
+  static const ::google::protobuf::Descriptor* descriptor();
   static const LogEntryOperation& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -587,8 +594,8 @@ class LogEntryOperation : public ::google::protobuf::MessageLite /* @@protoc_ins
   LogEntryOperation* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<LogEntryOperation>(arena);
   }
-  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
-    final;
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
   void CopyFrom(const LogEntryOperation& from);
   void MergeFrom(const LogEntryOperation& from);
   void Clear() final;
@@ -599,13 +606,14 @@ class LogEntryOperation : public ::google::protobuf::MessageLite /* @@protoc_ins
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  void DiscardUnknownFields();
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const;
+  void SetCachedSize(int size) const final;
   void InternalSwap(LogEntryOperation* other);
   protected:
   explicit LogEntryOperation(::google::protobuf::Arena* arena);
@@ -621,7 +629,7 @@ class LogEntryOperation : public ::google::protobuf::MessageLite /* @@protoc_ins
   }
   public:
 
-  ::std::string GetTypeName() const final;
+  ::google::protobuf::Metadata GetMetadata() const final;
 
   // nested types ----------------------------------------------------
 
@@ -688,7 +696,7 @@ class LogEntryOperation : public ::google::protobuf::MessageLite /* @@protoc_ins
   // @@protoc_insertion_point(class_scope:google.logging.v2.LogEntryOperation)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   template <typename T> friend class ::google::protobuf::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
@@ -701,7 +709,7 @@ class LogEntryOperation : public ::google::protobuf::MessageLite /* @@protoc_ins
 };
 // -------------------------------------------------------------------
 
-class LogEntrySourceLocation : public ::google::protobuf::MessageLite /* @@protoc_insertion_point(class_definition:google.logging.v2.LogEntrySourceLocation) */ {
+class LogEntrySourceLocation : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:google.logging.v2.LogEntrySourceLocation) */ {
  public:
   LogEntrySourceLocation();
   virtual ~LogEntrySourceLocation();
@@ -733,6 +741,7 @@ class LogEntrySourceLocation : public ::google::protobuf::MessageLite /* @@proto
   inline void* GetMaybeArenaPointer() const final {
     return MaybeArenaPtr();
   }
+  static const ::google::protobuf::Descriptor* descriptor();
   static const LogEntrySourceLocation& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
@@ -758,8 +767,8 @@ class LogEntrySourceLocation : public ::google::protobuf::MessageLite /* @@proto
   LogEntrySourceLocation* New(::google::protobuf::Arena* arena) const final {
     return CreateMaybeMessage<LogEntrySourceLocation>(arena);
   }
-  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from)
-    final;
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
   void CopyFrom(const LogEntrySourceLocation& from);
   void MergeFrom(const LogEntrySourceLocation& from);
   void Clear() final;
@@ -770,13 +779,14 @@ class LogEntrySourceLocation : public ::google::protobuf::MessageLite /* @@proto
       ::google::protobuf::io::CodedInputStream* input) final;
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const final;
-  void DiscardUnknownFields();
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
   private:
   void SharedCtor();
   void SharedDtor();
-  void SetCachedSize(int size) const;
+  void SetCachedSize(int size) const final;
   void InternalSwap(LogEntrySourceLocation* other);
   protected:
   explicit LogEntrySourceLocation(::google::protobuf::Arena* arena);
@@ -792,7 +802,7 @@ class LogEntrySourceLocation : public ::google::protobuf::MessageLite /* @@proto
   }
   public:
 
-  ::std::string GetTypeName() const final;
+  ::google::protobuf::Metadata GetMetadata() const final;
 
   // nested types ----------------------------------------------------
 
@@ -853,7 +863,7 @@ class LogEntrySourceLocation : public ::google::protobuf::MessageLite /* @@proto
   // @@protoc_insertion_point(class_scope:google.logging.v2.LogEntrySourceLocation)
  private:
 
-  ::google::protobuf::internal::InternalMetadataWithArenaLite _internal_metadata_;
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   template <typename T> friend class ::google::protobuf::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
@@ -886,13 +896,13 @@ inline const ::std::string& LogEntry::log_name() const {
 }
 inline void LogEntry::set_log_name(const ::std::string& value) {
   
-  log_name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  log_name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.logging.v2.LogEntry.log_name)
 }
 #if LANG_CXX11
 inline void LogEntry::set_log_name(::std::string&& value) {
   
-  log_name_.SetLite(
+  log_name_.Set(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.logging.v2.LogEntry.log_name)
 }
@@ -900,14 +910,14 @@ inline void LogEntry::set_log_name(::std::string&& value) {
 inline void LogEntry::set_log_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  log_name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  log_name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.logging.v2.LogEntry.log_name)
 }
 inline void LogEntry::set_log_name(const char* value,
     size_t size) {
   
-  log_name_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  log_name_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.logging.v2.LogEntry.log_name)
 }
@@ -1097,7 +1107,7 @@ inline void LogEntry::set_text_payload(const ::std::string& value) {
     set_has_text_payload();
     payload_.text_payload_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  payload_.text_payload_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value,
+  payload_.text_payload_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value,
       GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.logging.v2.LogEntry.text_payload)
 }
@@ -1109,7 +1119,7 @@ inline void LogEntry::set_text_payload(::std::string&& value) {
     set_has_text_payload();
     payload_.text_payload_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  payload_.text_payload_.SetLite(
+  payload_.text_payload_.Set(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.logging.v2.LogEntry.text_payload)
 }
@@ -1121,7 +1131,7 @@ inline void LogEntry::set_text_payload(const char* value) {
     set_has_text_payload();
     payload_.text_payload_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  payload_.text_payload_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  payload_.text_payload_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.logging.v2.LogEntry.text_payload)
 }
@@ -1132,7 +1142,7 @@ inline void LogEntry::set_text_payload(const char* value,
     set_has_text_payload();
     payload_.text_payload_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
-  payload_.text_payload_.SetLite(
+  payload_.text_payload_.Set(
       &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size),
       GetArenaNoVirtual());
@@ -1396,13 +1406,13 @@ inline const ::std::string& LogEntry::insert_id() const {
 }
 inline void LogEntry::set_insert_id(const ::std::string& value) {
   
-  insert_id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  insert_id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.logging.v2.LogEntry.insert_id)
 }
 #if LANG_CXX11
 inline void LogEntry::set_insert_id(::std::string&& value) {
   
-  insert_id_.SetLite(
+  insert_id_.Set(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.logging.v2.LogEntry.insert_id)
 }
@@ -1410,14 +1420,14 @@ inline void LogEntry::set_insert_id(::std::string&& value) {
 inline void LogEntry::set_insert_id(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  insert_id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  insert_id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.logging.v2.LogEntry.insert_id)
 }
 inline void LogEntry::set_insert_id(const char* value,
     size_t size) {
   
-  insert_id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  insert_id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.logging.v2.LogEntry.insert_id)
 }
@@ -1671,13 +1681,13 @@ inline const ::std::string& LogEntry::trace() const {
 }
 inline void LogEntry::set_trace(const ::std::string& value) {
   
-  trace_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  trace_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.logging.v2.LogEntry.trace)
 }
 #if LANG_CXX11
 inline void LogEntry::set_trace(::std::string&& value) {
   
-  trace_.SetLite(
+  trace_.Set(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.logging.v2.LogEntry.trace)
 }
@@ -1685,14 +1695,14 @@ inline void LogEntry::set_trace(::std::string&& value) {
 inline void LogEntry::set_trace(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  trace_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  trace_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.logging.v2.LogEntry.trace)
 }
 inline void LogEntry::set_trace(const char* value,
     size_t size) {
   
-  trace_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  trace_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.logging.v2.LogEntry.trace)
 }
@@ -1746,13 +1756,13 @@ inline const ::std::string& LogEntry::span_id() const {
 }
 inline void LogEntry::set_span_id(const ::std::string& value) {
   
-  span_id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  span_id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.logging.v2.LogEntry.span_id)
 }
 #if LANG_CXX11
 inline void LogEntry::set_span_id(::std::string&& value) {
   
-  span_id_.SetLite(
+  span_id_.Set(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.logging.v2.LogEntry.span_id)
 }
@@ -1760,14 +1770,14 @@ inline void LogEntry::set_span_id(::std::string&& value) {
 inline void LogEntry::set_span_id(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  span_id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  span_id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.logging.v2.LogEntry.span_id)
 }
 inline void LogEntry::set_span_id(const char* value,
     size_t size) {
   
-  span_id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  span_id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.logging.v2.LogEntry.span_id)
 }
@@ -1913,13 +1923,13 @@ inline const ::std::string& LogEntryOperation::id() const {
 }
 inline void LogEntryOperation::set_id(const ::std::string& value) {
   
-  id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.logging.v2.LogEntryOperation.id)
 }
 #if LANG_CXX11
 inline void LogEntryOperation::set_id(::std::string&& value) {
   
-  id_.SetLite(
+  id_.Set(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.logging.v2.LogEntryOperation.id)
 }
@@ -1927,14 +1937,14 @@ inline void LogEntryOperation::set_id(::std::string&& value) {
 inline void LogEntryOperation::set_id(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.logging.v2.LogEntryOperation.id)
 }
 inline void LogEntryOperation::set_id(const char* value,
     size_t size) {
   
-  id_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  id_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.logging.v2.LogEntryOperation.id)
 }
@@ -1988,13 +1998,13 @@ inline const ::std::string& LogEntryOperation::producer() const {
 }
 inline void LogEntryOperation::set_producer(const ::std::string& value) {
   
-  producer_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  producer_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.logging.v2.LogEntryOperation.producer)
 }
 #if LANG_CXX11
 inline void LogEntryOperation::set_producer(::std::string&& value) {
   
-  producer_.SetLite(
+  producer_.Set(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.logging.v2.LogEntryOperation.producer)
 }
@@ -2002,14 +2012,14 @@ inline void LogEntryOperation::set_producer(::std::string&& value) {
 inline void LogEntryOperation::set_producer(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  producer_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  producer_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.logging.v2.LogEntryOperation.producer)
 }
 inline void LogEntryOperation::set_producer(const char* value,
     size_t size) {
   
-  producer_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  producer_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.logging.v2.LogEntryOperation.producer)
 }
@@ -2095,13 +2105,13 @@ inline const ::std::string& LogEntrySourceLocation::file() const {
 }
 inline void LogEntrySourceLocation::set_file(const ::std::string& value) {
   
-  file_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  file_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.logging.v2.LogEntrySourceLocation.file)
 }
 #if LANG_CXX11
 inline void LogEntrySourceLocation::set_file(::std::string&& value) {
   
-  file_.SetLite(
+  file_.Set(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.logging.v2.LogEntrySourceLocation.file)
 }
@@ -2109,14 +2119,14 @@ inline void LogEntrySourceLocation::set_file(::std::string&& value) {
 inline void LogEntrySourceLocation::set_file(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  file_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  file_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.logging.v2.LogEntrySourceLocation.file)
 }
 inline void LogEntrySourceLocation::set_file(const char* value,
     size_t size) {
   
-  file_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  file_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.logging.v2.LogEntrySourceLocation.file)
 }
@@ -2184,13 +2194,13 @@ inline const ::std::string& LogEntrySourceLocation::function() const {
 }
 inline void LogEntrySourceLocation::set_function(const ::std::string& value) {
   
-  function_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
+  function_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value, GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set:google.logging.v2.LogEntrySourceLocation.function)
 }
 #if LANG_CXX11
 inline void LogEntrySourceLocation::set_function(::std::string&& value) {
   
-  function_.SetLite(
+  function_.Set(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_rvalue:google.logging.v2.LogEntrySourceLocation.function)
 }
@@ -2198,14 +2208,14 @@ inline void LogEntrySourceLocation::set_function(::std::string&& value) {
 inline void LogEntrySourceLocation::set_function(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  function_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  function_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_char:google.logging.v2.LogEntrySourceLocation.function)
 }
 inline void LogEntrySourceLocation::set_function(const char* value,
     size_t size) {
   
-  function_.SetLite(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  function_.Set(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArenaNoVirtual());
   // @@protoc_insertion_point(field_set_pointer:google.logging.v2.LogEntrySourceLocation.function)
 }

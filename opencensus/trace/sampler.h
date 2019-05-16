@@ -68,12 +68,12 @@ class ProbabilitySampler final : public Sampler {
 // Always samples.
 class AlwaysSampler final : public Sampler {
  public:
-  bool ShouldSample(const SpanContext* parent_context,
-                    bool has_remote_parent,
-                    const TraceId& trace_id,
-                    const SpanId& span_id,
-                    absl::string_view name,
-                    const std::vector<Span*>& parent_links) const override {
+  bool ShouldSample(const SpanContext* /* parent_context */,
+                    bool /* has_remote_parent */,
+                    const TraceId& /* trace_id */,
+                    const SpanId& /* span_id */,
+                    absl::string_view /* name */,
+                    const std::vector<Span*>& /* parent_links */) const override {
     return true;
   }
 };
@@ -81,12 +81,12 @@ class AlwaysSampler final : public Sampler {
 // Never samples.
 class NeverSampler final : public Sampler {
  public:
-  bool ShouldSample(const SpanContext* parent_context,
-                    bool has_remote_parent,
-                    const TraceId& trace_id,
-                    const SpanId& span_id,
-                    absl::string_view name,
-                    const std::vector<Span*>& parent_links) const override {
+  bool ShouldSample(const SpanContext* /* parent_context */,
+                    bool /* has_remote_parent */,
+                    const TraceId& /* trace_id */,
+                    const SpanId& /* span_id */,
+                    absl::string_view /* name */,
+                    const std::vector<Span*>& /* parent_links */) const override {
     return false;
   }
 };

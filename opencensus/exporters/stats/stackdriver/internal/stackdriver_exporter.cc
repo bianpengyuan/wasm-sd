@@ -23,11 +23,18 @@
 #include "absl/memory/memory.h"
 #include "absl/strings/str_cat.h"
 #include "absl/strings/string_view.h"
-#include "include/stackdriver.h"
 #include "google/protobuf/empty.pb.h"
 #include "google/monitoring/v3/metric_service.pb.h"
 #include "opencensus/exporters/stats/stackdriver/internal/stackdriver_utils.h"
 #include "opencensus/stats/stats.h"
+
+#ifndef NULL_PLUGIN
+#include "api/wasm/cpp/proxy_wasm_intrinsics.h"
+#else
+#include "extensions/common/wasm/null/null.h"
+using namespace Envoy::Extensions::Common::Wasm::Null::Plugin;
+using namespace envoy::api::v2::core;
+#endif
 
 namespace opencensus {
 namespace exporters {
@@ -96,7 +103,7 @@ void Handler::ExportViewData(
       ceil(static_cast<double>(time_series.size()) / kTimeSeriesBatchSize);
 
   std::function<void(google::protobuf::Empty&&)> success_callback =
-      [](google::protobuf::Empty&& value) {
+      [](google::protobuf::Empty&& /* value */) {
         logDebug("successfully sent out request");
       };
   std::function<void(GrpcStatus status, std::string_view error_message)>

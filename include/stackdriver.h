@@ -1,7 +1,21 @@
-#ifndef STACKDRIVER_H
-#define STACKDRIVER_H
+#ifndef INCLUDE_STACKDRIVER_H
+#define INCLUDE_STACKDRIVER_H
 
-#include "api/proxy_wasm_intrinsics.h"
+#ifndef NULL_PLUGIN
+#include "api/wasm/cpp/proxy_wasm_intrinsics.h"
+#else
+
+#include "extensions/common/wasm/null/null.h"
+
+namespace Envoy {
+namespace Extensions {
+namespace Common {
+namespace Wasm {
+namespace Null {
+namespace Plugin {
+namespace Stackdriver {
+using namespace Plugin;
+#endif
 
 class StackdriverContext : public Context {
  public:
@@ -26,4 +40,14 @@ class StackdriverContext : public Context {
   uint64_t sent_bytes_ = 0;
 };
 
-#endif // STACKDRIVER_H
+#ifdef NULL_PLUGIN
+} // namespace Stackdriver
+} // namespace Plugin
+} // namespace Null
+} // namespace Wasm
+} // namespace Common
+} // namespace Extensions
+} // namespace Envoy
+#endif
+
+#endif // INCLUDE_STACKDRIVER_H

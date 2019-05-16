@@ -92,13 +92,13 @@ void SetTypedValue(double value, google::api::MetricDescriptor::ValueType type,
     proto->set_int64_value(static_cast<int64_t>(value));
   }
 }
-void SetTypedValue(int64_t value, google::api::MetricDescriptor::ValueType type,
+void SetTypedValue(int64_t value, google::api::MetricDescriptor::ValueType /* type */,
                    google::monitoring::v3::TypedValue* proto) {
 //  ABSL_ASSERT(type == google::api::MetricDescriptor::INT64);
   proto->set_int64_value(value);
 }
 void SetTypedValue(const opencensus::stats::Distribution& value,
-                   google::api::MetricDescriptor::ValueType type,
+                   google::api::MetricDescriptor::ValueType /* type */,
                    google::monitoring::v3::TypedValue* proto) {
 //  ABSL_ASSERT(type == google::api::MetricDescriptor::DISTRIBUTION);
   auto* distribution_proto = proto->mutable_distribution_value();
@@ -130,7 +130,7 @@ std::vector<google::monitoring::v3::TimeSeries> DataToTimeSeries(
   for (const auto& row : data) {
     vector.push_back(base_time_series);
     auto& time_series = vector.back();
-    for (int i = 0; i < view_descriptor.columns().size(); ++i) {
+    for (uint32_t i = 0; i < view_descriptor.columns().size(); ++i) {
       (*time_series.mutable_metric()
           ->mutable_labels())[view_descriptor.columns()[i].name()] =
           row.first[i];
@@ -170,7 +170,7 @@ void SetMetricDescriptor(
 std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
     const opencensus::stats::ViewDescriptor& view_descriptor,
     const opencensus::stats::ViewData& data,
-    absl::string_view opencensus_task) {
+    absl::string_view /* opencensus_task */) {
   // Set values that are common across all the rows.
   auto base_time_series = google::monitoring::v3::TimeSeries();
   base_time_series.mutable_metric()->set_type(view_descriptor.name());

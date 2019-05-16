@@ -18,7 +18,6 @@
 
 #include "absl/base/macros.h"
 #include "absl/memory/memory.h"
-#include "api/proxy_wasm_intrinsics.h"
 #include "opencensus/stats/aggregation.h"
 #include "opencensus/stats/bucket_boundaries.h"
 #include "opencensus/stats/internal/delta_producer.h"
@@ -27,6 +26,13 @@
 #include "opencensus/stats/view_descriptor.h"
 #include "opencensus/tags/tag_key.h"
 #include "opencensus/tags/tag_map.h"
+
+#ifndef NULL_PLUGIN
+#include "api/wasm/cpp/proxy_wasm_intrinsics.h"
+#else
+#include "extensions/common/wasm/null/null.h"
+using namespace Envoy::Extensions::Common::Wasm::Null::Plugin;
+#endif
 
 namespace opencensus {
 namespace stats {
@@ -39,7 +45,7 @@ namespace stats {
 // StatsManager::ViewInformation
 
 StatsManager::ViewInformation::ViewInformation(const ViewDescriptor& descriptor)
-    : descriptor_(descriptor), data_(getCurrentTimeNanoseconds(), descriptor) {}
+    : descriptor_(descriptor), data_(proxy_getCurrentTimeNanoseconds(), descriptor) {}
 
 bool StatsManager::ViewInformation::Matches(
     const ViewDescriptor& descriptor) const {
@@ -64,7 +70,7 @@ void StatsManager::ViewInformation::MergeMeasureData(
     const opencensus::tags::TagMap& tags, const MeasureData& data,
     uint64_t now) {
   std::vector<std::string> tag_values(descriptor_.columns().size());
-  for (int i = 0; i < tag_values.size(); ++i) {
+  for (uint32_t i = 0; i < tag_values.size(); ++i) {
     const opencensus::tags::TagKey column = descriptor_.columns()[i];
     for (const auto& tag : tags.tags()) {
       if (tag.first == column) {
@@ -82,7 +88,7 @@ std::unique_ptr<ViewDataImpl> StatsManager::ViewInformation::GetData() {
 //  } else
   if (descriptor_.aggregation_window_.type() ==
              AggregationWindow::Type::kDelta) {
-    return data_.GetDeltaAndReset(getCurrentTimeNanoseconds());
+    return data_.GetDeltaAndReset(proxy_getCurrentTimeNanoseconds());
   } else {
     return absl::make_unique<ViewDataImpl>(data_);
   }
@@ -135,11 +141,11 @@ StatsManager* StatsManager::Get() {
 }
 
 void StatsManager::MergeDelta(const Delta& delta) {
-  uint64_t now = getCurrentTimeNanoseconds();
+  uint64_t now = proxy_getCurrentTimeNanoseconds();
   // Measures are added to the StatsManager before the DeltaProducer, so there
   // should never be measures in the delta missing from measures_.
   for (const auto& data_for_tagset : delta.delta()) {
-    for (int i = 0; i < data_for_tagset.second.size(); ++i) {
+    for (uint32_t i = 0; i < data_for_tagset.second.size(); ++i) {
       // Only add data if there is data for this tagset/measure combination, to
       // avoid creating spurious empty rows.
       if (data_for_tagset.second[i].count() != 0) {
@@ -151,7 +157,7 @@ void StatsManager::MergeDelta(const Delta& delta) {
 }
 
 template <typename MeasureT>
-void StatsManager::AddMeasure(Measure<MeasureT> measure) {
+void StatsManager::AddMeasure(Measure<MeasureT> /* measure */) {
   measures_.emplace_back(MeasureInformation());
 //  ABSL_ASSERT(measures_.size() ==
 //              MeasureRegistryImpl::MeasureToIndex(measure) + 1);

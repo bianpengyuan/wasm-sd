@@ -77,7 +77,7 @@ std::vector<SpanData> RunningSpanStoreImpl::GetRunningSpans(
     const RunningSpanStore::Filter& filter) const {
   std::vector<SpanData> running_spans;
   for (const auto& it : spans_) {
-    if (running_spans.size() >= filter.max_spans_to_return) break;
+    if (running_spans.size() >= static_cast<uint64_t>(filter.max_spans_to_return)) break;
     if (filter.span_name.empty() || (it.second->name() == filter.span_name)) {
       running_spans.emplace_back(it.second->ToSpanData());
     }

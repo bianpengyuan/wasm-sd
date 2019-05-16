@@ -20,7 +20,12 @@
 #include "absl/base/macros.h"
 #include "absl/strings/string_view.h"
 
-class Context;
+#ifndef NULL_PLUGIN
+#include "api/wasm/cpp/proxy_wasm_intrinsics.h"
+#else
+#include "extensions/common/wasm/null/null.h"
+using namespace Envoy::Extensions::Common::Wasm::Null::Plugin;
+#endif
 
 namespace opencensus {
 namespace exporters {

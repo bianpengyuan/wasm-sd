@@ -31,7 +31,7 @@ namespace {
 
 // Returns true if the string only contains valid lowercase hex digits.
 bool IsLowercaseHexDigits(absl::string_view s) {
-  for (int i = 0; i < s.length(); ++i) {
+  for (uint32_t i = 0; i < s.length(); ++i) {
     if (!((s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f'))) {
       return false;
     }
