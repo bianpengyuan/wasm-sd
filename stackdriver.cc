@@ -30,7 +30,7 @@ std::unique_ptr<Context> NewContext(uint32_t id) {
 
 const std::string kProjectName = "bpy-istio";
 const int32_t kFlushIntervalMilliseconds = 5000;
-const int32_t kExportTickCount = 6; // export every 5s * 6 = 30s
+const int32_t kExportTickCount = 1; // export every 5s * 6 = 30s
 
 void StackdriverContext::onStart() {
   opencensus::exporters::stats::StackdriverOptions options;
