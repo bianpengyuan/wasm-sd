@@ -36,9 +36,8 @@ envoy_cc_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "//google/api:metric_proto_cc",
-        "//google/monitoring/v3:metric_proto_cc",
-        "//google/monitoring/v3:metric_service_proto_cc",
+        "@telemetry_googleapis//google/monitoring/v3:monitoring_cc_proto",
+        "//:stackdriver_exporter_options_hdr",
         "//opencensus/common/internal:hash_mix",
         "//opencensus/stats:stats",
     ],

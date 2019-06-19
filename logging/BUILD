@@ -18,6 +18,7 @@ envoy_cc_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
+        "//:stackdriver_exporter_options_hdr",
         "//google/logging/v2:log_entry_proto_cc",
         "//google/logging/v2:logging_proto_cc",
         "//opencensus/tags:tags",

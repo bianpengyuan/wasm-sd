@@ -31,34 +31,11 @@
 namespace opencensus {
 namespace exporters {
 namespace stats {
+namespace stackdriver {
+
+const uint64_t kNanosecondPerSecond = 1000000000;
 
 namespace {
-
-constexpr char kLabelDescription[] = "OpenCensus TagKey";
-constexpr char kOpenCensusTaskKey[] = "opencensus_task";
-constexpr char kOpenCensusTaskDescription[] = "OpenCensus task identifier";
-constexpr char kDefaultResourceType[] = "global";
-
-// Creates a name in the format described in
-// https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors/create
-std::string MakeName(absl::string_view project_name,
-                     absl::string_view view_name) {
-  return absl::StrCat(project_name, "/metricDescriptors/", view_name);
-}
-
-void SetLabelDescriptor(absl::string_view tag_key,
-                        google::api::LabelDescriptor* label_descriptor) {
-  label_descriptor->set_key(std::string(tag_key));
-  label_descriptor->set_value_type(google::api::LabelDescriptor::STRING);
-  label_descriptor->set_description(kLabelDescription);
-}
-
-void SetOpenCensusTaskLabelDescriptor(
-    google::api::LabelDescriptor* label_descriptor) {
-  label_descriptor->set_key(kOpenCensusTaskKey);
-  label_descriptor->set_value_type(google::api::LabelDescriptor::STRING);
-  label_descriptor->set_description(kOpenCensusTaskDescription);
-}
 
 google::api::MetricDescriptor::ValueType GetValueType(
     const opencensus::stats::ViewDescriptor& descriptor) {
@@ -76,31 +53,29 @@ google::api::MetricDescriptor::ValueType GetValueType(
     case opencensus::stats::Aggregation::Type::kDistribution:
       return google::api::MetricDescriptor::DISTRIBUTION;
   }
-//  ABSL_ASSERT(false && "Bad descriptor type.");
   return google::api::MetricDescriptor::DOUBLE;
 }
 
 // Overloaded function for converting ViewData value types to Points. The
 // ValueType is needed because Sum aggregation with an int64 measure returns
 // doubles but we want to export int64s for future compatibility.
-void SetTypedValue(double value, google::api::MetricDescriptor::ValueType type,
+void SetTypedValue(double value,
+                   google::api::MetricDescriptor::ValueType type,
                    google::monitoring::v3::TypedValue* proto) {
   if (type == google::api::MetricDescriptor::DOUBLE) {
     proto->set_double_value(value);
   } else {
-//    ABSL_ASSERT(type == google::api::MetricDescriptor::INT64);
     proto->set_int64_value(static_cast<int64_t>(value));
   }
 }
-void SetTypedValue(int64_t value, google::api::MetricDescriptor::ValueType /* type */,
+void SetTypedValue(int64_t value,
+                   google::api::MetricDescriptor::ValueType /* type */,
                    google::monitoring::v3::TypedValue* proto) {
-//  ABSL_ASSERT(type == google::api::MetricDescriptor::INT64);
   proto->set_int64_value(value);
 }
 void SetTypedValue(const opencensus::stats::Distribution& value,
                    google::api::MetricDescriptor::ValueType /* type */,
                    google::monitoring::v3::TypedValue* proto) {
-//  ABSL_ASSERT(type == google::api::MetricDescriptor::DISTRIBUTION);
   auto* distribution_proto = proto->mutable_distribution_value();
   distribution_proto->set_count(value.count());
   distribution_proto->set_mean(value.mean());
@@ -109,7 +84,7 @@ void SetTypedValue(const opencensus::stats::Distribution& value,
   // TODO: Set range when Stackdriver supports it.
   if (value.bucket_boundaries().num_buckets() > 1) {
     auto* buckets = distribution_proto->mutable_bucket_options()
-        ->mutable_explicit_buckets();
+                        ->mutable_explicit_buckets();
     for (const auto boundary : value.bucket_boundaries().lower_boundaries()) {
       buckets->add_bounds(boundary);
     }
@@ -119,7 +94,7 @@ void SetTypedValue(const opencensus::stats::Distribution& value,
   }
 }
 
-template<typename DataValueT>
+template <typename DataValueT>
 std::vector<google::monitoring::v3::TimeSeries> DataToTimeSeries(
     const opencensus::stats::ViewDescriptor& view_descriptor,
     const opencensus::stats::ViewData::DataMap<DataValueT>& data,
@@ -132,7 +107,7 @@ std::vector<google::monitoring::v3::TimeSeries> DataToTimeSeries(
     auto& time_series = vector.back();
     for (uint32_t i = 0; i < view_descriptor.columns().size(); ++i) {
       (*time_series.mutable_metric()
-          ->mutable_labels())[view_descriptor.columns()[i].name()] =
+            ->mutable_labels())[view_descriptor.columns()[i].name()] =
           row.first[i];
     }
     // The point is already created in the base_time_series to set the times.
@@ -144,56 +119,17 @@ std::vector<google::monitoring::v3::TimeSeries> DataToTimeSeries(
 
 }  // namespace
 
-void SetMetricDescriptor(
-    absl::string_view project_name,
-    const opencensus::stats::ViewDescriptor& view_descriptor,
-    google::api::MetricDescriptor* metric_descriptor) {
-  metric_descriptor->set_name(MakeName(project_name, view_descriptor.name()));
-  metric_descriptor->set_type(view_descriptor.name());
-  SetOpenCensusTaskLabelDescriptor(metric_descriptor->add_labels());
-  for (const auto& tag_key : view_descriptor.columns()) {
-    SetLabelDescriptor(tag_key.name(), metric_descriptor->add_labels());
-  }
-  metric_descriptor->set_metric_kind(
-      view_descriptor.aggregation().type() ==
-          opencensus::stats::Aggregation::Type::kLastValue
-      ? google::api::MetricDescriptor::GAUGE
-      : google::api::MetricDescriptor::CUMULATIVE);
-  metric_descriptor->set_value_type(GetValueType(view_descriptor));
-  metric_descriptor->set_unit(
-      view_descriptor.aggregation() == opencensus::stats::Aggregation::Count()
-      ? "1"
-      : view_descriptor.measure_descriptor().units());
-  metric_descriptor->set_description(view_descriptor.description());
-}
-
 std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
     const opencensus::stats::ViewDescriptor& view_descriptor,
     const opencensus::stats::ViewData& data,
-    absl::string_view /* opencensus_task */) {
+    const ::google::api::MonitoredResource& monitored_resource) {
   // Set values that are common across all the rows.
   auto base_time_series = google::monitoring::v3::TimeSeries();
   base_time_series.mutable_metric()->set_type(view_descriptor.name());
-  /* !!!!!!!This needs to be changed!!!!!!!*/
-  base_time_series.mutable_resource()->set_type("k8s_container");
-  (*base_time_series.mutable_resource()->mutable_labels())["project_id"] =
-      "bpy-istio";
-  (*base_time_series.mutable_resource()->mutable_labels())["location"] =
-      "us-central1-a";
-  (*base_time_series.mutable_resource()->mutable_labels())["cluster_name"] =
-      "test-cluster";
-  (*base_time_series.mutable_resource()->mutable_labels())["namespace_name"] =
-      "test-namespace";
-  (*base_time_series.mutable_resource()->mutable_labels())["pod_name"] =
-      "test-pod";
-  (*base_time_series.mutable_resource()->mutable_labels())["container_name"] =
-      "test-container";
-  /* !!!!!!!This needs to be changed!!!!!!!*/
+  (*base_time_series.mutable_resource()) = monitored_resource;
   auto* interval = base_time_series.add_points()->mutable_interval();
   SetTimestamp(data.start_time(), interval->mutable_start_time());
   SetTimestamp(data.end_time(), interval->mutable_end_time());
-//  (*base_time_series.mutable_metric()->mutable_labels())[kOpenCensusTaskKey] =
-//      std::string(opencensus_task);
 
   switch (data.type()) {
     case opencensus::stats::ViewData::Type::kDouble:
@@ -206,16 +142,15 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
       return DataToTimeSeries(view_descriptor, data.distribution_data(),
                               base_time_series);
   }
-//  ABSL_ASSERT(false && "Bad ViewData.type().");
   return {};
 }
 
 void SetTimestamp(uint64_t time, google::protobuf::Timestamp* proto) {
-//  const int64_t seconds = absl::ToUnixSeconds(time);
-  proto->set_seconds(time / 1000000000);
-  proto->set_nanos(time % 1000000000);
+  proto->set_seconds(time / kNanosecondPerSecond);
+  proto->set_nanos(time % kNanosecondPerSecond);
 }
 
+}  // namespace stackdriver
 }  // namespace stats
 }  // namespace exporters
 }  // namespace opencensus

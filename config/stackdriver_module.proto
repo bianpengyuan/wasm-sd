@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package config;
+
+message StackdriverModule {
+  bool enable_logging = 1;
+  bool enable_monitoring = 2;
+
+  string project_id = 3;
+  string zone = 4;
+  string cluster_name = 5;
+  string monitored_resource_type = 6;
+  map<string, string> monitored_resource_labels = 7;
+}

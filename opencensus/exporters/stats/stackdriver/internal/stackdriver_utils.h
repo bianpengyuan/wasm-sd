@@ -26,21 +26,17 @@
 namespace opencensus {
 namespace exporters {
 namespace stats {
-
-// Populates metric_descriptor based on project_name and view_descriptor.
-// project_name should be in the format "projects/project_id".
-void SetMetricDescriptor(
-    absl::string_view project_name,
-    const opencensus::stats::ViewDescriptor& view_descriptor,
-    google::api::MetricDescriptor* metric_descriptor);
+namespace stackdriver {
 
 // Converts each row of 'data' into TimeSeries.
 std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
     const opencensus::stats::ViewDescriptor& view_descriptor,
-    const opencensus::stats::ViewData& data, absl::string_view opencensus_task);
+    const opencensus::stats::ViewData& data,
+    const ::google::api::MonitoredResource& monitored_resource);
 
 void SetTimestamp(uint64_t time, google::protobuf::Timestamp* proto);
 
+}  // namespace stackdriver
 }  // namespace stats
 }  // namespace exporters
 }  // namespace opencensus

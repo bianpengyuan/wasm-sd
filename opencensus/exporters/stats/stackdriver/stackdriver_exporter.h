@@ -19,32 +19,20 @@
 
 #include "absl/base/macros.h"
 #include "absl/strings/string_view.h"
+#include "include/stackdriver_exporter_options.h"
 
 #ifndef NULL_PLUGIN
 #include "api/wasm/cpp/proxy_wasm_intrinsics.h"
 #else
 #include "extensions/common/wasm/null/null.h"
 using namespace Envoy::Extensions::Common::Wasm::Null::Plugin;
+using namespace Envoy::Extensions::Common::Wasm::Null::Plugin::Stackdriver;
 #endif
 
 namespace opencensus {
 namespace exporters {
 namespace stats {
-
-struct StackdriverOptions {
-  // The Stackdriver project ID to use.
-  std::string project_id;
-
-  // The opencensus_task is used to uniquely identify the task in Stackdriver.
-  // The recommended format is "{LANGUAGE}-{PID}@{HOSTNAME}". If PID is not
-  // available, a random number may be used.
-  std::string opencensus_task;
-
-  // The RPC deadline to use when exporting to Stackdriver.
-//  absl::Duration rpc_deadline = absl::Seconds(5);
-
-  Context* context;
-};
+namespace stackdriver {
 
 // Exports stats for registered views (see opencensus/stats/stats_exporter.h) to
 // Stackdriver. StackdriverExporter is thread-safe.
@@ -57,6 +45,7 @@ class StackdriverExporter {
   StackdriverExporter() = delete;
 };
 
+}  // namespace stackdriver
 }  // namespace stats
 }  // namespace exporters
 }  // namespace opencensus

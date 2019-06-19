@@ -1,9 +1,16 @@
 #include "logger.h"
 
-
 #ifdef NULL_PLUGIN
 using namespace Envoy::Extensions::Common::Wasm::Null::Plugin;
 using namespace envoy::api::v2::core;
+
+namespace Envoy {
+namespace Extensions {
+namespace Common {
+namespace Wasm {
+namespace Null {
+namespace Plugin {
+namespace Stackdriver {
 #endif
 
 namespace logging {
@@ -11,44 +18,61 @@ namespace logging {
 constexpr int kMaxRotationBytesSize = 4000000;
 constexpr char kServerAccessLogName[] =
     "projects/bpy-istio/logs/server-accesslog-stackdriver";
+// Path to CA credentials, which used for TLS between stackdriver client and server.
+constexpr char kCACertPath[] = "/etc/ssl/certs/ca-certificates.crt";
 constexpr char kGoogleStackdriverLoggingAddress[] = "logging.googleapis.com";
 constexpr char kGoogleLoggingService[] = "google.logging.v2.LoggingServiceV2";
 constexpr char kGoogleWriteLogEntriesMethod[] = "WriteLogEntries";
 constexpr int kDefaultTimeoutMillisecond = 10000;
-
-
-void FillWriteLogEntry(google::logging::v2::WriteLogEntriesRequest* request) {
-  request->set_log_name(kServerAccessLogName);
-  auto* monitored_resource = request->mutable_resource();
-  /** this needs to be changed ***/
-  monitored_resource->set_type("k8s_container");
-  auto* monitored_resource_labels = monitored_resource->mutable_labels();
-  (*monitored_resource_labels)["project_id"] = "bpy-istio";
-  (*monitored_resource_labels)["location"] = "us-central1-a";
-  (*monitored_resource_labels)["cluster_name"] = "test-cluster";
-  (*monitored_resource_labels)["namespace_name"] = "test-namespace";
-  (*monitored_resource_labels)["pod_name"] = "test-pod";
-  (*monitored_resource_labels)["container_name"] = "test-container";
-  /** this needs to be changed ***/
-}
 
 Logger* Logger::Get() {
   static Logger* global_logger = new Logger();
   return global_logger;
 }
 
-void Logger::Init(Context* context) {
-  context_ = context;
-}
+void Logger::Init(const StackdriverOptions& opts) {
+  GrpcService grpc_service;
+  grpc_service.mutable_google_grpc()->set_target_uri(
+    kGoogleStackdriverLoggingAddress);
+  grpc_service.mutable_google_grpc()
+      ->mutable_channel_credentials()
+      ->mutable_ssl_credentials()
+      ->mutable_root_certs()
+      ->set_filename(kCACertPath);
+  grpc_service.mutable_google_grpc()
+      ->add_call_credentials()
+      ->mutable_google_compute_engine();
+  grpc_service.SerializeToString(&grpc_service_string_);
 
-Logger::Logger() {
+  std::function<void(google::protobuf::Empty&&)> success_callback =
+      [](google::protobuf::Empty&&) {
+        logDebug("successfully sent out request");
+      };
+  std::function<void(GrpcStatus status, StringView error_message)>
+      failure_callback =
+      [](GrpcStatus status, StringView message) {
+        logInfo(
+            "logging api call error: "
+                + std::to_string(static_cast<int>(status))
+                + std::string(message));
+      };
+
+  // Precreate monitored resource which all time series should be attached to.
+  monitored_resource_.set_type(opts.monitored_resource_type);
+  for (const auto& label : opts.monitored_resource_labels) {
+    (*monitored_resource_.mutable_labels())[label.first] = label.second;
+  }
+
+  context_ = opts.context;
+
   log_entries_request_ =
       std::make_shared<google::logging::v2::WriteLogEntriesRequest>();
-  FillWriteLogEntry(log_entries_request_.get());
+  log_entries_request_->set_log_name(kServerAccessLogName);
+  log_entries_request_->mutable_resource()->CopyFrom(monitored_resource_);
 }
 
 void Logger::AddLogEntry(const std::vector<std::pair<opencensus::tags::TagKey,
-                                                     std::string>>& labels) {
+                                                     StringView>>& labels) {
   // create a new log entry
   auto* log_entries = log_entries_request_->mutable_entries();
   auto* new_entry = log_entries->Add();
@@ -62,7 +86,7 @@ void Logger::AddLogEntry(const std::vector<std::pair<opencensus::tags::TagKey,
   // Add labels
   auto* log_labels = new_entry->mutable_labels();
   for (const auto& label : labels) {
-    (*log_labels)[label.first.name()] = label.second;
+    (*log_labels)[label.first.name()] = std::string(label.second);
   }
 
   // clean buffer
@@ -74,52 +98,39 @@ void Logger::AddLogEntry(const std::vector<std::pair<opencensus::tags::TagKey,
 }
 
 void Logger::Flush() {
-  logInfo("size is " + std::to_string(size_));
+  if (size_ == 0) {
+    return;
+  }
   std::shared_ptr<google::logging::v2::WriteLogEntriesRequest> cur =
       std::make_shared<google::logging::v2::WriteLogEntriesRequest>();
-  FillWriteLogEntry(cur.get());
+  cur->set_log_name(kServerAccessLogName);
+  cur->mutable_resource()->CopyFrom(monitored_resource_);
   log_entries_request_.swap(cur);
   request_queue_.emplace_back(std::move(cur));
   size_ = 0;
 }
 
 void Logger::Export() {
-  std::function<void(google::protobuf::Empty&&)> success_callback =
-      [](google::protobuf::Empty&&) {
-        logDebug("successfully sent out request");
-      };
-  std::function<void(GrpcStatus status, std::string_view error_message)>
-      failure_callback =
-      [](GrpcStatus status, std::string_view message) {
-        logInfo(
-            "logging api call error: "
-                + std::to_string(static_cast<int>(status))
-                + std::string(message));
-      };
-  GrpcService grpc_service;
-  grpc_service.mutable_google_grpc()->set_target_uri(
-      kGoogleStackdriverLoggingAddress);
-  grpc_service.mutable_google_grpc()
-      ->mutable_channel_credentials()
-      ->mutable_ssl_credentials()
-      ->mutable_root_certs()
-      ->set_filename("/etc/ssl/certs/ca-certificates.crt");
-  grpc_service.mutable_google_grpc()
-      ->add_call_credentials()
-      ->mutable_google_compute_engine();
-  std::string grpc_service_string;
-  grpc_service.SerializeToString(&grpc_service_string);
-
   for (const auto& req : request_queue_) {
-    context_->grpcSimpleCall(grpc_service_string,
+    context_->grpcSimpleCall(grpc_service_string_,
                              kGoogleLoggingService,
                              kGoogleWriteLogEntriesMethod,
                              *req,
                              kDefaultTimeoutMillisecond,
-                             success_callback,
-                             failure_callback);
+                             success_callback_,
+                             failure_callback_);
   }
   request_queue_.clear();
 }
 
 }  // namespace logging
+
+#ifdef NULL_PLUGIN
+} // namespace Stackdriver
+} // namespace Plugin
+} // namespace Null
+} // namespace Wasm
+} // namespace Common
+} // namespace Extensions
+} // namespace Envoy
+#endif
