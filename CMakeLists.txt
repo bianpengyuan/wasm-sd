@@ -7,7 +7,6 @@ file(GLOB stats_SRC
         "opencensus/context/internal/*.cc"
         "opencensus/stats/internal/*.cc"
         "opencensus/tags/internal/*.cc"
-        "opencensus/trace/internal/*.cc"
         "opencensus/exporters/stats/stackdriver/internal/*.cc"
         "google/api/*.cc"
         "google/devtools/cloudtrace/v2/*.cc"

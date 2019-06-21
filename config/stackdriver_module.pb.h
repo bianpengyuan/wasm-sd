@@ -33,7 +33,6 @@
 #include <google/protobuf/map_entry.h>
 #include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/unknown_field_set.h>
-#include <google/protobuf/duration.pb.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_config_2fstackdriver_5fmodule_2eproto 
 
@@ -213,17 +212,11 @@ class StackdriverModule : public ::google::protobuf::Message /* @@protoc_inserti
   ::std::string* release_monitored_resource_type();
   void set_allocated_monitored_resource_type(::std::string* monitored_resource_type);
 
-  // .google.protobuf.Duration flush_interval = 6;
-  bool has_flush_interval() const;
-  void clear_flush_interval();
-  static const int kFlushIntervalFieldNumber = 6;
-  private:
-  const ::google::protobuf::Duration& _internal_flush_interval() const;
-  public:
-  const ::google::protobuf::Duration& flush_interval() const;
-  ::google::protobuf::Duration* release_flush_interval();
-  ::google::protobuf::Duration* mutable_flush_interval();
-  void set_allocated_flush_interval(::google::protobuf::Duration* flush_interval);
+  // int64 flush_interval_sec = 6;
+  void clear_flush_interval_sec();
+  static const int kFlushIntervalSecFieldNumber = 6;
+  ::google::protobuf::int64 flush_interval_sec() const;
+  void set_flush_interval_sec(::google::protobuf::int64 value);
 
   // bool enable_logging = 1;
   void clear_enable_logging();
@@ -249,7 +242,7 @@ class StackdriverModule : public ::google::protobuf::Message /* @@protoc_inserti
       0 > monitored_resource_labels_;
   ::google::protobuf::internal::ArenaStringPtr project_id_;
   ::google::protobuf::internal::ArenaStringPtr monitored_resource_type_;
-  ::google::protobuf::Duration* flush_interval_;
+  ::google::protobuf::int64 flush_interval_sec_;
   bool enable_logging_;
   bool enable_monitoring_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -420,53 +413,18 @@ StackdriverModule::mutable_monitored_resource_labels() {
   return monitored_resource_labels_.MutableMap();
 }
 
-// .google.protobuf.Duration flush_interval = 6;
-inline bool StackdriverModule::has_flush_interval() const {
-  return this != internal_default_instance() && flush_interval_ != NULL;
+// int64 flush_interval_sec = 6;
+inline void StackdriverModule::clear_flush_interval_sec() {
+  flush_interval_sec_ = GOOGLE_LONGLONG(0);
 }
-inline const ::google::protobuf::Duration& StackdriverModule::_internal_flush_interval() const {
-  return *flush_interval_;
+inline ::google::protobuf::int64 StackdriverModule::flush_interval_sec() const {
+  // @@protoc_insertion_point(field_get:config.StackdriverModule.flush_interval_sec)
+  return flush_interval_sec_;
 }
-inline const ::google::protobuf::Duration& StackdriverModule::flush_interval() const {
-  const ::google::protobuf::Duration* p = flush_interval_;
-  // @@protoc_insertion_point(field_get:config.StackdriverModule.flush_interval)
-  return p != NULL ? *p : *reinterpret_cast<const ::google::protobuf::Duration*>(
-      &::google::protobuf::_Duration_default_instance_);
-}
-inline ::google::protobuf::Duration* StackdriverModule::release_flush_interval() {
-  // @@protoc_insertion_point(field_release:config.StackdriverModule.flush_interval)
+inline void StackdriverModule::set_flush_interval_sec(::google::protobuf::int64 value) {
   
-  ::google::protobuf::Duration* temp = flush_interval_;
-  flush_interval_ = NULL;
-  return temp;
-}
-inline ::google::protobuf::Duration* StackdriverModule::mutable_flush_interval() {
-  
-  if (flush_interval_ == NULL) {
-    auto* p = CreateMaybeMessage<::google::protobuf::Duration>(GetArenaNoVirtual());
-    flush_interval_ = p;
-  }
-  // @@protoc_insertion_point(field_mutable:config.StackdriverModule.flush_interval)
-  return flush_interval_;
-}
-inline void StackdriverModule::set_allocated_flush_interval(::google::protobuf::Duration* flush_interval) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete reinterpret_cast< ::google::protobuf::MessageLite*>(flush_interval_);
-  }
-  if (flush_interval) {
-    ::google::protobuf::Arena* submessage_arena =
-      reinterpret_cast<::google::protobuf::MessageLite*>(flush_interval)->GetArena();
-    if (message_arena != submessage_arena) {
-      flush_interval = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, flush_interval, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  flush_interval_ = flush_interval;
-  // @@protoc_insertion_point(field_set_allocated:config.StackdriverModule.flush_interval)
+  flush_interval_sec_ = value;
+  // @@protoc_insertion_point(field_set:config.StackdriverModule.flush_interval_sec)
 }
 
 #ifdef __GNUC__

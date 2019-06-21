@@ -22,9 +22,6 @@
 namespace protobuf_config_2fstackdriver_5fmodule_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_config_2fstackdriver_5fmodule_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_StackdriverModule_MonitoredResourceLabelsEntry_DoNotUse;
 }  // namespace protobuf_config_2fstackdriver_5fmodule_2eproto
-namespace protobuf_google_2fprotobuf_2fduration_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_google_2fprotobuf_2fduration_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Duration;
-}  // namespace protobuf_google_2fprotobuf_2fduration_2eproto
 namespace config {
 class StackdriverModule_MonitoredResourceLabelsEntry_DoNotUseDefaultTypeInternal {
  public:
@@ -62,10 +59,9 @@ static void InitDefaultsStackdriverModule() {
   ::config::StackdriverModule::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<2> scc_info_StackdriverModule =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 2, InitDefaultsStackdriverModule}, {
-      &protobuf_config_2fstackdriver_5fmodule_2eproto::scc_info_StackdriverModule_MonitoredResourceLabelsEntry_DoNotUse.base,
-      &protobuf_google_2fprotobuf_2fduration_2eproto::scc_info_Duration.base,}};
+::google::protobuf::internal::SCCInfo<1> scc_info_StackdriverModule =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsStackdriverModule}, {
+      &protobuf_config_2fstackdriver_5fmodule_2eproto::scc_info_StackdriverModule_MonitoredResourceLabelsEntry_DoNotUse.base,}};
 
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_StackdriverModule_MonitoredResourceLabelsEntry_DoNotUse.base);
@@ -94,7 +90,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::StackdriverModule, project_id_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::StackdriverModule, monitored_resource_type_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::StackdriverModule, monitored_resource_labels_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::StackdriverModule, flush_interval_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::StackdriverModule, flush_interval_sec_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, sizeof(::config::StackdriverModule_MonitoredResourceLabelsEntry_DoNotUse)},
@@ -128,22 +124,19 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\037config/stackdriver_module.proto\022\006confi"
-      "g\032\036google/protobuf/duration.proto\"\311\002\n\021St"
-      "ackdriverModule\022\026\n\016enable_logging\030\001 \001(\010\022"
-      "\031\n\021enable_monitoring\030\002 \001(\010\022\022\n\nproject_id"
-      "\030\003 \001(\t\022\037\n\027monitored_resource_type\030\004 \001(\t\022"
-      "Y\n\031monitored_resource_labels\030\005 \003(\01326.con"
-      "fig.StackdriverModule.MonitoredResourceL"
-      "abelsEntry\0221\n\016flush_interval\030\006 \001(\0132\031.goo"
-      "gle.protobuf.Duration\032>\n\034MonitoredResour"
-      "ceLabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001("
-      "\t:\0028\001b\006proto3"
+      "g\"\262\002\n\021StackdriverModule\022\026\n\016enable_loggin"
+      "g\030\001 \001(\010\022\031\n\021enable_monitoring\030\002 \001(\010\022\022\n\npr"
+      "oject_id\030\003 \001(\t\022\037\n\027monitored_resource_typ"
+      "e\030\004 \001(\t\022Y\n\031monitored_resource_labels\030\005 \003"
+      "(\01326.config.StackdriverModule.MonitoredR"
+      "esourceLabelsEntry\022\032\n\022flush_interval_sec"
+      "\030\006 \001(\003\032>\n\034MonitoredResourceLabelsEntry\022\013"
+      "\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 413);
+      descriptor, 358);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "config/stackdriver_module.proto", &protobuf_RegisterTypes);
-  ::protobuf_google_2fprotobuf_2fduration_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {
@@ -179,14 +172,6 @@ void StackdriverModule_MonitoredResourceLabelsEntry_DoNotUse::MergeFrom(
 // ===================================================================
 
 void StackdriverModule::InitAsDefaultInstance() {
-  ::config::_StackdriverModule_default_instance_._instance.get_mutable()->flush_interval_ = const_cast< ::google::protobuf::Duration*>(
-      ::google::protobuf::Duration::internal_default_instance());
-}
-void StackdriverModule::clear_flush_interval() {
-  if (GetArenaNoVirtual() == NULL && flush_interval_ != NULL) {
-    delete flush_interval_;
-  }
-  flush_interval_ = NULL;
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int StackdriverModule::kEnableLoggingFieldNumber;
@@ -194,7 +179,7 @@ const int StackdriverModule::kEnableMonitoringFieldNumber;
 const int StackdriverModule::kProjectIdFieldNumber;
 const int StackdriverModule::kMonitoredResourceTypeFieldNumber;
 const int StackdriverModule::kMonitoredResourceLabelsFieldNumber;
-const int StackdriverModule::kFlushIntervalFieldNumber;
+const int StackdriverModule::kFlushIntervalSecFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 StackdriverModule::StackdriverModule()
@@ -217,23 +202,18 @@ StackdriverModule::StackdriverModule(const StackdriverModule& from)
   if (from.monitored_resource_type().size() > 0) {
     monitored_resource_type_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.monitored_resource_type_);
   }
-  if (from.has_flush_interval()) {
-    flush_interval_ = new ::google::protobuf::Duration(*from.flush_interval_);
-  } else {
-    flush_interval_ = NULL;
-  }
-  ::memcpy(&enable_logging_, &from.enable_logging_,
+  ::memcpy(&flush_interval_sec_, &from.flush_interval_sec_,
     static_cast<size_t>(reinterpret_cast<char*>(&enable_monitoring_) -
-    reinterpret_cast<char*>(&enable_logging_)) + sizeof(enable_monitoring_));
+    reinterpret_cast<char*>(&flush_interval_sec_)) + sizeof(enable_monitoring_));
   // @@protoc_insertion_point(copy_constructor:config.StackdriverModule)
 }
 
 void StackdriverModule::SharedCtor() {
   project_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   monitored_resource_type_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&flush_interval_, 0, static_cast<size_t>(
+  ::memset(&flush_interval_sec_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&enable_monitoring_) -
-      reinterpret_cast<char*>(&flush_interval_)) + sizeof(enable_monitoring_));
+      reinterpret_cast<char*>(&flush_interval_sec_)) + sizeof(enable_monitoring_));
 }
 
 StackdriverModule::~StackdriverModule() {
@@ -244,7 +224,6 @@ StackdriverModule::~StackdriverModule() {
 void StackdriverModule::SharedDtor() {
   project_id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   monitored_resource_type_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (this != internal_default_instance()) delete flush_interval_;
 }
 
 void StackdriverModule::SetCachedSize(int size) const {
@@ -270,13 +249,9 @@ void StackdriverModule::Clear() {
   monitored_resource_labels_.Clear();
   project_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   monitored_resource_type_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (GetArenaNoVirtual() == NULL && flush_interval_ != NULL) {
-    delete flush_interval_;
-  }
-  flush_interval_ = NULL;
-  ::memset(&enable_logging_, 0, static_cast<size_t>(
+  ::memset(&flush_interval_sec_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&enable_monitoring_) -
-      reinterpret_cast<char*>(&enable_logging_)) + sizeof(enable_monitoring_));
+      reinterpret_cast<char*>(&flush_interval_sec_)) + sizeof(enable_monitoring_));
   _internal_metadata_.Clear();
 }
 
@@ -377,12 +352,14 @@ bool StackdriverModule::MergePartialFromCodedStream(
         break;
       }
 
-      // .google.protobuf.Duration flush_interval = 6;
+      // int64 flush_interval_sec = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_flush_interval()));
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &flush_interval_sec_)));
         } else {
           goto handle_unusual;
         }
@@ -498,10 +475,9 @@ void StackdriverModule::SerializeWithCachedSizes(
     }
   }
 
-  // .google.protobuf.Duration flush_interval = 6;
-  if (this->has_flush_interval()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      6, this->_internal_flush_interval(), output);
+  // int64 flush_interval_sec = 6;
+  if (this->flush_interval_sec() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(6, this->flush_interval_sec(), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -607,11 +583,9 @@ void StackdriverModule::SerializeWithCachedSizes(
     }
   }
 
-  // .google.protobuf.Duration flush_interval = 6;
-  if (this->has_flush_interval()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        6, this->_internal_flush_interval(), deterministic, target);
+  // int64 flush_interval_sec = 6;
+  if (this->flush_interval_sec() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(6, this->flush_interval_sec(), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -659,11 +633,11 @@ size_t StackdriverModule::ByteSizeLong() const {
         this->monitored_resource_type());
   }
 
-  // .google.protobuf.Duration flush_interval = 6;
-  if (this->has_flush_interval()) {
+  // int64 flush_interval_sec = 6;
+  if (this->flush_interval_sec() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *flush_interval_);
+      ::google::protobuf::internal::WireFormatLite::Int64Size(
+        this->flush_interval_sec());
   }
 
   // bool enable_logging = 1;
@@ -712,8 +686,8 @@ void StackdriverModule::MergeFrom(const StackdriverModule& from) {
 
     monitored_resource_type_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.monitored_resource_type_);
   }
-  if (from.has_flush_interval()) {
-    mutable_flush_interval()->::google::protobuf::Duration::MergeFrom(from.flush_interval());
+  if (from.flush_interval_sec() != 0) {
+    set_flush_interval_sec(from.flush_interval_sec());
   }
   if (from.enable_logging() != 0) {
     set_enable_logging(from.enable_logging());
@@ -752,7 +726,7 @@ void StackdriverModule::InternalSwap(StackdriverModule* other) {
     GetArenaNoVirtual());
   monitored_resource_type_.Swap(&other->monitored_resource_type_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  swap(flush_interval_, other->flush_interval_);
+  swap(flush_interval_sec_, other->flush_interval_sec_);
   swap(enable_logging_, other->enable_logging_);
   swap(enable_monitoring_, other->enable_monitoring_);
   _internal_metadata_.Swap(&other->_internal_metadata_);

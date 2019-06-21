@@ -1352,9 +1352,7 @@ inline void ContextBase::onGrpcClose(uint32_t token, GrpcStatus status, std::uni
 inline void ContextBase::grpcCallHandler(StringView service, StringView service_name,
     StringView method_name, const google::protobuf::MessageLite &request, uint32_t timeout_milliseconds,
     std::unique_ptr<GrpcCallHandlerBase> handler) {
-  std::cout<<"wtf???? 1111\n";
   auto token = grpcCall(service, service_name, method_name, request, timeout_milliseconds);
-  std::cout<<"wtf????? " << token << "\n";
   if (token) {
     handler->token_ = token;
     grpc_calls_[token] = std::move(handler);
