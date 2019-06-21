@@ -1,12 +1,13 @@
 // NOLINT(namespace-envoy)
 #include <string>
+#include <google/protobuf/util/json_util.h>
 #include <unordered_map>
 
 #include "include/stackdriver.h"
 #include "istio/measure.h"
 #include "istio/view.h"
 #include "istio/tag.h"
-#include "logging/logger.h"
+// #include "logging/logger.h"
 #include "opencensus/exporters/stats/stackdriver/stackdriver_exporter.h"
 
 #ifndef NULL_PLUGIN
@@ -24,12 +25,7 @@ namespace Plugin {
 namespace Stackdriver {
 #endif
 
-const int32_t kFlushIntervalMilliseconds = 5000;
-const int32_t kExportTickCount = 6; // export every 5s * 6 = 30s
-
-void StackdriverRootContext::onConfigure(std::unique_ptr<WasmData> configuration) {
-  module_config_ = configuration->proto<config::StackdriverModule>();
-}
+namespace {
 
 void SetSharedData() {
   // set shared data to provide label values for telemetry data
@@ -49,13 +45,36 @@ void SetSharedData() {
   setSharedData("destination_owner", "k8s://v1alpha1/app/v1/some-desination-owner");
 }
 
-void StackdriverRootContext::onStart() {
+}
+
+void StackdriverRootContext::onConfigure(std::unique_ptr<WasmData> configuration) {
+  google::protobuf::util::JsonParseOptions json_options;
+  json_options.ignore_unknown_fields = true;
+  google::protobuf::util::Status status = 
+    google::protobuf::util::JsonStringToMessage(configuration->toString(), 
+                                                &module_config_, json_options);
+  if (status != google::protobuf::util::Status::OK) {
+    logError("Cannot parse config string " + configuration->toString());
+  } else {
+    logInfo("Successfully parse config string");
+  }
+  
+  if (module_config_.flush_interval_sec() == 0) {
+    module_config_.set_flush_interval_sec(30);
+  }
+
+
+  auto registered = getSharedData("destination_service_name");
+  if (registered->view().size() != 0) {
+    return;
+  }
   /***Simulation Only***/
   SetSharedData();
   /***Simulation Only***/
 
   auto options = getStackdriverOptions();
   if (monitoringEnabled()) {
+    logInfo("Register stackdriver exporter");
     opencensus::exporters::stats::stackdriver::StackdriverExporter::Register(options);
 
     // initialize tags, measures and views
@@ -64,13 +83,11 @@ void StackdriverRootContext::onStart() {
   }
   if (loggingEnabled()) {
     // initialize logger
-    logging::Logger::Get()->Init(options);
+    // logging::Logger::Get()->Init(options);
   }
+}
 
-  if (monitoringEnabled() || loggingEnabled()) {
-    // start periodic flush
-    proxy_setTickPeriodMilliseconds(kFlushIntervalMilliseconds);
-  }
+void StackdriverRootContext::onStart() {
 }
 
 void StackdriverContext::onCreate() {
@@ -156,37 +173,18 @@ void StackdriverContext::onLog() {
   }
 
   if (getStackdriverRoot()->loggingEnabled()) {
-    logging::Logger::Get()->AddLogEntry({{istio::tag::RequestProtocolKey(), "http"},
-                                         {istio::tag::MeshUIDKey(), "thisisaservicemesh"},
-                                         {istio::tag::DestinationServiceNameKey(), destination_service_name->view()},
-                                         {istio::tag::DestinationServiceNamespaceKey(), destination_service_namespace->view()},
-                                         {istio::tag::DestinationPortKey(), destination_port->view()},
-                                         {istio::tag::SourcePrincipalKey(), source_principal->view()},
-                                         {istio::tag::SourceWorkloadNameKey(), source_workload_name->view()},
-                                         {istio::tag::SourceWorkloadNamespaceKey(), source_workload_namespace->view()},
-                                         {istio::tag::SourceOwnerKey(), source_owner->view()},
-                                         {istio::tag::DestinationWorkloadNameKey(), destination_workload_name->view()},
-                                         {istio::tag::DestinationWorkloadNamespaceKey(), destination_workload_namespace->view()},
-                                         {istio::tag::DestinationOwnerKey(), destination_owner->view()}});
-  }
-}
-
-void StackdriverRootContext::onTick() {
-  tick_counter_ = (tick_counter_ + 1) % kExportTickCount;
-
-  if (monitoringEnabled()) {
-    if (opencensus::stats::Flush()) {
-      need_flush_ = true;
-    }
-    if (tick_counter_ == kExportTickCount - 1 && need_flush_) {
-      opencensus::stats::StatsExporter::ExportViewData();
-      need_flush_ = false;
-    }
-  }
-
-  if (loggingEnabled()) {
-    logging::Logger::Get()->Flush();
-    logging::Logger::Get()->Export();
+    // logging::Logger::Get()->AddLogEntry({{istio::tag::RequestProtocolKey(), "http"},
+    //                                      {istio::tag::MeshUIDKey(), "thisisaservicemesh"},
+    //                                      {istio::tag::DestinationServiceNameKey(), destination_service_name->view()},
+    //                                      {istio::tag::DestinationServiceNamespaceKey(), destination_service_namespace->view()},
+    //                                      {istio::tag::DestinationPortKey(), destination_port->view()},
+    //                                      {istio::tag::SourcePrincipalKey(), source_principal->view()},
+    //                                      {istio::tag::SourceWorkloadNameKey(), source_workload_name->view()},
+    //                                      {istio::tag::SourceWorkloadNamespaceKey(), source_workload_namespace->view()},
+    //                                      {istio::tag::SourceOwnerKey(), source_owner->view()},
+    //                                      {istio::tag::DestinationWorkloadNameKey(), destination_workload_name->view()},
+    //                                      {istio::tag::DestinationWorkloadNamespaceKey(), destination_workload_namespace->view()},
+    //                                      {istio::tag::DestinationOwnerKey(), destination_owner->view()}});
   }
 }
 

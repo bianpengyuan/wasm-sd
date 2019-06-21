@@ -28,17 +28,12 @@ class StackdriverRootContext : public RootContext {
 
   void onConfigure(std::unique_ptr<WasmData> /* configuration */) override;
   void onStart() override;
-  void onTick() override;
-  void onQueueReady(uint32_t /* token */) override {}
 
   bool loggingEnabled() { return module_config_.enable_logging(); }
   bool monitoringEnabled() { return module_config_.enable_monitoring(); }
 
  private:
-  StackdriverOptions getStackdriverOptions();  
-
-  int32_t tick_counter_ = 0;
-  bool need_flush_ = false;
+  StackdriverOptions getStackdriverOptions();
 
   config::StackdriverModule module_config_;
 };

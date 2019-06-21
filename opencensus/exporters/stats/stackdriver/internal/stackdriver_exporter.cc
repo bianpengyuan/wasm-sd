@@ -95,7 +95,7 @@ Handler::Handler(const StackdriverOptions& opts)
 
   success_callback_ =
     [](google::protobuf::Empty&& /* value */) {
-      logDebug("successfully sent out create timeseries request");
+      logInfo("successfully sent out create timeseries request");
     };
   failure_callback_ = [](GrpcStatus status, StringView message) {
       // TODO(bianpengyuan): add retry logic on failure

@@ -19,11 +19,10 @@ envoy_cc_library(
     ],
     deps = [
         "//:stackdriver_exporter_options_hdr",
-        "//logging:stackdriver_logger",
+        # "//logging:stackdriver_logger",
         "//istio:opencensus_registry",
         "//opencensus/exporters/stats/stackdriver:exporter",
         "//config:stackdriver_module_proto_cc",
-        "@envoy//source/extensions/common/wasm/null:null_lib",
         "@envoy_api//envoy/config/wasm/v2:wasm_cc",
     ],
 )
@@ -37,6 +36,9 @@ envoy_cc_library(
     visibility = ["//visibility:public"],
     hdrs = [
         "include/stackdriver_exporter_options.h",
+    ],
+    deps = [
+        "@envoy//source/extensions/common/wasm/null:null_lib",
     ],
 )
 

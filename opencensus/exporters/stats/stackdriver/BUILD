@@ -38,7 +38,7 @@ envoy_cc_library(
     deps = [
         "@telemetry_googleapis//google/monitoring/v3:monitoring_cc_proto",
         "//:stackdriver_exporter_options_hdr",
-        "//opencensus/common/internal:hash_mix",
-        "//opencensus/stats:stats",
+        # "//opencensus/common/internal:hash_mix",
+        "@io_opencensus_cpp//opencensus/stats:stats",
     ],
 )

@@ -7,7 +7,7 @@ bind(
 # When updating envoy sha manually please update the sha in istio.deps file also
 #
 # Determine SHA256 `wget https://github.com/envoyproxy/envoy/archive/COMMIT.tar.gz && sha256sum COMMIT.tar.gz`
-ENVOY_SHA = "7ff0946e53adc331b1494a11b5772da1a6a9885f"
+ENVOY_SHA = "674411c3b9d363cef8e88c5604de09b95f0f965c"
 
 # ENVOY_SHA256 = "e549967e81fb44bba52529bab95db8eed32c57db034af358e0947d8e85c420db"
 
@@ -55,9 +55,16 @@ go_rules_dependencies()
 
 go_register_toolchains(go_version = GO_VERSION)
 
-load("//opencensus:opencensus.bzl", "telemetry_googleapis")
+TELEMETRY_GOOGLEAPIS_SHA="c39b7e880e6db2ce61704da2a55083ea17fdb14b"
+TELEMETRY_GOOGLEAPIS_SHA256="ee05b85961aa721671d85c111c6287e9667e69b616d97959588b1a991ef44a2d"
+TELEMETRY_GOOGLEAPIS_URLS=["https://github.com/googleapis/googleapis/archive/" + TELEMETRY_GOOGLEAPIS_SHA + ".tar.gz"]
 
-telemetry_googleapis()
+http_archive(
+    name = "telemetry_googleapis",
+    urls = TELEMETRY_GOOGLEAPIS_URLS,
+    sha256 = TELEMETRY_GOOGLEAPIS_SHA256,
+    strip_prefix = "googleapis-" + TELEMETRY_GOOGLEAPIS_SHA,
+)
 
 load("@telemetry_googleapis//:repository_rules.bzl", "switched_rules_by_language")
 

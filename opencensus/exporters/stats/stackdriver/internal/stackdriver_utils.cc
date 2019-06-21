@@ -33,8 +33,6 @@ namespace exporters {
 namespace stats {
 namespace stackdriver {
 
-const uint64_t kNanosecondPerSecond = 1000000000;
-
 namespace {
 
 google::api::MetricDescriptor::ValueType GetValueType(
@@ -145,9 +143,11 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
   return {};
 }
 
-void SetTimestamp(uint64_t time, google::protobuf::Timestamp* proto) {
-  proto->set_seconds(time / kNanosecondPerSecond);
-  proto->set_nanos(time % kNanosecondPerSecond);
+void SetTimestamp(absl::Time time, google::protobuf::Timestamp* proto) {
+  const int64_t seconds = absl::ToUnixSeconds(time);
+  proto->set_seconds(seconds);
+  proto->set_nanos(
+      absl::ToInt64Nanoseconds(time - absl::FromUnixSeconds(seconds)));
 }
 
 }  // namespace stackdriver

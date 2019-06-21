@@ -34,7 +34,7 @@ std::vector<google::monitoring::v3::TimeSeries> MakeTimeSeries(
     const opencensus::stats::ViewData& data,
     const ::google::api::MonitoredResource& monitored_resource);
 
-void SetTimestamp(uint64_t time, google::protobuf::Timestamp* proto);
+void SetTimestamp(absl::Time time, google::protobuf::Timestamp* proto);
 
 }  // namespace stackdriver
 }  // namespace stats
