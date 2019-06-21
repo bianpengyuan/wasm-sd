@@ -7,9 +7,9 @@ namespace istio {
 namespace tag {
 
 #define REGISTER_TAG(_t, _f) \
-  opencensus::stats::TagKey _f##Key() {  \
+  opencensus::tags::TagKey _f##Key() {  \
     static const auto _t##_key =  \
-        opencensus::stats::TagKey::Register(#_t);  \
+        opencensus::tags::TagKey::Register(#_t);  \
     return _t##_key;  \
   }
 
