@@ -31,16 +31,21 @@ class StackdriverRootContext : public RootContext {
   void onTick() override;
   void onQueueReady(uint32_t /* token */) override {}
 
-  bool loggingEnabled() { return module_config_.enable_logging(); }
-  bool monitoringEnabled() { return module_config_.enable_monitoring(); }
+  bool loggingEnabled() { 
+    return module_config_.enable_logging();
+  }
+  bool monitoringEnabled() {
+    return module_config_.enable_monitoring();
+  }
 
  private:
   StackdriverOptions getStackdriverOptions();  
 
-  int32_t tick_counter_ = 0;
-  bool need_flush_ = false;
-
   config::StackdriverModule module_config_;
+
+  int64_t current_tick_ms_ = 0;
+
+  bool need_flush_ = false;
 };
 
 class StackdriverContext : public Context {

@@ -7,7 +7,6 @@ envoy_cc_library(
     name = "stackdriver_logger",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     hdrs = [

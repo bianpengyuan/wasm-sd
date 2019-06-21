@@ -1,0 +1,95 @@
+static_resources:
+  listeners:
+  - name: main
+    address:
+      socket_address:
+        address: 0.0.0.0
+        port_value: 80
+    filter_chains:
+    - filters:
+      - name: envoy.http_connection_manager
+        config:
+          stat_prefix: ingress_http
+          codec_type: auto
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                route: 
+                  cluster: web_service
+          http_filters:
+          - name: envoy.wasm
+            config:
+              configuration: >-
+                {
+                  "enableLogging": false,
+                  "enableMonitoring": true,
+                  "projectId": "bpy-istio",
+                  "zone": "us-central1-a",
+                  "clusterName": "test-cluster",
+                  "monitoredResourceType": "k8s_container",
+                  "monitoredResourceLabels": {
+                    "project_id": "bpy-istio",
+                    "cluster_name": "your-cluster",
+                    "location": "your-cluster-location",
+                    "namespace_name": "test-namespace",
+                    "pod_name": "test-pod",
+                    "container_name": "test-container",
+                  },
+                  "flushIntervalSec": 10,
+                }
+              vm_config:
+                vm: "envoy.wasm.vm.v8"
+                code:
+                  filename: "/usr/local/google/home/bianpengyuan/wasm-sd/wasm-sd.wasm"
+                  # inline_string: "stackdriver_plugin"
+          - name: envoy.router
+            config: {}
+  - name: staticreply
+    address:
+      socket_address:
+        address: 127.0.0.1
+        port_value: 8099
+    filter_chains:
+    - filters:
+      - name: envoy.http_connection_manager
+        config:
+          stat_prefix: ingress_http
+          codec_type: auto
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains:
+              - "*"
+              routes:
+              - match:
+                  prefix: "/"
+                direct_response:
+                  status: 200
+                  body:
+                    inline_string: "example body\n"
+          http_filters:
+          - name: envoy.router
+            config: {}
+
+  clusters:
+  - name: web_service
+    connect_timeout: 0.25s
+    type: static
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: 127.0.0.1
+        port_value: 8099
+admin:
+  access_log_path: "/dev/null"
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 8001

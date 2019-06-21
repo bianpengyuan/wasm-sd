@@ -23,7 +23,6 @@ envoy_cc_library(
     name = "tags",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     srcs = [
@@ -44,7 +43,6 @@ envoy_cc_library(
     name = "context_util",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     srcs = ["internal/context_util.cc"],

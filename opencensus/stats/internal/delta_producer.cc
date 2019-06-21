@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "opencensus/stats/internal/delta_producer.h"
-
+#include <iostream>
 #include <algorithm>
 #include <cstdint>
 #include <memory>
@@ -98,8 +98,10 @@ void DeltaProducer::Record(std::initializer_list<Measurement> measurements,
 bool DeltaProducer::Flush() {
   SwapDeltas();
   if (last_delta_.delta().size() == 0) {
+    std::cout<<"no data is here\n";
     return false;
   }
+  std::cout<<"has data\n";
   ConsumeLastDelta();
   return true;
 }

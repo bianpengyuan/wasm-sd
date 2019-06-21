@@ -19,11 +19,15 @@ file(GLOB stats_SRC
 file(GLOB logging_SRC
         "logging/*.cc")
 file(GLOB api_SRC
-        "api/wasm/cpp/*.cc"
+        "api/wasm/cpp/proxy_wasm_intrinsics.pb.cc",
+        "api/wasm/cpp/proxy_wasm_intrinsics.cc",
+        )
+file(GLOB config_SRC
+        "config/*.cc"
         )
 add_subdirectory(abseil-cpp)
 include_directories(/usr/local/include/)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/api/wasm/cpp/)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-add_library(wasm-sd MODULE stackdriver.cc ${api_SRC} ${stats_SRC} ${logging_SRC})
+add_library(wasm-sd MODULE stackdriver.cc ${api_SRC} ${stats_SRC} ${logging_SRC} ${config_SRC})
 target_link_libraries(wasm-sd absl::base absl::strings absl::numeric)

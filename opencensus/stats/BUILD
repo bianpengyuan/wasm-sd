@@ -23,7 +23,6 @@ envoy_cc_library(
     name = "stats",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     hdrs = [
@@ -43,7 +42,6 @@ envoy_cc_library(
     name = "core",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     srcs = [
@@ -98,7 +96,6 @@ envoy_cc_library(
     name = "recording",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     srcs = ["internal/recording.cc"],

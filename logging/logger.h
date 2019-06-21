@@ -40,13 +40,15 @@ class Logger {
  private:
   Logger() {}
 
-  std::shared_ptr<google::logging::v2::WriteLogEntriesRequest>
+  std::unique_ptr<google::logging::v2::WriteLogEntriesRequest>
       log_entries_request_;
 
   int size_ = 0;
 
   std::vector<std::shared_ptr<google::logging::v2::WriteLogEntriesRequest>>
       request_queue_;
+
+  std::string server_access_log_name_;
 
   ::google::api::MonitoredResource monitored_resource_;
   std::string grpc_service_string_;

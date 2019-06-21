@@ -20,14 +20,12 @@
 #include "absl/strings/str_cat.h"
 #include "opencensus/context/with_context.h"
 #include "opencensus/tags/tag_map.h"
-#include "opencensus/trace/span.h"
 
 namespace opencensus {
 namespace context {
 
 Context::Context()
-    : tags_(opencensus::tags::TagMap({})),
-      span_(opencensus::trace::Span::BlankSpan()) {}
+    : tags_(opencensus::tags::TagMap({})) {}
 
 // static
 const Context& Context::Current() { return *InternalMutableCurrent(); }
@@ -42,7 +40,6 @@ std::function<void()> Context::Wrap(std::function<void()> fn) const {
 
 std::string Context::DebugString() const {
   return absl::StrCat("ctx@", absl::Hex(this),
-                      " span=", span_.context().ToString(),
                       ", tags=", tags_.DebugString());
 }
 
@@ -55,7 +52,6 @@ Context* Context::InternalMutableCurrent() {
 
 void swap(Context& a, Context& b) {
   using std::swap;
-  swap(a.span_, b.span_);
   swap(a.tags_, b.tags_);
 }
 

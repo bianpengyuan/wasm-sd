@@ -25,7 +25,6 @@ envoy_cc_library(
     name = "hash_mix",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     hdrs = ["hash_mix.h"],
@@ -36,7 +35,6 @@ envoy_cc_library(
     name = "random_lib",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     hdrs = ["random.h"],

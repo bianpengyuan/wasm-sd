@@ -114,6 +114,7 @@ Handler::Handler(const StackdriverOptions& opts)
 void Handler::ExportViewData(
     const std::vector<std::pair<opencensus::stats::ViewDescriptor,
                                 opencensus::stats::ViewData>>& data) {
+  logInfo("Start export!!!!!!!!!!!!!!!");
   std::vector<google::monitoring::v3::TimeSeries> time_series;
   for (const auto& datum : data) {
     const auto view_time_series =
@@ -141,6 +142,7 @@ void Handler::ExportViewData(
                               failure_callback_);
     }
   }
+  logInfo("Finish export!!!!!!!!!!!!!!!");
 }
 
 }  // namespace

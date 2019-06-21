@@ -24,7 +24,6 @@ envoy_cc_library(
     name = "context",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     srcs = [
@@ -38,6 +37,5 @@ envoy_cc_library(
     visibility = ["//visibility:public"],
     deps = [
         "//opencensus/tags",
-        "//opencensus/trace",
     ],
 )

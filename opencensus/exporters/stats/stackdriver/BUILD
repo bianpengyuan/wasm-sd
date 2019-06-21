@@ -23,7 +23,6 @@ envoy_cc_library(
     name = "exporter",
     copts = [
         "-DNULL_PLUGIN=1",
-        "-DEMSCRIPTEN_PROTOBUF_LITE=1",
     ],
     repository = "@envoy",
     srcs = [

@@ -7,8 +7,8 @@ message StackdriverModule {
   bool enable_monitoring = 2;
 
   string project_id = 3;
-  string zone = 4;
-  string cluster_name = 5;
-  string monitored_resource_type = 6;
-  map<string, string> monitored_resource_labels = 7;
+  string monitored_resource_type = 4;
+  map<string, string> monitored_resource_labels = 5;
+
+  int64 flush_interval_sec = 6;
 }

@@ -19,17 +19,12 @@
 #include <string>
 
 #include "opencensus/tags/tag_map.h"
-#include "opencensus/trace/span.h"
 
 namespace opencensus {
 namespace tags {
 class ContextPeer;
 class WithTagMap;
 }  // namespace tags
-namespace trace {
-class ContextPeer;
-class WithSpan;
-}  // namespace trace
 namespace context {
 
 // Context holds information specific to an operation, such as a TagMap and
@@ -69,11 +64,8 @@ class Context {
   friend class WithContext;
   friend class ::opencensus::tags::ContextPeer;
   friend class ::opencensus::tags::WithTagMap;
-  friend class ::opencensus::trace::ContextPeer;
-  friend class ::opencensus::trace::WithSpan;
 
   opencensus::tags::TagMap tags_;
-  opencensus::trace::Span span_;
 };
 
 }  // namespace context

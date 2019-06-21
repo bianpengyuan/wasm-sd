@@ -16,8 +16,6 @@ namespace Stackdriver {
 namespace logging {
 
 constexpr int kMaxRotationBytesSize = 4000000;
-constexpr char kServerAccessLogName[] =
-    "projects/bpy-istio/logs/server-accesslog-stackdriver";
 // Path to CA credentials, which used for TLS between stackdriver client and server.
 constexpr char kCACertPath[] = "/etc/ssl/certs/ca-certificates.crt";
 constexpr char kGoogleStackdriverLoggingAddress[] = "logging.googleapis.com";
@@ -44,12 +42,11 @@ void Logger::Init(const StackdriverOptions& opts) {
       ->mutable_google_compute_engine();
   grpc_service.SerializeToString(&grpc_service_string_);
 
-  std::function<void(google::protobuf::Empty&&)> success_callback =
+  success_callback_ =
       [](google::protobuf::Empty&&) {
         logDebug("successfully sent out request");
       };
-  std::function<void(GrpcStatus status, StringView error_message)>
-      failure_callback =
+  failure_callback_ =
       [](GrpcStatus status, StringView message) {
         logInfo(
             "logging api call error: "
@@ -66,8 +63,9 @@ void Logger::Init(const StackdriverOptions& opts) {
   context_ = opts.context;
 
   log_entries_request_ =
-      std::make_shared<google::logging::v2::WriteLogEntriesRequest>();
-  log_entries_request_->set_log_name(kServerAccessLogName);
+      std::make_unique<google::logging::v2::WriteLogEntriesRequest>();
+  server_access_log_name_ = "projects/" + opts.project_id + "/logs/server-accesslog-stackdriver";
+  log_entries_request_->set_log_name(server_access_log_name_);
   log_entries_request_->mutable_resource()->CopyFrom(monitored_resource_);
 }
 
@@ -92,7 +90,7 @@ void Logger::AddLogEntry(const std::vector<std::pair<opencensus::tags::TagKey,
   // clean buffer
   size_ += new_entry->ByteSizeLong();
   if (size_ > kMaxRotationBytesSize) {
-    logInfo("size triggered flushing");
+    logDebug("size triggered flushing");
     Flush();
   }
 }
@@ -101,9 +99,9 @@ void Logger::Flush() {
   if (size_ == 0) {
     return;
   }
-  std::shared_ptr<google::logging::v2::WriteLogEntriesRequest> cur =
-      std::make_shared<google::logging::v2::WriteLogEntriesRequest>();
-  cur->set_log_name(kServerAccessLogName);
+  std::unique_ptr<google::logging::v2::WriteLogEntriesRequest> cur =
+      std::make_unique<google::logging::v2::WriteLogEntriesRequest>();
+  cur->set_log_name(server_access_log_name_);
   cur->mutable_resource()->CopyFrom(monitored_resource_);
   log_entries_request_.swap(cur);
   request_queue_.emplace_back(std::move(cur));
