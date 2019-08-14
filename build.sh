@@ -1,4 +1,5 @@
 #!/bin/bash
+git submodule init
 emconfigure cmake -DCMAKE_CXX_COMPILER="$HOME"/emsdk/emscripten/1.38.25/em++ -DBUILD_TESTING=OFF .
 
 emmake make
