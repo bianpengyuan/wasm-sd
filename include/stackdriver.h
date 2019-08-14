@@ -17,13 +17,23 @@ namespace Stackdriver {
 using namespace Plugin;
 #endif
 
+class StackdriverRootContext: public RootContext {
+ public:
+  StackdriverRootContext(uint32_t id, StringView root_id) : RootContext(id, root_id) {}
+  
+  void onStart(WasmDataPtr /* vm_configuration */) override;
+  void onTick() override;
+
+ private:
+  int32_t tick_counter_ = 0;
+  bool need_flush_ = false;
+};
+
 class StackdriverContext : public Context {
  public:
-  explicit StackdriverContext(uint32_t id) : Context(id) {}
-  void onStart() override;
+  explicit StackdriverContext(uint32_t id, RootContext* root) : Context(id, root) {}
   void onCreate() override;
   void onLog() override;
-  void onTick() override;
 
   FilterHeadersStatus onRequestHeaders() override;
   FilterDataStatus
@@ -33,12 +43,12 @@ class StackdriverContext : public Context {
   onResponseBody(size_t body_buffer_length, bool end_of_stream) override;
 
  private:
-  int32_t tick_counter_ = 0;
-  bool need_flush_ = false;
   uint64_t start_time_ = 0;
   uint64_t received_bytes_ = 0;
   uint64_t sent_bytes_ = 0;
 };
+
+static RegisterContextFactory register_StackdriverContext(CONTEXT_FACTORY(StackdriverContext), ROOT_FACTORY(StackdriverRootContext));
 
 #ifdef NULL_PLUGIN
 } // namespace Stackdriver

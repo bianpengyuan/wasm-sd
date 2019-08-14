@@ -69,7 +69,7 @@ class Handler : public ::opencensus::stats::StatsExporter::Handler {
 
   const StackdriverOptions opts_;
   const std::string project_id_;
-  Context* context_ = nullptr;
+  RootContext* context_ = nullptr;
 //  const std::unique_ptr<google::monitoring::v3::MetricService::Stub> stub_;
   std::unordered_map<std::string, opencensus::stats::ViewDescriptor>
       registered_descriptors_;

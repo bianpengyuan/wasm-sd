@@ -24,15 +24,12 @@ namespace Plugin {
 namespace Stackdriver {
 #endif
 
-std::unique_ptr<Context> NewContext(uint32_t id) {
-  return std::unique_ptr<Context>(new StackdriverContext(id));
-}
-
 const std::string kProjectName = "bpy-istio";
 const int32_t kFlushIntervalMilliseconds = 5000;
 const int32_t kExportTickCount = 1; // export every 5s * 6 = 30s
 
-void StackdriverContext::onStart() {
+void StackdriverRootContext::onStart(WasmDataPtr /* vm_configuration */) {
+  logInfo("onStart");
   opencensus::exporters::stats::StackdriverOptions options;
   options.project_id = kProjectName;
   options.context = this;
@@ -47,10 +44,13 @@ void StackdriverContext::onStart() {
 
   // start periodic flush
   proxy_setTickPeriodMilliseconds(kFlushIntervalMilliseconds);
+  logInfo("onStart end");
 }
 
 void StackdriverContext::onCreate() {
+  logInfo("onCreate");
   start_time_ = proxy_getCurrentTimeNanoseconds();
+  logInfo("onCreate ends");
 }
 
 FilterHeadersStatus StackdriverContext::onRequestHeaders() {
@@ -98,7 +98,7 @@ void StackdriverContext::onLog() {
                                         std::to_string(total_time_ms)}});
 }
 
-void StackdriverContext::onTick() {
+void StackdriverRootContext::onTick() {
   tick_counter_ = (tick_counter_ + 1) % kExportTickCount;
   if (opencensus::stats::Flush()) {
     need_flush_ = true;
