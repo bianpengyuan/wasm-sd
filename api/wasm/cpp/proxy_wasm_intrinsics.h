@@ -1,5 +1,5 @@
 /*
- * Intrinsic functions available to WASM modules.
+ * API Available to WASM modules.
  */
 // NOLINT(namespace-envoy)
 
@@ -10,7 +10,9 @@
 #endif
 
 #include <cstdint>
-using EnumType = uint32_t;
+using EnumType = int32_t;
+#include <string_view>
+using StringView = std::string_view;
 
 #include "proxy_wasm_enums.h"
 #include "proxy_wasm_externs.h"

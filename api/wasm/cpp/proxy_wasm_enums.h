@@ -1,5 +1,5 @@
 /*
- * Intrinsic functions available to WASM modules.
+ * Intrinsic enumerations available to WASM modules.
  */
 // NOLINT(namespace-envoy)
 
@@ -15,15 +15,29 @@ enum class FilterDataStatus : EnumType {
   StopIterationAndWatermark = 2,
   StopIterationNoBuffer = 3
 };
-enum class StreamType : EnumType { Request = 0, Response = 1 };
 enum class MetadataType : EnumType {
   Request = 0,
   Response = 1,
   RequestRoute = 2,   // Immutable
   ResponseRoute = 3,  // Immutable
   Log = 4,            // Immutable
-  Node = 5            // Immutable
+  Node = 5,           // Immutable
+  Listener = 6,       // Immutable
+  Cluster = 7,        // Immutable
+  Expression = 8,     // The key is a string expression. Only proxy_getMetadata().
 };
+/*
+  Expression and their types:
+
+  request.protocol : string
+  response.protocol : string
+  request.destination_port : int32
+  response.destination_port : int32
+  request.response_code : int32
+  response.response_code : int32
+  upstream.tls_version : string
+  downstream.tsl_version : string
+ */
 enum class HeaderMapType : EnumType {
   RequestHeaders = 0,  // During the onLog callback these are immutable
   RequestTrailers = 1,  // During the onLog callback these are immutable
@@ -33,28 +47,37 @@ enum class HeaderMapType : EnumType {
   GrpcReceiveInitialMetadata = 5,  // Immutable
   GrpcReceiveTrailingMetadata = 6,  // Immutable
 };
-enum GrpcStatus : EnumType {
-  OK = 0,
-  CANCELLED = 1,
-  UNKNOWN = 2,
-  INVALID_ARGUMENT = 3,
-  DEADLINE_EXCEEDED = 4,
-  NOT_FOUND = 5,
-  ALREADY_EXISTS = 6,
-  PERMISSION_DENIED = 7,
-  UNAUTHENTICATED = 16,
-  RESOURCE_EXHAUSTED = 8,
-  FAILED_PRECONDITION = 9,
-  ABORTED = 10,
-  OUT_OF_RANGE = 11,
-  UNIMPLEMENTED = 12,
-  INTERNAL = 13,
-  UNAVAILABLE = 14,
-  DATA_LOSS = 15,
-  DO_NOT_USE = 0xFFFFFFFF 
+enum class GrpcStatus : EnumType {
+  Ok = 0,
+  Canceled = 1,
+  Unknown = 2,
+  InvalidArgument = 3,
+  DeadlineExceeded = 4,
+  NotFound = 5,
+  AlreadyExists = 6,
+  PermissionDenied = 7,
+  ResourceExhausted = 8,
+  FailedPrecondition = 9,
+  Aborted = 10,
+  OutOfRange = 11,
+  Unimplemented = 12,
+  Internal = 13,
+  Unavailable = 14,
+  DataLoss = 15,
+  Unauthenticated = 16,
+  MaximumValid = Unauthenticated,
+  InvalidCode = -1
 };
 enum class MetricType : EnumType {
   Counter = 0,
   Gauge = 1,
   Histogram = 2,
+};
+enum class MetadataResult : EnumType {
+  Ok = 0,
+  StructNotFound = 1,
+  FieldNotFound = 2,
+  SerializationFailure = 3,
+  BadType = 4,
+  ParseFailure = 5,
 };

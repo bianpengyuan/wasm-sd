@@ -20,7 +20,7 @@ namespace logging {
 class Logger {
  public:
   static Logger* Get();
-  void Init(Context* context);
+  void Init(RootContext* context);
 
   void AddLogEntry(const std::vector<std::pair<opencensus::tags::TagKey,
                                                std::string>>& labels);
@@ -39,7 +39,7 @@ class Logger {
   std::vector<std::shared_ptr<google::logging::v2::WriteLogEntriesRequest>>
       request_queue_;
 
-  Context* context_;
+  RootContext* context_;
 };
 
 }  // namespace logging

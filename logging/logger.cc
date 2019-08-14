@@ -37,7 +37,7 @@ Logger* Logger::Get() {
   return global_logger;
 }
 
-void Logger::Init(Context* context) {
+void Logger::Init(RootContext* context) {
   context_ = context;
 }
 
