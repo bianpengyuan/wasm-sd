@@ -70,14 +70,14 @@ void SpanExporterImpl::RunWorkerLoop() {
   std::vector<std::shared_ptr<opencensus::trace::SpanImpl>> batch_;
   // Thread loops forever.
   // TODO: Add in shutdown mechanism.
-  // uint64_t next_forced_export_time = proxy_getCurrentTimeNanoseconds() + interval_;
+  // uint64_t next_forced_export_time = getCurrentTimeNanoseconds() + interval_;
   while (true) {
     {
       // Wait until batch is full or interval time has been exceeded.
 //      span_mu_.AwaitWithDeadline(
 //          absl::Condition(this, &SpanExporterImpl::IsBufferFull),
 //          next_forced_export_time);
-      // next_forced_export_time = proxy_getCurrentTimeNanoseconds() + interval_;
+      // next_forced_export_time = getCurrentTimeNanoseconds() + interval_;
       if (spans_.empty()) {
         continue;
       }

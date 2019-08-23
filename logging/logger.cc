@@ -54,7 +54,7 @@ void Logger::AddLogEntry(const std::vector<std::pair<opencensus::tags::TagKey,
   auto* new_entry = log_entries->Add();
 
   // Get current time and fill in timestamp
-  auto current_time = proxy_getCurrentTimeNanoseconds();
+  auto current_time = getCurrentTimeNanoseconds();
   auto* timestamp = new_entry->mutable_timestamp();
   timestamp->set_seconds(current_time / 1000000000);
   timestamp->set_nanos(current_time % 1000000000);

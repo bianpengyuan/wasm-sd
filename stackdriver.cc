@@ -49,7 +49,7 @@ void StackdriverRootContext::onStart(WasmDataPtr /* vm_configuration */) {
 
 void StackdriverContext::onCreate() {
   logInfo("onCreate");
-  start_time_ = proxy_getCurrentTimeNanoseconds();
+  start_time_ = getCurrentTimeNanoseconds();
   logInfo("onCreate ends");
 }
 
@@ -84,7 +84,7 @@ FilterDataStatus StackdriverContext::onResponseBody(size_t body_buffer_length,
 void StackdriverContext::onLog() {
   double_t
       total_time_ms =
-      double_t(proxy_getCurrentTimeNanoseconds() - start_time_) / 1000000;
+      double_t(getCurrentTimeNanoseconds() - start_time_) / 1000000;
   opencensus::stats::Record({{istio::measure::ServerRequestCountMeasure(), 1},
                              {istio::measure::ServerRequestBytesMeasure(),
                               received_bytes_},

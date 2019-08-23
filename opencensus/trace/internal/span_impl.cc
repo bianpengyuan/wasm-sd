@@ -84,7 +84,7 @@ std::unordered_map<std::string, exporter::AttributeValue> CopyAttributes(
 SpanImpl::SpanImpl(const SpanContext& context, const TraceParams& trace_params,
                    absl::string_view name, const SpanId& parent_span_id,
                    bool remote_parent)
-    : start_time_(proxy_getCurrentTimeNanoseconds()),
+    : start_time_(getCurrentTimeNanoseconds()),
       name_(name),
       parent_span_id_(parent_span_id),
       context_(context),
@@ -108,7 +108,7 @@ void SpanImpl::AddAnnotation(absl::string_view description,
                              AttributesRef attributes) {
   if (!has_ended_) {
     annotations_.AddEvent(EventWithTime<exporter::Annotation>(
-        proxy_getCurrentTimeNanoseconds(),
+        getCurrentTimeNanoseconds(),
         exporter::Annotation(description, CopyAttributes(attributes))));
   }
 }
@@ -119,7 +119,7 @@ void SpanImpl::AddMessageEvent(exporter::MessageEvent::Type type,
                                uint32_t uncompressed_message_size) {
   if (!has_ended_) {
     message_events_.AddEvent(EventWithTime<exporter::MessageEvent>(
-        proxy_getCurrentTimeNanoseconds(),
+        getCurrentTimeNanoseconds(),
         exporter::MessageEvent(type, message_id, compressed_message_size,
                                uncompressed_message_size)));
   }
@@ -145,7 +145,7 @@ bool SpanImpl::End() {
     return false;
   }
   has_ended_ = true;
-  end_time_ = proxy_getCurrentTimeNanoseconds();
+  end_time_ = getCurrentTimeNanoseconds();
   return true;
 }
 
